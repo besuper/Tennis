@@ -39,17 +39,21 @@ namespace DemoClasses.Objects
             {
                 SimulateAGame();
                 //await Task.Delay(1000);
-                //Thread.Sleep(1000);
+                Thread.Sleep(1000);
             }
 
             // Afficher le gagnant
             if (winner == 0)
             {
-                Console.WriteLine("Joueur A a remporté le jeu");
+                //Console.WriteLine("Joueur A a remporté le jeu");
+                Console.WriteLine(gameSet.match.Groups[0].GetGroupName() + " a remporté le jeu");
+
             }
             else
             {
-                Console.WriteLine("Joueur B a remporté le jeu");
+                //Console.WriteLine("Joueur B a remporté le jeu");
+                Console.WriteLine(gameSet.match.Groups[1].GetGroupName() + " a remporté le jeu");
+
             }
         }
 
@@ -64,12 +68,16 @@ namespace DemoClasses.Objects
                 if (gagnantTour == 0)
                 {
                     currentGamePointA++;
-                    Console.WriteLine("JoueurA prend l'avantage");
+                    //Console.WriteLine("JoueurA prend l'avantage");
+                    Console.WriteLine(gameSet.match.Groups[0].GetGroupName() + " prend l'avantage");
+
                 }
                 else
                 {
                     currentGamePointB++;
-                    Console.WriteLine("JoueurB prend l'avantage");
+                    //Console.WriteLine("JoueurB prend l'avantage");
+                    Console.WriteLine(gameSet.match.Groups[1].GetGroupName() + " prend l'avantage");
+
                 }
             }
 
@@ -84,7 +92,9 @@ namespace DemoClasses.Objects
                 if (currentGamePointA == 41 || currentGamePointA == 40)
                 {
 
-                    Console.WriteLine("Joueur A remporte la partie");
+                    //Console.WriteLine("Joueur A remporte la partie");
+                    Console.WriteLine(gameSet.match.Groups[0].GetGroupName() + " remporte la partie");
+
                     winner = 0;
 
                     return;
@@ -94,12 +104,16 @@ namespace DemoClasses.Objects
                 if (currentGamePointB == 41)
                 {
                     currentGamePointB--;
-                    Console.WriteLine("Joueur B perd sont avantage, retour a l'égalité!");
+                    //Console.WriteLine("Joueur B perd sont avantage, retour a l'égalité!");
+                    Console.WriteLine(gameSet.match.Groups[1].GetGroupName() + " perd sont avantage, retour a l'égalité!");
+
                     return;
                 }
 
                 currentGamePointA += currentGamePointA == 30 ? 10 : 15;
-                Console.WriteLine("Points Joueur A " + currentGamePointA);
+                //Console.WriteLine("Points Joueur A " + currentGamePointA);
+                Console.WriteLine(gameSet.match.Groups[0].GetGroupName() + currentGamePointA);
+
             }
             else
             {
@@ -107,7 +121,9 @@ namespace DemoClasses.Objects
                 // Ou alors il a gagné avec 40 points (la vérification de l'égalité ce fais plus haut!)
                 if (currentGamePointB == 41 || currentGamePointB == 40)
                 {
-                    Console.WriteLine("Joueur B remporte la partie");
+                    //Console.WriteLine("Joueur B remporte la partie");
+                    Console.WriteLine(gameSet.match.Groups[1].GetGroupName() + " remporte la partie");
+
                     winner = 1;
 
                     return;
@@ -117,12 +133,16 @@ namespace DemoClasses.Objects
                 if (currentGamePointA == 41)
                 {
                     currentGamePointA--;
-                    Console.WriteLine("Joueur A perd sont avantage, retour a l'égalité!");
+                    //Console.WriteLine("Joueur A perd sont avantage, retour a l'égalité!");
+                    Console.WriteLine(gameSet.match.Groups[0].GetGroupName() + " perd sont avantage, retour a l'égalité!");
+
                     return;
                 }
 
                 currentGamePointB += currentGamePointB == 30 ? 10 : 15;
-                Console.WriteLine("Points Joueur B " + currentGamePointB);
+                //Console.WriteLine("Points Joueur B " + currentGamePointB);
+                Console.WriteLine(gameSet.match.Groups[1].GetGroupName() + currentGamePointB);
+
             }
         }
 

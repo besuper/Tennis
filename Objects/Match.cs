@@ -19,14 +19,18 @@ namespace DemoClasses.Objects
         private Group winner;
 
         public List<GameSet> GameSets { get { return gameSets; } }
+        public List<Group> Groups { get { return groups; } }
+
 
         public int CurrentSet { get; set; }
 
         public int MatchSets { get; set; }
 
-        public Match(int matchSets)
+        public Match(int matchSets, params Group[] groups)
         {
             this.MatchSets = matchSets;
+            this.groups.Add(groups[0]);
+            this.groups.Add(groups[1]);
         }
 
         public void StartMatch()
@@ -47,14 +51,18 @@ namespace DemoClasses.Objects
                     // Si le joueur A a au moins gagné 2 set, il gagne
                     if (SetsPlayerA >= 2)
                     {
-                        Console.WriteLine("Le joueur A a remporté le matche!!");
+                        //Console.WriteLine("Le joueur A a remporté le matche!!");
+                        Console.WriteLine(groups[0].GetGroupName() + " a remporté le matche!!");
+
                         break;
                     }
 
                     // Si le joueur B a au moins gagné 2 set, il gagne
                     if (SetsPlayerB >= 2)
                     {
-                        Console.WriteLine("Le joueur B a remporté le matche!!");
+                        //Console.WriteLine("Le joueur B a remporté le matche!!");
+                        Console.WriteLine(groups[1].GetGroupName() + " a remporté le matche!!");
+
                         break;
                     }
                 }
@@ -63,14 +71,18 @@ namespace DemoClasses.Objects
                     // Si le joueur A a au moins gagné 3 set, il gagne
                     if (SetsPlayerA >= 3)
                     {
-                        Console.WriteLine("Le joueur A a remporté le matche!!");
+                        //Console.WriteLine("Le joueur A a remporté le matche!!");
+                        Console.WriteLine(groups[0].GetGroupName() + " a remporté le matche!!");
+
                         break;
                     }
 
                     // Si le joueur B a au moins gagné 3 set, il gagne
                     if (SetsPlayerB >= 3)
                     {
-                        Console.WriteLine("Le joueur B a remporté le matche!!");
+                        //Console.WriteLine("Le joueur B a remporté le matche!!");
+                        Console.WriteLine(groups[1].GetGroupName() + " a remporté le matche!!");
+
                         break;
                     }
                 }
