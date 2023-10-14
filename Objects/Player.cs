@@ -15,6 +15,9 @@ namespace DemoClasses.Objects
         private Gender gender;
         private List<Group> groups;
 
+        public Gender Gender { get { return gender; } set { this.gender = value; } }
+
+
         public Player(int id, string name, string firstname, string gender)
         {
             this.id = id;

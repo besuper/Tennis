@@ -13,6 +13,9 @@ namespace DemoClasses.Objects
         private List<Player> players = new List<Player>();
         private List<Match> matches;
 
+        public List<Player> Players {  get { return players; } }
+
+
         public Group()
         {
         }
@@ -28,7 +31,7 @@ namespace DemoClasses.Objects
             str.Append("[");
             foreach (Player player in players)
             {
-                str.Append(player.GetName()).Append(" ").Append(player.GetFirstName());
+                str.Append(player.GetName()).Append(" ").Append(player.GetFirstName()).Append(", ");
             }
             str.Append("]");
 
@@ -37,7 +40,17 @@ namespace DemoClasses.Objects
 
         public override string? ToString()
         {
-            return $"{id}; {players[0]};";
+
+            StringBuilder str = new StringBuilder();
+            str.Append("[");
+            foreach (Player player in players)
+            {
+                str.Append(player.GetName()).Append(" ").Append(player.GetFirstName()).Append(", ");
+            }
+            str.Append("]");
+
+            return str.ToString();
+
         }
     }
 }
