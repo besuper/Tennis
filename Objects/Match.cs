@@ -23,6 +23,8 @@ namespace DemoClasses.Objects
 
         public DateTime Date { get { return date; } set { date = value; } }
         public Court Court { get { return court; } set { court = value; } }
+        public Group Winner{ get { return winner; } set { winner = value; } }
+
 
 
         public int CurrentSet { get; set; }
@@ -91,8 +93,13 @@ namespace DemoClasses.Objects
                 }
             }
 
+            int scorePlayerA = ScorePlayerA();
+            int scorePlayerB = ScorePlayerB();
+
             Console.WriteLine("Fin du match");
-            Console.WriteLine("Scores : " + ScorePlayerA() + " - " + ScorePlayerB());
+            Console.WriteLine("Scores : " + scorePlayerA + " - " + scorePlayerB);
+
+            winner = scorePlayerA > scorePlayerB ? groups[0] : groups[1];
         }
 
         public int ScorePlayerA()

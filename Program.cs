@@ -55,8 +55,8 @@ namespace DemoClasses
 
             Console.WriteLine(groups.Count);
 
-            List<Match> matches = createMatches(groups, ct);
-            List<Match> matches2 = createMatches(womensGroups, CompetitionType.WomenDouble);
+            List<Match> matches = createMatches(groups);
+            List<Match> matches2 = createMatches(womensGroups);
 
             Console.WriteLine(matches.Count);
             Console.WriteLine(matches2.Count);
@@ -74,7 +74,34 @@ namespace DemoClasses
             //Refaire jouer les matchs
             //Jusqu'au moment ou il n'y a qu'un winner ou un match??
 
+            playCompetition(matches);
+            
+        }
 
+        //Mettre ce code dans competition
+        static void playCompetition(List<Match> matches)
+        {
+            List<Group> winners = new List<Group>();
+
+            while (winners.Count != 1)
+            {
+                foreach (Match match in matches)
+                {
+                    match.StartMatch();
+                    Console.WriteLine("Le winner est " + match.Winner);
+                    winners.Add(match.Winner);
+
+                }
+
+                if (winners.Count == 1)
+                {
+                    break;
+                }
+
+                matches = createMatches(winners);
+                winners = new List<Group>();
+
+            }
         }
 
         static void datesForMatches(List<Match> matches, List<Court> courts, DateTime start)
@@ -129,7 +156,7 @@ namespace DemoClasses
         }
 
         //On devrait mettre en paramètre "Competition", qui possède les groupes ainsi que le type de compétition
-        static List<Match> createMatches(List<Group> groups, CompetitionType competitionType)
+        static List<Match> createMatches(List<Group> groups)
         {
             List<Match> matches = new List<Match>();
             Random random = new Random();
