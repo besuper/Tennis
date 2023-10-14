@@ -1,10 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using DemoClasses;
-using DemoClasses.Enum;
+using DemoClasses.Enums;
 using DemoClasses.Objects;
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 
 namespace DemoClasses
 {
@@ -12,6 +13,7 @@ namespace DemoClasses
     {
         static void Main(string[] args)
         {
+            // TODO: Deplacer les listes joueurs, courts et arbitres dans edition et les fetch la ?
             List<Player> list = new List<Player>();
 
             DatabaseManager dm = new DatabaseManager();
@@ -22,22 +24,41 @@ namespace DemoClasses
                 list.Add((new Player(request.GetInt32(0), request.GetString(1), request.GetString(2), request.GetString(3))));
             }
 
-            CompetitionType ct = CompetitionType.MixedDouble;
+            request.Close();
+
+            // Faire de courts des objects static?
+            // pareil pour les arbitres
+            List<Court> courts = new List<Court>();
+
+            SqlDataReader request2 = dm.Get("SELECT * FROM Court");
+            while (request2.Read())
+            {
+               courts.Add((new Court(request2.GetInt32(0), request2.GetString(1))));
+            }
+
+            request2.Close();
+
+            DateTime startDate = DateTime.Now;
+            CompetitionType ct = CompetitionType.MenSingle;
 
 
-            List<Group> groups = makeGroups(list, ct);
-            foreach (Group temp in groups)
+            List<Group> groups = makeGroups2(list, ct);
+            /*foreach (Group temp in groups)
             {
                 Console.WriteLine(temp.GetGroupName());
-                /*foreach (Player player in temp.Players)
+                foreach (Player player in temp.Players)
                 {
                     Console.WriteLine(player.Gender);
-                }*/
-            }
+                }
+            }*/
+
+            Console.WriteLine(groups.Count);
 
             List<Match> matches = createMatches(groups, ct);
 
             Console.WriteLine(matches.Count);
+
+            datesForMatches(matches, courts, startDate);
             /*foreach (Match match in matches)
             {
                 Console.WriteLine("Match :D");
@@ -50,6 +71,46 @@ namespace DemoClasses
             //Jusqu'au moment ou il n'y a qu'un winner ou un match??
 
 
+        }
+
+        static void datesForMatches(List<Match> matches, List<Court> courts, DateTime start)
+        {
+            Court temp = null;
+            Match currentMatch;
+
+            for(int i = 0; i < matches.Count; i++)
+            {
+                temp = null;
+                currentMatch = matches[i];
+
+                foreach (Court c in courts)
+                {
+                    if (c.IsAvailable(start))
+                    {
+                        temp = c;
+                        break;
+                    }
+                }
+
+                // TODO: Vérifier aussi avec les arbitres
+
+                if (temp == null)
+                {
+                    // Faire un minimum et max niveau heure => si atteint passer au jour suivant
+                    start = start.AddMinutes(10);
+                    i--;
+                }
+                else
+                {
+                    currentMatch.Date = start;
+                    temp.AddMatch(currentMatch);
+                }
+            }
+
+            foreach(Match _match in matches)
+            {
+                Console.WriteLine("Match start at " + _match.Date);
+            }
         }
 
         //On devrait mettre en paramètre "Competition", qui possède les groupes ainsi que le type de compétition
@@ -76,6 +137,98 @@ namespace DemoClasses
 
 
             return matches;
+        }
+
+        static List<Group> makeGroups2(List<Player> players, CompetitionType competitionType)
+        {
+            List<Group> groups = new List<Group>();
+            int countGroups = 64;
+            int countPlayerPerGroup = 2;
+
+            switch (competitionType)
+            {
+                case CompetitionType.MenSingle | CompetitionType.WomenSingle:
+                    countGroups = 128;
+                    countPlayerPerGroup = 1;
+                    break;
+
+                case CompetitionType.MenDouble | CompetitionType.WomenDouble:
+                    countGroups = 64;
+                    countPlayerPerGroup = 2;
+                    break;
+                case CompetitionType.MixedDouble:
+                    countGroups = 32;
+                    break;
+            }
+
+            switch (competitionType)
+            {
+                case CompetitionType.MenSingle | CompetitionType.MenDouble:
+                    players = players.GetRange(0, 128);
+                    break;
+                case CompetitionType.WomenSingle | CompetitionType.WomenDouble:
+                    players = players.GetRange(127, 128);
+                    break;
+            }
+
+            if (players.Count < (countGroups * countPlayerPerGroup))
+            {
+                throw new Exception("Not enough players");
+            }
+
+            Group temp;
+            Random rand = new Random();
+            Player currentPlayer;
+            int currentIndex;
+
+            if (competitionType == CompetitionType.MixedDouble)
+            {
+                List<Player> mens = players.GetRange(0, 128);
+                List<Player> womens = players.GetRange(127, 128);
+
+                Console.WriteLine(countGroups);
+
+                for (int i = 0; i < countGroups; i++)
+                {
+                    temp = new Group();
+
+                    //Select a man
+                    currentIndex = rand.Next(mens.Count);
+                    currentPlayer = mens[currentIndex];
+
+                    temp.AddPlayer(currentPlayer);
+                    mens.Remove(currentPlayer);
+
+                    //Select a woman
+                    currentIndex = rand.Next(womens.Count);
+                    currentPlayer = womens[currentIndex];
+
+                    temp.AddPlayer(currentPlayer);
+                    womens.Remove(currentPlayer);
+
+                    groups.Add(temp);
+                }
+
+                return groups;
+            }
+
+            for (int i = 0; i < countGroups; i++)
+            {
+                temp = new Group();
+
+                for (int j = 0; j < countPlayerPerGroup; j++)
+                {
+                    currentIndex = rand.Next(players.Count);
+                    currentPlayer = players[currentIndex];
+
+                    temp.AddPlayer(currentPlayer);
+                    players.Remove(currentPlayer);
+                }
+
+                groups.Add(temp);
+            }
+
+            return groups;
         }
 
         //On devrait mettre en paramètre "Competition", qui possède les groupes ainsi que le type de compétition

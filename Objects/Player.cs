@@ -1,4 +1,4 @@
-﻿using DemoClasses.Enum;
+﻿using DemoClasses.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

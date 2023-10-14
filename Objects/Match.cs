@@ -21,6 +21,8 @@ namespace DemoClasses.Objects
         public List<GameSet> GameSets { get { return gameSets; } }
         public List<Group> Groups { get { return groups; } }
 
+        public DateTime Date { get { return date; } set { date = value; } }
+
 
         public int CurrentSet { get; set; }
 

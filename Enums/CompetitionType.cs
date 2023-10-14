@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DemoClasses.Enum
+namespace DemoClasses.Enums
 {
     internal enum CompetitionType
     {

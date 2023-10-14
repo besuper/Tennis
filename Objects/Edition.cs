@@ -11,6 +11,6 @@ namespace DemoClasses.Objects
         private int id;
         private int year;
 
-        private List<Tournament> tournaments;
+        private Tournament tournament;
     }
 }

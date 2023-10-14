@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DemoClasses.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,6 @@ namespace DemoClasses.Objects
     {
         private int id;
         private Edition edition;
-        private List<Competition> competition;
+        private List<Competition> competitions = new List<Competition>();
     }
 }
