@@ -22,6 +22,7 @@ namespace DemoClasses.Objects
         public List<Group> Groups { get { return groups; } }
 
         public DateTime Date { get { return date; } set { date = value; } }
+        public Court Court { get { return court; } set { court = value; } }
 
 
         public int CurrentSet { get; set; }

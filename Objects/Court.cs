@@ -30,10 +30,9 @@ namespace DemoClasses.Objects
 
             foreach (Match match in matches)
             {
-                DateTime minDate = match.Date.AddMinutes(-10);
-                DateTime maxDate = match.Date.AddMinutes(10);
+                DateTime maxDate = match.Date.AddMinutes(60);
 
-                if (date > minDate && date < maxDate)
+                if (date >= match.Date && date < maxDate)
                 {
                     available = false;
                     break;
@@ -41,6 +40,11 @@ namespace DemoClasses.Objects
             }
 
             return available;
+        }
+
+        public override string ToString()
+        {
+            return name;
         }
     }
 }

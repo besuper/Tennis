@@ -33,7 +33,7 @@ namespace DemoClasses
             SqlDataReader request2 = dm.Get("SELECT * FROM Court");
             while (request2.Read())
             {
-               courts.Add((new Court(request2.GetInt32(0), request2.GetString(1))));
+                courts.Add((new Court(request2.GetInt32(0), request2.GetString(1))));
             }
 
             request2.Close();
@@ -42,7 +42,8 @@ namespace DemoClasses
             CompetitionType ct = CompetitionType.MenSingle;
 
 
-            List<Group> groups = makeGroups2(list, ct);
+            List<Group> groups = makeGroups2(list.ToList(), ct);
+            List<Group> womensGroups = makeGroups2(list.ToList(), CompetitionType.WomenDouble);
             /*foreach (Group temp in groups)
             {
                 Console.WriteLine(temp.GetGroupName());
@@ -55,10 +56,13 @@ namespace DemoClasses
             Console.WriteLine(groups.Count);
 
             List<Match> matches = createMatches(groups, ct);
+            List<Match> matches2 = createMatches(womensGroups, CompetitionType.WomenDouble);
 
             Console.WriteLine(matches.Count);
+            Console.WriteLine(matches2.Count);
 
             datesForMatches(matches, courts, startDate);
+            datesForMatches(matches2, courts, startDate);
             /*foreach (Match match in matches)
             {
                 Console.WriteLine("Match :D");
@@ -77,8 +81,10 @@ namespace DemoClasses
         {
             Court temp = null;
             Match currentMatch;
+            int matchPerDays = 16;
+            int todayMatches = 0;
 
-            for(int i = 0; i < matches.Count; i++)
+            for (int i = 0; i < matches.Count; i++)
             {
                 temp = null;
                 currentMatch = matches[i];
@@ -94,22 +100,31 @@ namespace DemoClasses
 
                 // TODO: Vérifier aussi avec les arbitres
 
-                if (temp == null)
+                if (temp == null || todayMatches >= matchPerDays)
                 {
+                    if (todayMatches >= matchPerDays)
+                    {
+                        start = start.AddDays(1);
+
+                        todayMatches = 0;
+                    }
+
                     // Faire un minimum et max niveau heure => si atteint passer au jour suivant
-                    start = start.AddMinutes(10);
+                    start = start.AddMinutes(60);
                     i--;
                 }
                 else
                 {
                     currentMatch.Date = start;
+                    currentMatch.Court = temp;
                     temp.AddMatch(currentMatch);
+                    todayMatches++;
                 }
             }
 
-            foreach(Match _match in matches)
+            foreach (Match _match in matches)
             {
-                Console.WriteLine("Match start at " + _match.Date);
+                Console.WriteLine("Match start at " + _match.Date + " on court " + _match.Court);
             }
         }
 
