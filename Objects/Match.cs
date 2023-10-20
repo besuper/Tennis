@@ -108,7 +108,10 @@ namespace DemoClasses.Objects
 
             foreach (GameSet gameSet in gameSets)
             {
-                SetsPlayerA += gameSet.SetPlayerA;
+                if (gameSet.Winner == 0)
+                {
+                    SetsPlayerA++;
+                }
             }
 
             return SetsPlayerA;
@@ -120,7 +123,10 @@ namespace DemoClasses.Objects
 
             foreach (GameSet gameSet in gameSets)
             {
-                SetsPlayerB += gameSet.SetPlayerB;
+                if (gameSet.Winner == 0)
+                {
+                    SetsPlayerB++;
+                }
             }
 
             return SetsPlayerB;

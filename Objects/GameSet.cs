@@ -11,8 +11,11 @@ namespace DemoClasses.Objects
     internal class GameSet
     {
         private int id;
-        public int SetPlayerA { get; set; } // 0 ou 1 => Group winner ?
-        public int SetPlayerB { get; set; } // 0 ou 1 => Group winner ?
+
+        private int winner = -1;
+
+        public int Winner { get { return winner; } }
+
         public Match match { get; set; }
 
         private List<Game> games = new List<Game>();
@@ -43,14 +46,14 @@ namespace DemoClasses.Objects
                 if (GamePointA >= 6 && (GamePointA - GamePointB) >= 2)
                 {
                     // Le joueur A a forcement gagné le SET ici
-                    SetPlayerA++;
+                    winner = 0;
                     break;
                 }
 
                 if (GamePointB >= 6 && (GamePointB - GamePointA) >= 2)
                 {
                     // Le joueur B a forcement gagné le SET ici
-                    SetPlayerB++;
+                    winner = 1;
                     break;
                 }
 
@@ -71,11 +74,11 @@ namespace DemoClasses.Objects
                         // On fais gagner le Set aléatoiremenet temporraielent
                         if (rnd == 0)
                         {
-                            SetPlayerA++;
+                            winner = 0;
                         }
                         else
                         {
-                            SetPlayerB++;
+                            winner = 1;
                         }
 
                         break;
@@ -87,12 +90,12 @@ namespace DemoClasses.Objects
 
                         // On fais gagner le Set aléatoiremenet temporraielent
                         if (rnd == 0)
-                        {
-                            SetPlayerA++;
+                        {   
+                            winner = 0;
                         }
                         else
                         {
-                            SetPlayerB++;
+                            winner = 1;
                         }
 
                         break;
