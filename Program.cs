@@ -189,12 +189,14 @@ namespace DemoClasses
 
             switch (competitionType)
             {
-                case CompetitionType.MenSingle | CompetitionType.WomenSingle:
+                case CompetitionType.MenSingle:
+                case CompetitionType.WomenSingle:
                     countGroups = 128;
                     countPlayerPerGroup = 1;
                     break;
 
-                case CompetitionType.MenDouble | CompetitionType.WomenDouble:
+                case CompetitionType.MenDouble:
+                case CompetitionType.WomenDouble:
                     countGroups = 64;
                     countPlayerPerGroup = 2;
                     break;
@@ -205,10 +207,12 @@ namespace DemoClasses
 
             switch (competitionType)
             {
-                case CompetitionType.MenSingle | CompetitionType.MenDouble:
+                case CompetitionType.MenSingle:
+                case CompetitionType.MenDouble:
                     players = players.GetRange(0, 128);
                     break;
-                case CompetitionType.WomenSingle | CompetitionType.WomenDouble:
+                case CompetitionType.WomenSingle:
+                case CompetitionType.WomenDouble:
                     players = players.GetRange(127, 128);
                     break;
             }
