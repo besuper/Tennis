@@ -89,11 +89,12 @@ public class Set {
                 // Les 12 jeux sont passé MAIS les joueurs sont a égalité, comment donner le point du set?
                 // Faire jouer un tie-break
                 // Si le set est le dernier du match (3 ou 5 sets) alors c'est un super tie-break
+                // Get the last set and replace it by a SuperTieBreak
 
                 Random rand = new Random();
                 int rnd = rand.Next(0, 2);
 
-                if (match.Schedule.NbWinningSets() == match.Round)
+                if (match.Schedule.NbWinningSets() == match.CurrentSet)
                 {
                     // super tie-break
                     Console.WriteLine("Super tie-break non pris en charge");

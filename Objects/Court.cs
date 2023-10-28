@@ -20,8 +20,7 @@ public class Court {
     }
 
     public bool Available() {
-        // TODO implement here
-        return covered;
+        return match == null;
     }
 
     public void Release() {

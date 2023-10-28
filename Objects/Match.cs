@@ -19,10 +19,12 @@ public class Match {
     private List<Opponent> opponents;
     private List<Set> sets;
 
-    public List<Opponent> Oppnents { get {  return opponents; } }
+    public List<Opponent> Oppnents { get { return opponents; } set { opponents = value; } }
     public Schedule Schedule { get { return schedule; } }
 
-    public int Round { get { return round; } }
+
+    private int currentSet = 0;
+    public int CurrentSet { get { return currentSet; } }
 
     public Match(Schedule schedule)
     {
@@ -33,9 +35,10 @@ public class Match {
     {
         Set temp;
 
+
         int MatchSets = schedule.NbWinningSets();
 
-        for (round = 1; round <= MatchSets; round++)
+        for (currentSet = 1; currentSet <= MatchSets; currentSet++)
         {
             temp = new Set(this);
             sets.Add(temp);
