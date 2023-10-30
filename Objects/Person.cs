@@ -21,4 +21,9 @@ public class Person {
         this.lastname = lastname;
         this.nationality = nationality;
     }
+
+    public override string? ToString()
+    {
+        return $"{firstname} {lastname}";
+    }
 }

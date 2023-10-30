@@ -9,13 +9,14 @@ public class Schedule {
 
     private ScheduleType type;
 
-    private int actualRound = 1;
+    private int actualRound = 0;
     private Tournament tournament;
     private List<Match> matches;
 
     private Opponent scheduleWinner;
 
     List<Player> players;  
+
     public Schedule(Tournament tournament, ScheduleType type, List<Player> players)
     {
         this.tournament = tournament;
@@ -25,26 +26,18 @@ public class Schedule {
     }
 
     public int NbWinningSets() {
-        //TODO : Vérifier la véracité des nombres;
         int nb = 0;
         switch (type)
         {
             case ScheduleType.LadiesDouble:
-                nb = 3;
-                break;
             case ScheduleType.LadiesSingle:
-                nb = 3;
-                break;
-            case ScheduleType.GentlemenSingle:
-                nb = 5;
-                break;
-            case ScheduleType.GentlemenDouble:
-                nb = 3;
-                break;
             case ScheduleType.MixedDouble:
                 nb = 3;
                 break;
-                
+            case ScheduleType.GentlemenSingle:
+            case ScheduleType.GentlemenDouble:
+                nb = 5;
+                break;
         }
 
         return nb;
@@ -52,12 +45,15 @@ public class Schedule {
 
     public void PlayNextRound()
     {
-        actualRound++;
-        List<Opponent> winners = makeGroups(players, type);
+        List<Opponent> winners = MakeGroups(players, type);
 
         do
         {
-            matches = createMatches(winners);
+            actualRound++;
+
+            Console.WriteLine("/!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ Playing round " + actualRound + " /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\");
+
+            matches = CreateMatches(winners);
             winners = new List<Opponent>();
 
             foreach (Match match in matches)
@@ -73,7 +69,7 @@ public class Schedule {
         scheduleWinner = winners[0];
     }
 
-    public List<Match> createMatches(List<Opponent> opponents)
+    public List<Match> CreateMatches(List<Opponent> opponents)
     {
         List<Match> matches = new List<Match>();
         Random random = new Random();
@@ -81,6 +77,8 @@ public class Schedule {
         int indexSelected;
 
         List<Opponent> tempGroupBattle;
+        Match tempMatch = null;
+
         while (opponents.Count != 0)
         {
             tempGroupBattle = new List<Opponent>();
@@ -91,14 +89,19 @@ public class Schedule {
                 opponents.Remove(opponents[indexSelected]);
 
             }
-            matches.Add(new Match(this, tempGroupBattle));
+
+            tempMatch = new Match(this, tempGroupBattle);
+            // TODO: If referee is null ?
+            tempMatch.Referee = tournament.GetAvailableReferee(tempMatch);
+
+            matches.Add(tempMatch);
         }
 
 
         return matches;
     }
 
-    static List<Opponent> makeGroups(List<Player> players, ScheduleType competitionType)
+    static List<Opponent> MakeGroups(List<Player> players, ScheduleType competitionType)
     {
         List<Opponent> opponents = new List<Opponent>();
         int countGroups = 64;

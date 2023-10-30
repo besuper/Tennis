@@ -8,21 +8,24 @@ using Tennis;
 
 public class Tournament {
 
-    public Tournament() {
-    }
-
     private string name;
 
-    private List<Court> CourtList;
-    private List<Referee> RefereeList;
-    private List<Schedule> ScheduleList;
+    private List<Court> courtList;
+    private List<Referee> refereeList;
+    private List<Schedule> scheduleList;
 
     public Tournament(string name)
     {
         this.name = name;
-        this.CourtList = new List<Court>();
-        this.RefereeList = new List<Referee>();
-        this.ScheduleList = new List<Schedule>();
+        this.courtList = new List<Court>();
+        this.refereeList = new List<Referee>();
+        this.scheduleList = new List<Schedule>();
+
+        this.refereeList.Add(new Referee("Carlos", "Bernardes", "Bresil"));
+        this.refereeList.Add(new Referee("Jaume", "Campistol", "Espagne"));
+        this.refereeList.Add(new Referee("Pierre", "Bacchi", "France"));
+        this.refereeList.Add(new Referee("Ricardo", "Ortiz", "Argentine"));
+        this.refereeList.Add(new Referee("John", "Blom", "Australie"));
     }
 
     private List<Player> GetPlayers()
@@ -44,20 +47,19 @@ public class Tournament {
     }
 
     public void Play() {
-        ScheduleType ScheduleType;
+        //ScheduleType ScheduleType;
         List<Opponent> winner = new List<Opponent>();
 
         Array types = Enum.GetValues(typeof(ScheduleType));
 
         foreach (ScheduleType type in types)
         {
-            ScheduleList.Add(new Schedule(this, type, GetPlayers()));
+            scheduleList.Add(new Schedule(this, type, GetPlayers()));
 
             //Ask DAO to get a list of opponents compatible with the type
 
-
-            ScheduleList[ScheduleList.Count - 1].PlayNextRound();
-            winner.Add(ScheduleList[ScheduleList.Count - 1].GetWinner());
+            scheduleList[scheduleList.Count - 1].PlayNextRound();
+            winner.Add(scheduleList[scheduleList.Count - 1].GetWinner());
         }
 
         Console.WriteLine("Voici les winners");
@@ -67,6 +69,22 @@ public class Tournament {
             Console.WriteLine(item);
         }
 
+    }
+
+    public Referee GetAvailableReferee(Match match)
+    {
+        Referee referee = null;
+
+        foreach (Referee item in refereeList)
+        {
+            if(item.Available(match))
+            {
+                referee = item;
+                break;
+            }
+        }
+
+        return referee;
     }
 
 }

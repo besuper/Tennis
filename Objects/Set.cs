@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Tennis;
 using Tennis.Objects;
 
 public class Set {
@@ -57,7 +58,7 @@ public class Set {
 
     public void Play()
     {
-        Console.WriteLine($"\n===========[Nouveau set {match.ScoreOpponentA()} - {match.ScoreOpponentB()}]===========");
+        Debugger.log($"\n===========[Nouveau set {match.ScoreOpponentA()} - {match.ScoreOpponentB()}]===========");
 
         Game temp;
 
@@ -95,10 +96,14 @@ public class Set {
                 Random rand = new Random();
                 int rnd = rand.Next(0, 2);
 
-                if (match.Schedule.NbWinningSets() == match.CurrentSet)
+                // dans un match 3 sets
+                // si le score est 1 - 1 et que le jeu est 6 - 6 alors super tie break
+                // si le score est 0 - 1 pas de super
+
+                if (/* check 1 - 1 or 2 - 2*/match.ScoreOpponentA() == match.ScoreOpponentB() && /*check if 1 - 1 for 3 sets or 2 - 2 for 5 sets*/ match.IsWinningSet())
                 {
                     // super tie-break
-                    Console.WriteLine("Super tie-break non pris en charge");
+                    Debugger.log("Super tie-break non pris en charge");
 
                     // On fais gagner le Set aléatoiremenet temporraielent
                     if (rnd == 0)
@@ -115,7 +120,7 @@ public class Set {
                 else
                 {
                     // tie-break
-                    Console.WriteLine("Tie-break non pris en charge");
+                    Debugger.log("Tie-break non pris en charge");
 
                     // On fais gagner le Set aléatoiremenet temporraielent
                     if (rnd == 0)

@@ -29,7 +29,7 @@ namespace Tennis.Objects
         {
             winner = null;
 
-            Console.WriteLine($"\n===========[Nouveau jeu {set.GameScorePlayerA()} - {set.GameScorePlayerB()}]===========");
+            Debugger.log($"\n===========[Nouveau jeu {set.GameScorePlayerA()} - {set.GameScorePlayerB()}]===========");
 
             // Jouer une partie (un jeu)
             while (winner == null)
@@ -42,14 +42,12 @@ namespace Tennis.Objects
             // Afficher le gagnant
             if (winner == set.Match.Oppnents[0])
             {
-                //Console.WriteLine("Joueur A a remporté le jeu");
-                Console.WriteLine(set.Match.Oppnents[0] + " a remporté le jeu");
+                Debugger.log(set.Match.Oppnents[0] + " a remporté le jeu");
 
             }
             else
             {
-                //Console.WriteLine("Joueur B a remporté le jeu");
-                Console.WriteLine(set.Match.Oppnents[1] + " a remporté le jeu");
+                Debugger.log(set.Match.Oppnents[1] + " a remporté le jeu");
 
             }
         }
@@ -65,15 +63,13 @@ namespace Tennis.Objects
                 if (gagnantTour == 0)
                 {
                     currentScoreOp1++;
-                    //Console.WriteLine("JoueurA prend l'avantage");
-                    Console.WriteLine(set.Match.Oppnents[0] + " prend l'avantage");
+                    Debugger.log(set.Match.Oppnents[0] + " prend l'avantage");
 
                 }
                 else
                 {
                     currentScoreOp2++;
-                    //Console.WriteLine("JoueurB prend l'avantage");
-                    Console.WriteLine(set.Match.Oppnents[1] + " prend l'avantage");
+                    Debugger.log(set.Match.Oppnents[1] + " prend l'avantage");
 
                 }
             }
@@ -89,8 +85,7 @@ namespace Tennis.Objects
                 if (currentScoreOp1 == 41 || currentScoreOp1 == 40)
                 {
 
-                    //Console.WriteLine("Joueur A remporte la partie");
-                    Console.WriteLine(set.Match.Oppnents[0] + " remporte la partie");
+                    Debugger.log(set.Match.Oppnents[0] + " remporte la partie");
 
                     winner = set.Match.Oppnents[0];
 
@@ -101,16 +96,14 @@ namespace Tennis.Objects
                 if (currentScoreOp2 == 41)
                 {
                     currentScoreOp2--;
-                    //Console.WriteLine("Joueur B perd sont avantage, retour a l'égalité!");
-                    Console.WriteLine(set.Match.Oppnents[1] + " perd sont avantage, retour a l'égalité!");
+                    Debugger.log(set.Match.Oppnents[1] + " perd sont avantage, retour a l'égalité!");
 
                     return;
                 }
 
                 currentScoreOp1 += currentScoreOp1 == 30 ? 10 : 15;
-                //Console.WriteLine("Points Joueur A " + currentScoreOp1);
 
-                Console.WriteLine(set.Match.Oppnents[0] + " : " + currentScoreOp1);
+                Debugger.log(set.Match.Oppnents[0] + " : " + currentScoreOp1);
 
             }
             else
@@ -119,8 +112,7 @@ namespace Tennis.Objects
                 // Ou alors il a gagné avec 40 points (la vérification de l'égalité ce fais plus haut!)
                 if (currentScoreOp2 == 41 || currentScoreOp2 == 40)
                 {
-                    //Console.WriteLine("Joueur B remporte la partie");
-                    Console.WriteLine(set.Match.Oppnents[1] + " remporte la partie");
+                    Debugger.log(set.Match.Oppnents[1] + " remporte la partie");
 
                     winner = set.Match.Oppnents[1];
 
@@ -131,16 +123,14 @@ namespace Tennis.Objects
                 if (currentScoreOp1 == 41)
                 {
                     currentScoreOp1--;
-                    //Console.WriteLine("Joueur A perd sont avantage, retour a l'égalité!");
-                    Console.WriteLine(set.Match.Oppnents[0] + " perd sont avantage, retour a l'égalité!");
+                    Debugger.log(set.Match.Oppnents[0] + " perd sont avantage, retour a l'égalité!");
 
                     return;
                 }
 
                 currentScoreOp2 += currentScoreOp2 == 30 ? 10 : 15;
-                //Console.WriteLine("Points Joueur B " + currentScoreOp2);
 
-                Console.WriteLine(set.Match.Oppnents[1] + " : "+ currentScoreOp2);
+                Debugger.log(set.Match.Oppnents[1] + " : "+ currentScoreOp2);
             }
         }
 

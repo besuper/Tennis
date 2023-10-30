@@ -8,10 +8,11 @@ using System.Text;
 public class Match {
 
     private DateTime date;
-
     private TimeSpan duration;
 
     private int round;
+    private int currentSet = 0;
+    private int matchSets = 0;
 
     private Court? court;
     private Schedule schedule;
@@ -21,9 +22,7 @@ public class Match {
 
     public List<Opponent> Oppnents { get { return opponents; } set { opponents = value; } }
     public Schedule Schedule { get { return schedule; } }
-
-
-    private int currentSet = 0;
+    public Referee Referee { get { return referee; } set { referee = value; } }
     public int CurrentSet { get { return currentSet; } }
 
     public Match(Schedule schedule, List<Opponent> opponents)
@@ -37,10 +36,11 @@ public class Match {
     {
         Set temp;
 
+        matchSets = schedule.NbWinningSets();
 
-        int MatchSets = schedule.NbWinningSets();
+        Console.WriteLine("Match arbitré par " + referee);
 
-        for (currentSet = 1; currentSet <= MatchSets; currentSet++)
+        for (currentSet = 1; currentSet <= matchSets; currentSet++)
         {
             temp = new Set(this);
             sets.Add(temp);
@@ -49,12 +49,11 @@ public class Match {
             int SetsPlayerA = ScoreOpponentA();
             int SetsPlayerB = ScoreOpponentB();
 
-            if (MatchSets == 3)
+            if (matchSets == 3)
             {
                 // Si le joueur A a au moins gagné 2 set, il gagne
                 if (SetsPlayerA >= 2)
                 {
-                    //Console.WriteLine("Le joueur A a remporté le matche!!");
                     Console.WriteLine(opponents[0] + " a remporté le matche!!");
 
                     break;
@@ -63,18 +62,16 @@ public class Match {
                 // Si le joueur B a au moins gagné 2 set, il gagne
                 if (SetsPlayerB >= 2)
                 {
-                    //Console.WriteLine("Le joueur B a remporté le matche!!");
                     Console.WriteLine(opponents[1] + " a remporté le matche!!");
 
                     break;
                 }
             }
-            else if (MatchSets == 5)
+            else if (matchSets == 5)
             {
                 // Si le joueur A a au moins gagné 3 set, il gagne
                 if (SetsPlayerA >= 3)
                 {
-                    //Console.WriteLine("Le joueur A a remporté le matche!!");
                     Console.WriteLine(opponents[0] + " a remporté le matche!!");
 
                     break;
@@ -83,12 +80,17 @@ public class Match {
                 // Si le joueur B a au moins gagné 3 set, il gagne
                 if (SetsPlayerB >= 3)
                 {
-                    //Console.WriteLine("Le joueur B a remporté le matche!!");
                     Console.WriteLine(opponents[1] + " a remporté le matche!!");
 
                     break;
                 }
             }
+        }
+
+        // TODO: Remove null verification (match always have a referee)
+        if(referee != null)
+        {
+            referee.Release();
         }
 
         int scorePlayerA = ScoreOpponentA();
@@ -131,6 +133,12 @@ public class Match {
         }
 
         return SetsOpponentB;
+    }
+
+    // Check score equality before using this
+    public bool IsWinningSet()
+    {
+        return (matchSets == 5 && ScoreOpponentA() == 2) || (matchSets == 3 && ScoreOpponentA() == 1);
     }
 
 }
