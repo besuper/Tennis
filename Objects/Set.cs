@@ -22,6 +22,7 @@ public class Set {
     public Set(Match match)
     {
         this.match = match;
+        this.games = new List<Game>();
     }
 
     public int GameScorePlayerA()
@@ -30,7 +31,7 @@ public class Set {
 
         foreach (Game game in games)
         {
-            if (game.Winner == match.Oppnents[0])
+            if (game.Winner != null && game.Winner == match.Oppnents[0])
             {
                 GameScoreA++;
             }
@@ -45,7 +46,7 @@ public class Set {
 
         foreach (Game game in games)
         {
-            if (game.Winner == match.Oppnents[1])
+            if (game.Winner != null && game.Winner == match.Oppnents[1])
             {
                 GameScoreB++;
             }

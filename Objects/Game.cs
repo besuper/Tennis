@@ -36,7 +36,7 @@ namespace Tennis.Objects
             {
                 SimulateAGame();
                 //await Task.Delay(1000);
-                Thread.Sleep(1000);
+                //Thread.Sleep(1000);
             }
 
             // Afficher le gagnant
@@ -109,6 +109,7 @@ namespace Tennis.Objects
 
                 currentScoreOp1 += currentScoreOp1 == 30 ? 10 : 15;
                 //Console.WriteLine("Points Joueur A " + currentScoreOp1);
+
                 Console.WriteLine(set.Match.Oppnents[0] + " : " + currentScoreOp1);
 
             }
@@ -138,8 +139,8 @@ namespace Tennis.Objects
 
                 currentScoreOp2 += currentScoreOp2 == 30 ? 10 : 15;
                 //Console.WriteLine("Points Joueur B " + currentScoreOp2);
-                Console.WriteLine(set.Match.Oppnents[1] + " : "+ currentScoreOp2);
 
+                Console.WriteLine(set.Match.Oppnents[1] + " : "+ currentScoreOp2);
             }
         }
 

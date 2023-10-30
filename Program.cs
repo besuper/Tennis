@@ -1,2 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+Tournament test = new Tournament("TEST1");
+
+
+test.Play();

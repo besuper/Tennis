@@ -26,9 +26,11 @@ public class Match {
     private int currentSet = 0;
     public int CurrentSet { get { return currentSet; } }
 
-    public Match(Schedule schedule)
+    public Match(Schedule schedule, List<Opponent> opponents)
     {
         this.schedule = schedule;
+        this.opponents = opponents;
+        this.sets = new List<Set>();
     }
 
     public void Play()
@@ -107,7 +109,7 @@ public class Match {
 
         foreach (Set gameSet in sets)
         {
-            if (gameSet.Winner == opponents[0])
+            if (gameSet.Winner != null && gameSet.Winner == opponents[0])
             {
                 SetsOpponentA++;
             }
@@ -122,7 +124,7 @@ public class Match {
 
         foreach (Set gameSet in sets)
         {
-            if (gameSet.Winner == opponents[1])
+            if (gameSet.Winner != null && gameSet.Winner == opponents[1])
             {
                 SetsOpponentB++;
             }

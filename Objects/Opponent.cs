@@ -14,6 +14,9 @@ public class Opponent {
 
     public Opponent()
     {
+        this.matches = new List<Match>();
+        this.players = new List<Player>();
+        this.setWinList = new List<Set>();
     }
 
     public void AddPlayer(Player player)

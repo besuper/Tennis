@@ -12,9 +12,16 @@ public class Schedule {
     private int actualRound = 1;
     private Tournament tournament;
     private List<Match> matches;
-    public Schedule(Tournament tournament)
+
+    private Opponent scheduleWinner;
+
+    List<Player> players;  
+    public Schedule(Tournament tournament, ScheduleType type, List<Player> players)
     {
         this.tournament = tournament;
+        this.type = type;
+        this.players = players;
+
     }
 
     public int NbWinningSets() {
@@ -46,10 +53,13 @@ public class Schedule {
     public void PlayNextRound()
     {
         actualRound++;
-        List<Opponent> winners = new List<Opponent>();
+        List<Opponent> winners = makeGroups(players, type);
 
-        while (winners.Count != 1)
+        do
         {
+            matches = createMatches(winners);
+            winners = new List<Opponent>();
+
             foreach (Match match in matches)
             {
                 match.Play();
@@ -58,15 +68,9 @@ public class Schedule {
 
             }
 
-            if (winners.Count == 1)
-            {
-                break;
-            }
+        } while(winners.Count != 1);
 
-            matches = createMatches(winners);
-            winners = new List<Opponent>();
-
-        }
+        scheduleWinner = winners[0];
     }
 
     public List<Match> createMatches(List<Opponent> opponents)
@@ -87,7 +91,7 @@ public class Schedule {
                 opponents.Remove(opponents[indexSelected]);
 
             }
-            matches.Add(new Match(this));
+            matches.Add(new Match(this, tempGroupBattle));
         }
 
 
@@ -191,8 +195,8 @@ public class Schedule {
     }
 
 
-    public void GetWinner() {
-        // TODO implement here
+    public Opponent GetWinner() {
+        return scheduleWinner;
     }
 
 }
