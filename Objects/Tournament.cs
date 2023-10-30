@@ -6,13 +6,16 @@ using System.Linq;
 using System.Text;
 using Tennis;
 
-public class Tournament {
+public class Tournament
+{
 
     private string name;
 
     private List<Court> courtList;
     private List<Referee> refereeList;
     private List<Schedule> scheduleList;
+
+    private DateTime currentDate = DateTime.Now;
 
     public Tournament(string name)
     {
@@ -27,6 +30,8 @@ public class Tournament {
         this.refereeList.Add(new Referee("Ricardo", "Ortiz", "Argentine"));
         this.refereeList.Add(new Referee("John", "Blom", "Australie"));
     }
+
+    public DateTime CurrentDate { get { return currentDate; } }
 
     private List<Player> GetPlayers()
     {
@@ -46,7 +51,8 @@ public class Tournament {
         return list;
     }
 
-    public void Play() {
+    public void Play()
+    {
         //ScheduleType ScheduleType;
         List<Opponent> winner = new List<Opponent>();
 
@@ -77,7 +83,7 @@ public class Tournament {
 
         foreach (Referee item in refereeList)
         {
-            if(item.Available(match))
+            if (item.Available(match))
             {
                 referee = item;
                 break;
@@ -85,6 +91,25 @@ public class Tournament {
         }
 
         return referee;
+    }
+
+    public void SkipNewDay()
+    {
+        DateTime tempDate = currentDate;
+        tempDate = tempDate.AddDays(1);
+
+        currentDate = new DateTime(tempDate.Year, tempDate.Month, tempDate.Day, 10, 00, 00);
+    }
+
+    public void AddNewMatch()
+    {
+        if (currentDate.Hour >= 16)
+        {
+            SkipNewDay();
+            return;
+        }
+
+        currentDate = currentDate.AddHours(2);
     }
 
 }

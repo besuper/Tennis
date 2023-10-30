@@ -23,6 +23,7 @@ public class Match {
     public List<Opponent> Oppnents { get { return opponents; } set { opponents = value; } }
     public Schedule Schedule { get { return schedule; } }
     public Referee Referee { get { return referee; } set { referee = value; } }
+    public DateTime Date { get { return date; } set { date = value; } }
     public int CurrentSet { get { return currentSet; } }
 
     public Match(Schedule schedule, List<Opponent> opponents)
@@ -39,6 +40,7 @@ public class Match {
         matchSets = schedule.NbWinningSets();
 
         Console.WriteLine("Match arbitré par " + referee);
+        Console.WriteLine("prévu le  " + date);
 
         for (currentSet = 1; currentSet <= matchSets; currentSet++)
         {
