@@ -13,8 +13,6 @@ public class SuperTieBreak : Set {
     //ScoreOP1 /// ScoreOP2 +1 
 
     public void Play(int max) {
-        int actualMax;
-
         Random rand = new Random();
         int rnd;
 

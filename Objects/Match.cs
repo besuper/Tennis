@@ -143,10 +143,9 @@ public class Match {
         return SetsOpponentB;
     }
 
-    // Check score equality before using this
     public bool IsWinningSet()
     {
-        return (matchSets == 5 && ScoreOpponentA() == 2) || (matchSets == 3 && ScoreOpponentA() == 1);
+        return ((matchSets == 5 && ScoreOpponentA() == 2) || (matchSets == 3 && ScoreOpponentA() == 1)) && ScoreOpponentA() == ScoreOpponentB();
     }
 
 }

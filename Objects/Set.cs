@@ -96,11 +96,7 @@ public class Set {
                 Random rand = new Random();
                 int rnd = rand.Next(0, 2);
 
-                // dans un match 3 sets
-                // si le score est 1 - 1 et que le jeu est 6 - 6 alors super tie break
-                // si le score est 0 - 1 pas de super
-
-                if (/* check 1 - 1 or 2 - 2*/match.ScoreOpponentA() == match.ScoreOpponentB() && /*check if 1 - 1 for 3 sets or 2 - 2 for 5 sets*/ match.IsWinningSet())
+                if (match.IsWinningSet())
                 {
                     // super tie-break
                     Debugger.log("Super tie-break non pris en charge");
