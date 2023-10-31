@@ -10,6 +10,8 @@ public class Referee : Person {
     //private List<Tournament> tournaments;
     private Match match;
 
+    public Match Match { get { return match; } }
+
     public Referee(string firstname, string lastname, string nationality) : base(firstname, lastname, nationality)
     {
     }

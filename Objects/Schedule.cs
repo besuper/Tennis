@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -56,19 +57,44 @@ public class Schedule {
             matches = CreateMatches(winners);
             winners = new List<Opponent>();
 
-            foreach (Match match in matches)
+            if(matches.Count() <= 2)
             {
-                //La on recherche un refereeS
-                match.Referee = tournament.GetAvailableReferee(match);
-                match.Play();
-                Console.WriteLine("Le winner est " + match.GetWinner());
-                winners.Add(match.GetWinner());
-
+                PlayMatches(matches, winners);
             }
+            else
+            {
+                IEnumerable<Match[]> chunks = matches.Chunk(matches.Count() / 4);
+                List<Thread> threads = new List<Thread>();
 
+                foreach (Match[] chunks2 in chunks)
+                {
+                    threads.Add(new Thread(() => PlayMatches(chunks2, winners)));
+                }
+
+                foreach (Thread thread in threads)
+                {
+                    thread.Start();
+                }
+
+                foreach (Thread thread in threads)
+                {
+                    thread.Join();
+                }
+            }
         } while(winners.Count != 1);
 
         scheduleWinner = winners[0];
+    }
+
+    public void PlayMatches(dynamic matches, List<Opponent> winners)
+    {
+        foreach (Match match in matches)
+        {
+            match.Referee = tournament.GetAvailableReferee(match);
+            match.Play();
+            Console.WriteLine("Le winner est " + match.GetWinner());
+            winners.Add(match.GetWinner());
+        }
     }
 
     public List<Match> CreateMatches(List<Opponent> opponents)

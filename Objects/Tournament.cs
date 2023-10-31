@@ -83,6 +83,14 @@ public class Tournament
 
         foreach (Referee item in refereeList)
         {
+            if(item.Match != null)
+            {
+                if(item.Match.Date == match.Date)
+                {
+                    continue;
+                }
+            }
+
             if (item.Available(match))
             {
                 referee = item;
@@ -92,6 +100,8 @@ public class Tournament
 
         return referee;
     }
+
+    private int currentMatchHours = 0;
 
     public void SkipNewDay()
     {
@@ -109,7 +119,15 @@ public class Tournament
             return;
         }
 
-        currentDate = currentDate.AddHours(2);
+        if(currentMatchHours >= 1)
+        {
+            currentDate = currentDate.AddHours(2);
+
+            currentMatchHours = 0;
+        }else
+        {
+            currentMatchHours++;
+        }
     }
 
 }
