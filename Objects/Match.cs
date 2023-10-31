@@ -26,11 +26,17 @@ public class Match {
     public DateTime Date { get { return date; } set { date = value; } }
     public int CurrentSet { get { return currentSet; } }
 
+
     public Match(Schedule schedule, List<Opponent> opponents)
     {
         this.schedule = schedule;
         this.opponents = opponents;
         this.sets = new List<Set>();
+    }
+
+    public void AddSet(Set set)
+    {
+        this.sets.Add(set);
     }
 
     public void Play()

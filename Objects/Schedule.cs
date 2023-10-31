@@ -58,6 +58,8 @@ public class Schedule {
 
             foreach (Match match in matches)
             {
+                //La on recherche un refereeS
+                match.Referee = tournament.GetAvailableReferee(match);
                 match.Play();
                 Console.WriteLine("Le winner est " + match.GetWinner());
                 winners.Add(match.GetWinner());
@@ -92,7 +94,7 @@ public class Schedule {
 
             tempMatch = new Match(this, tempGroupBattle);
             // TODO: If referee is null ?
-            tempMatch.Referee = tournament.GetAvailableReferee(tempMatch);
+            //tempMatch.Referee = tournament.GetAvailableReferee(tempMatch);
             tempMatch.Date = tournament.CurrentDate;
 
             tournament.AddNewMatch();

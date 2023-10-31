@@ -7,12 +7,12 @@ using Tennis;
 using Tennis.Objects;
 
 public class Set {
-    private int scoreOp1;
+    protected int scoreOp1;
 
-    private int scoreOp2;
+    protected int scoreOp2;
 
     private Match match;
-    private Opponent winner;
+    protected Opponent? winner;
     private List<Game> games;
 
     public int ScoreOp1 { get { return scoreOp1;} }
@@ -105,16 +105,9 @@ public class Set {
                     // super tie-break
                     Debugger.log("Super tie-break non pris en charge");
 
-                    // On fais gagner le Set aléatoiremenet temporraielent
-                    if (rnd == 0)
-                    {
-                        winner = match.Oppnents[0];
-                    }
-                    else
-                    {
-                        winner = match.Oppnents[1];
-                    }
-
+                    SuperTieBreak stb = new SuperTieBreak(match);
+                    stb.Play(10);
+                    match.AddSet(stb);
                     break;
                 }
                 else

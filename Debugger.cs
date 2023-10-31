@@ -25,9 +25,9 @@ namespace Tennis
 
         public static void log(string message)
         {
-            //Console.WriteLine(message);
+            Console.WriteLine(message);
 
-            //Debugger.writer.WriteLine(message);
+            Debugger.writer.WriteLine(message);
         }
     }
 }
