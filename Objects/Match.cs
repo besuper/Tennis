@@ -1,12 +1,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
+
 public class Match
 {
-
+    /// <summary>
+    /// Attributes
+    /// </summary>
     private DateTime date;
     private TimeSpan duration;
 
@@ -21,6 +21,21 @@ public class Match
     private List<Set> sets;
     private Opponent? winner;
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="schedule"></param>
+    /// <param name="opponents"></param>
+    public Match(Schedule schedule, List<Opponent> opponents)
+    {
+        this.schedule = schedule;
+        this.opponents = opponents;
+        this.sets = new List<Set>();
+    }
+
+    /// <summary>
+    /// Getters and Setters
+    /// </summary>
     public List<Opponent> Oppnents { get { return opponents; } set { opponents = value; } }
     public Schedule Schedule { get { return schedule; } }
     public Referee Referee { get { return referee; } set { referee = value; } }
@@ -29,19 +44,17 @@ public class Match
     public Opponent? Winner { get { return winner; } }
 
     public int Round { get { return round; } }
-    public Set ActualSet { get { return sets[sets.Count - 1]; } }
 
+    /// <summary>
+    /// WPF Getters
+    /// </summary>
+    public Set ActualSet { get { return sets[sets.Count - 1]; } }
     public int SetsOpponentA { get { return ScoreOpponentA(); } }
     public int SetsOpponentB { get { return ScoreOpponentB(); } }
 
-
-    public Match(Schedule schedule, List<Opponent> opponents)
-    {
-        this.schedule = schedule;
-        this.opponents = opponents;
-        this.sets = new List<Set>();
-    }
-
+    /// <summary>
+    /// Methods
+    /// </summary>
     public void AddSet(Set set)
     {
         this.sets.Add(set);

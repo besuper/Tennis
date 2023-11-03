@@ -10,7 +10,7 @@
         <TabControl>
             <TabItem Header="Simple Homme" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5">
-                    <ListView ItemsSource="{Binding}" Name="listView" PreviewMouseLeftButtonUp="OpenMatch">
+                    <ListView Name="gentlemenSingleListView" PreviewMouseLeftButtonUp="OpenMatch">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Round"/>

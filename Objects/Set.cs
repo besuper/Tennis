@@ -5,6 +5,9 @@ using Tennis;
 
 public class Set
 {
+    /// <summary>
+    /// Attributes
+    /// </summary>
     protected int scoreOp1;
     protected int scoreOp2;
 
@@ -12,19 +15,32 @@ public class Set
     protected Opponent? winner;
     private List<Game> games;
 
-    public int ScoreOp1 { get { return GameScorePlayerA(); } }
-    public int ScoreOp2 { get { return GameScorePlayerB(); } }
-    public Match Match { get { return match; } }
-    public Opponent? Winner { get { return winner; } }
-
-    public Game ActualGame { get { return games[games.Count - 1]; } }
-
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="match"></param>
     public Set(Match match)
     {
         this.match = match;
         this.games = new List<Game>();
     }
 
+    /// <summary>
+    /// Getters and Setters
+    /// </summary>
+    public Match Match { get { return match; } }
+    public Opponent? Winner { get { return winner; } }
+
+    /// <summary>
+    /// WPF Getters
+    /// </summary>
+    public Game ActualGame { get { return games[games.Count - 1]; } }
+    public int ScoreOp1 { get { return GameScorePlayerA(); } }
+    public int ScoreOp2 { get { return GameScorePlayerB(); } }
+
+    /// <summary>
+    /// Methods
+    /// </summary>
     public int GameScorePlayerA()
     {
         int GameScoreA = 0;

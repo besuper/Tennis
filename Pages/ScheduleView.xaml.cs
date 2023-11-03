@@ -12,13 +12,13 @@ namespace WpfApp1.Pages
     /// </summary>
     public partial class ScheduleView : Window
     {
-        public ObservableCollection<Match> Matches;
+        public ObservableCollection<Match> gentlemenSingleMatches;
 
         public ScheduleView()
         {
-            this.Matches = new ObservableCollection<Match>();
+            this.gentlemenSingleMatches = new ObservableCollection<Match>();
             InitializeComponent();
-            this.DataContext = Matches;
+            //this.DataContext = Matches;
 
             Tournament tour = new Tournament("test");
 
@@ -29,8 +29,10 @@ namespace WpfApp1.Pages
             List<Match> cc = sc.CreateMatches(opponents);
             foreach (Match match in cc)
             {
-                this.Matches.Add(match);
+                this.gentlemenSingleMatches.Add(match);
             }
+
+            this.gentlemenSingleListView.ItemsSource = this.gentlemenSingleMatches;
 
             RunBackground(cc[0]);
         }
