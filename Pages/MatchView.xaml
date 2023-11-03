@@ -1,0 +1,54 @@
+﻿<Window x:Class="WpfApp1.Pages.MatchView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.Pages"
+        mc:Ignorable="d"
+        Title="MatchView" Height="450" Width="800" ResizeMode="NoResize">
+    <Grid>
+        <Image HorizontalAlignment="Left"  Source="/Assets/img/green.jpg" VerticalAlignment="Center" Height="405" Width="579" Margin="8,0,0,0"/>
+        <Ellipse HorizontalAlignment="Left" Height="66"  Stroke="Black" Fill="Yellow" VerticalAlignment="Center" Width="66" Margin="28,0,0,0"/>
+        <Ellipse HorizontalAlignment="Left" Height="66"  Stroke="Black" Fill="Red" VerticalAlignment="Center" Width="66" Margin="506,0,0,0"/>
+        <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Height="100" Width="500">
+            <Grid.Background>
+                <SolidColorBrush Color="AliceBlue" Opacity="0.5"/>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Column="0" Grid.Row="0" Background="Blue" Content="{Binding Path=Oppnents[0]}" Foreground="White"/>
+            <Label Grid.Column="1" Grid.Row="0" Content="{Binding Path=SetsOpponentA}"/>
+            <Label Grid.Column="2" Grid.Row="0" Content="{Binding Path=ActualSet.ScoreOp1}"/>
+            <Label Grid.Column="3" Grid.Row="0" Content="{Binding Path=ActualSet.ActualGame.CurrentScoreOp1}"/>
+
+            <Label Grid.Column="0" Grid.Row="1" Background="Blue" Content="{Binding Path=Oppnents[1]}" Foreground="White"/>
+            <Label Grid.Column="1" Grid.Row="1" Content="{Binding Path=SetsOpponentB}"/>
+            <Label Grid.Column="2" Grid.Row="1" Content="{Binding Path=ActualSet.ScoreOp2}"/>
+            <Label Grid.Column="3" Grid.Row="1" Content="{Binding Path=ActualSet.ActualGame.CurrentScoreOp2}"/>
+        </Grid>
+
+        <Grid HorizontalAlignment="Left" Margin="592,0,0,0" Width="208">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="10*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Arbitré par : Jean Reno"/>
+            <ListView Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="ListView_SelectionChanged">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+        </Grid>
+    </Grid>
+</Window>
