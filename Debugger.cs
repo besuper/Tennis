@@ -27,7 +27,7 @@ namespace Tennis
 
             //Debugger.writer.WriteLine(message);
 
-            Debug.WriteLine(message);
+            //Debug.WriteLine(message);
         }
     }
 }

@@ -1,32 +1,36 @@
 
 using System.Collections.Generic;
 using System.Text;
-public class Opponent
+
+namespace Tennis.Objects
 {
-    private List<Match> matches = new List<Match>();
-    private List<Player> players = new List<Player>();
-    private List<Set> setWinList = new List<Set>();
-
-    private List<Player> Players { get { return players; } set { players = value; } }
-
-    public Opponent()
-    { }
-
-    public void AddPlayer(Player player)
+    public class Opponent
     {
-        players.Add(player);
-    }
+        private List<Match> matches = new List<Match>();
+        private List<Player> players = new List<Player>();
+        private List<Set> setWinList = new List<Set>();
 
-    public override string? ToString()
-    {
-        StringBuilder str = new StringBuilder();
-        str.Append("[");
-        foreach (Player player in players)
+        private List<Player> Players { get { return players; } set { players = value; } }
+
+        public Opponent()
+        { }
+
+        public void AddPlayer(Player player)
         {
-            str.Append(player.Lastname).Append(" ").Append(player.Firstname).Append(", ");
+            players.Add(player);
         }
-        str.Append("]");
 
-        return str.ToString();
+        public override string? ToString()
+        {
+            StringBuilder str = new StringBuilder();
+            str.Append("[");
+            foreach (Player player in players)
+            {
+                str.Append(player.Lastname).Append(" ").Append(player.Firstname).Append(", ");
+            }
+            str.Append("]");
+
+            return str.ToString();
+        }
     }
 }

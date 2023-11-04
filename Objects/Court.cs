@@ -1,26 +1,29 @@
-public class Court
+namespace Tennis.Objects
 {
-
-    private int nbSpectators;
-    private bool covered;
-
-    private Tournament tournament;
-    private Match? match;
-
-    public Court(int nbSpectators, bool covered)
+    public class Court
     {
-        this.nbSpectators = nbSpectators;
-        this.covered = covered;
-    }
 
-    public bool Available()
-    {
-        return match == null;
-    }
+        private int nbSpectators;
+        private bool covered;
 
-    public void Release()
-    {
-        match = null;
-    }
+        private Tournament tournament;
+        private Match? match;
 
+        public Court(int nbSpectators, bool covered)
+        {
+            this.nbSpectators = nbSpectators;
+            this.covered = covered;
+        }
+
+        public bool Available()
+        {
+            return match == null;
+        }
+
+        public void Release()
+        {
+            match = null;
+        }
+
+    }
 }

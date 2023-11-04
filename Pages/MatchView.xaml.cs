@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using Tennis.Objects;
 
-namespace WpfApp1.Pages
+namespace Tennis.Pages
 {
     /// <summary>
     /// Interaction logic for MatchView.xaml
