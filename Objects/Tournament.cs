@@ -11,18 +11,16 @@ namespace Tennis.Objects
 
         private string name;
 
-        private List<Court> courtList;
-        private List<Referee> refereeList;
-        private List<Schedule> scheduleList;
+        private List<Court> courtList = new List<Court>();
+        private List<Referee> refereeList = new List<Referee>();
+        private List<Schedule> scheduleList = new List<Schedule>();
 
         private DateTime currentDate = DateTime.Now;
+        private int currentMatchHours = 0;
 
         public Tournament(string name)
         {
             this.name = name;
-            this.courtList = new List<Court>();
-            this.refereeList = new List<Referee>();
-            this.scheduleList = new List<Schedule>();
 
             this.refereeList.Add(new Referee("Carlos", "Bernardes", "Bresil"));
             this.refereeList.Add(new Referee("Jaume", "Campistol", "Espagne"));
@@ -30,12 +28,12 @@ namespace Tennis.Objects
             this.refereeList.Add(new Referee("Ricardo", "Ortiz", "Argentine"));
             this.refereeList.Add(new Referee("John", "Blom", "Australie"));
 
+            SkipNewDay();
             Create();
         }
 
         public DateTime CurrentDate { get { return currentDate; } }
         public List<Schedule> ScheduleList { get { return scheduleList; } }
-
 
         public List<Player> GetPlayers()
         {
@@ -57,22 +55,24 @@ namespace Tennis.Objects
 
         public void Create()
         {
-
             Array types = Enum.GetValues(typeof(ScheduleType));
+
+            List<Player> players = GetPlayers();
+
+            if (players.Count != 255)
+            {
+                throw new Exception("Can't load players " + players.Count);
+            }
 
             foreach (ScheduleType type in types)
             {
-                scheduleList.Add(new Schedule(this, type, GetPlayers()));
+                scheduleList.Add(new Schedule(this, type, new List<Player>(players)));
             }
-
         }
 
         public void Play()
         {
-            //ScheduleType ScheduleType;
             List<Opponent> winner = new List<Opponent>();
-
-            Array types = Enum.GetValues(typeof(ScheduleType));
 
             foreach (Schedule type in scheduleList)
             {
@@ -89,20 +89,12 @@ namespace Tennis.Objects
 
         }
 
-        public Referee GetAvailableReferee(Match match)
+        public Referee? GetAvailableReferee(Match match)
         {
-            Referee referee = null;
+            Referee? referee = null;
 
             foreach (Referee item in refereeList)
             {
-                if (item.Match != null)
-                {
-                    if (item.Match.Date == match.Date)
-                    {
-                        continue;
-                    }
-                }
-
                 if (item.Available(match))
                 {
                     referee = item;
@@ -112,8 +104,6 @@ namespace Tennis.Objects
 
             return referee;
         }
-
-        private int currentMatchHours = 0;
 
         public void SkipNewDay()
         {

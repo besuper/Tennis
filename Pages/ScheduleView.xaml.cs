@@ -21,19 +21,15 @@ namespace Tennis.Pages
         public ObservableCollection<Match> ladiesDoubleMatches = new ObservableCollection<Match>();
         public ObservableCollection<Match> mixedDoubleMatches = new ObservableCollection<Match>();
 
-
         public ScheduleView()
         {
             InitializeComponent();
-            
+
             this.gentlemenSingleListView.ItemsSource = this.gentlemenSingleMatches;
-            this.ladieSingleListView.ItemsSource= this.ladieSingleMatches;
+            this.ladieSingleListView.ItemsSource = this.ladieSingleMatches;
             this.gentlemensDoubleListView.ItemsSource = this.gentlemensDoubleMatches;
             this.ladiesDoubleListView.ItemsSource = this.ladiesDoubleMatches;
             this.mixedDoubleListView.ItemsSource = this.mixedDoubleMatches;
-
-
-            //this.DataContext = Matches;
 
             Tournament tour = new Tournament("test");
 
@@ -41,7 +37,6 @@ namespace Tennis.Pages
             {
                 item.PropertyChanged += OnMatchesPropertyChanged;
             }
-
 
             RunBackground(tour);
         }
@@ -68,14 +63,13 @@ namespace Tennis.Pages
 
         private void OnMatchesPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            Schedule? obj = sender as Schedule;
+            Schedule? schedule = sender as Schedule;
 
-            
-            foreach (Match match in obj.Matches)
+            foreach (Match match in schedule.Matches)
             {
                 App.Current.Dispatcher.Invoke((Action)delegate
                 {
-                    switch (obj.Type)
+                    switch (schedule.Type)
                     {
                         case ScheduleType.GentlemenSingle:
                             this.gentlemenSingleMatches.Add(match);
@@ -98,30 +92,28 @@ namespace Tennis.Pages
                 });
             }
 
-            /*
             App.Current.Dispatcher.Invoke((Action)delegate
             {
                 this.gentlemenSingleListView.Items.Refresh();
             });
-            */
-
-
         }
 
         private void OpenMatch(object sender, MouseButtonEventArgs e)
         {
-
             var item = (sender as ListView).SelectedItem;
+
             if (item != null)
             {
                 Match match = (Match)item;
-                if (!match.IsPlayed) return;
+
+                if (!match.IsPlayed)
+                {
+                    return;
+                }
 
                 MatchView mv = new MatchView(ref match);
-
                 mv.Show();
             }
-
         }
     }
 }

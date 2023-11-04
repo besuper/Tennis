@@ -10,14 +10,12 @@ namespace Tennis.Objects
         /// <summary>
         /// Attributes
         /// </summary>
-        /// 
         protected int scoreOp1;
         protected int scoreOp2;
 
-        private Match match;
+        private readonly Match match;
         protected Opponent? winner;
-        private List<Game> games;
-        
+        private List<Game> games = new List<Game>();
 
         /// <summary>
         /// Constructor
@@ -26,7 +24,6 @@ namespace Tennis.Objects
         public Set(Match match)
         {
             this.match = match;
-            this.games = new List<Game>();
         }
 
         /// <summary>
@@ -39,8 +36,8 @@ namespace Tennis.Objects
         /// WPF Getters
         /// </summary>
         public Game ActualGame { get { return games[games.Count - 1]; } }
-        public int ScoreOp1 { get { return GameScorePlayerA(); } set { Console.WriteLine("COPUCOU"); } }
-        public int ScoreOp2 { get { return GameScorePlayerB(); } set { Console.WriteLine("COPUCOU"); } }
+        public int ScoreOp1 { get { return GameScorePlayerA(); } set { } }
+        public int ScoreOp2 { get { return GameScorePlayerB(); } set { } }
 
         /// <summary>
         /// Methods
@@ -118,8 +115,6 @@ namespace Tennis.Objects
                     if (match.IsWinningSet())
                     {
                         // super tie-break
-                        Debugger.log("Super tie-break non pris en charge");
-
                         SuperTieBreak stb = new SuperTieBreak(match);
                         stb.Play(10);
                         match.AddSet(stb);

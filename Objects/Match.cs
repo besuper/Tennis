@@ -19,10 +19,10 @@ namespace Tennis.Objects
         private int matchSets = 0;
 
         private Court? court;
-        private Schedule schedule;
-        private Referee referee;
-        private List<Opponent> opponents;
-        private List<Set> sets;
+        private readonly Schedule schedule;
+        private Referee? referee;
+        private readonly List<Opponent> opponents;
+        private List<Set> sets = new List<Set>();
         private Opponent? winner;
 
         private bool isFinished = false;
@@ -38,18 +38,16 @@ namespace Tennis.Objects
         {
             this.schedule = schedule;
             this.opponents = opponents;
-            this.sets = new List<Set>();
-
         }
 
         /// <summary>
         /// Getters and Setters
         /// </summary>
-        public List<Opponent> Oppnents { get { return opponents; } set { opponents = value; } }
+        public List<Opponent> Oppnents { get { return opponents; } }
         public Schedule Schedule { get { return schedule; } }
-        public Referee Referee { get { return referee; } set { referee = value; } }
+        public Referee? Referee { get { return referee; } set { referee = value; } }
         public DateTime Date { get { return date; } set { date = value; } }
-        public int CurrentSet { get { return currentSet; } }
+        //public int CurrentSet { get { return currentSet; } }
         public Opponent? Winner { get { return GetWinner(); } }
 
         public bool IsPlayed { get { return IsMatchPlayed(); } }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -12,40 +13,47 @@ namespace Tennis.Objects
     public class Schedule : INotifyPropertyChanged
     {
 
-        private ScheduleType type;
+        /// <summary>
+        /// Attributes
+        /// </summary>
+        private readonly ScheduleType type;
 
         private int actualRound = 0;
-        private Tournament tournament;
-        private List<Match> matches;
+        private readonly Tournament tournament;
+        private List<Match> matches = new List<Match>();
+        private List<Player> players;
 
-        private Opponent scheduleWinner;
+        private Opponent? scheduleWinner;
 
-        public List<Match> Matches { get { return matches; } }
-
-        public ScheduleType Type { get { return type; } }
-
-
-        List<Player> players;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        public virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            //this.CheckForPropertyErrors();
-
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public Schedule(Tournament tournament, ScheduleType type, List<Player> players)
         {
             this.tournament = tournament;
             this.type = type;
             this.players = players;
-
-            this.matches = new List<Match>();
-
         }
 
+        /// <summary>
+        /// Getters and Setters
+        /// </summary>
+        public List<Match> Matches { get { return matches; } }
+        public ScheduleType Type { get { return type; } }
+
+        /// <summary>
+        /// WPF
+        /// </summary>
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Methods
+        /// </summary>
         public int NbWinningSets()
         {
             int nb = 0;
@@ -74,13 +82,15 @@ namespace Tennis.Objects
                 actualRound++;
 
                 Console.WriteLine("/!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ Playing round " + actualRound + " /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\");
+                Debug.WriteLine("New round " + type + " " + actualRound);
+                Debug.WriteLine(winners.Count);
 
                 matches = CreateMatches(winners);
                 NotifyPropertyChanged("Matches");
 
                 winners = new List<Opponent>();
 
-                if (matches.Count() <= 2)
+                /*if (matches.Count() <= 2)
                 {
                     PlayMatches(matches, winners);
                 }
@@ -103,7 +113,8 @@ namespace Tennis.Objects
                     {
                         thread.Join();
                     }
-                }
+                }*/
+                PlayMatches(matches, winners);
             } while (winners.Count != 1);
 
             scheduleWinner = winners[0];
@@ -128,17 +139,17 @@ namespace Tennis.Objects
             int indexSelected;
 
             List<Opponent> tempGroupBattle;
-            Match tempMatch = null;
+            Match tempMatch;
 
             while (opponents.Count != 0)
             {
                 tempGroupBattle = new List<Opponent>();
+
                 for (int i = 0; i < 2; i++)
                 {
                     indexSelected = random.Next(0, opponents.Count);
                     tempGroupBattle.Add(opponents[indexSelected]);
                     opponents.Remove(opponents[indexSelected]);
-
                 }
 
                 tempMatch = new Match(this, tempGroupBattle);
@@ -233,6 +244,9 @@ namespace Tennis.Objects
                 return opponents;
             }
 
+            Debug.WriteLine(type);
+            Debug.WriteLine(players.Count);
+
             for (int i = 0; i < countGroups; i++)
             {
                 temp = new Opponent();
@@ -249,9 +263,10 @@ namespace Tennis.Objects
                 opponents.Add(temp);
             }
 
+            Debug.WriteLine(opponents.Count);
+
             return opponents;
         }
-
 
         public Opponent GetWinner()
         {
