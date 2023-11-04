@@ -15,24 +15,33 @@ namespace Tennis.Pages
     /// </summary>
     public partial class ScheduleView : Window
     {
-        public ObservableCollection<Match> gentlemenSingleMatches = new ObservableCollection<Match>();
-        public ObservableCollection<Match> ladieSingleMatches = new ObservableCollection<Match>();
-        public ObservableCollection<Match> gentlemensDoubleMatches = new ObservableCollection<Match>();
-        public ObservableCollection<Match> ladiesDoubleMatches = new ObservableCollection<Match>();
-        public ObservableCollection<Match> mixedDoubleMatches = new ObservableCollection<Match>();
+        public Dictionary<ScheduleType, ObservableCollection<Match>> schedulers = new Dictionary<ScheduleType, ObservableCollection<Match>>();
+        public List<ListView> listViews = new List<ListView>();
 
         public ScheduleView()
         {
             InitializeComponent();
 
-            this.gentlemenSingleListView.ItemsSource = this.gentlemenSingleMatches;
-            this.ladieSingleListView.ItemsSource = this.ladieSingleMatches;
-            this.gentlemensDoubleListView.ItemsSource = this.gentlemensDoubleMatches;
-            this.ladiesDoubleListView.ItemsSource = this.ladiesDoubleMatches;
-            this.mixedDoubleListView.ItemsSource = this.mixedDoubleMatches;
+            // Create schedulers from Enum
+            Array types = Enum.GetValues(typeof(ScheduleType));
 
+            foreach (ScheduleType type in types)
+            {
+                object temp = this.tabControl.FindName(type + "ListView");
+
+                if (temp != null && temp is ListView)
+                {
+                    schedulers[type] = new ObservableCollection<Match>();
+
+                    (temp as ListView).ItemsSource = schedulers[type];
+                    listViews.Add(temp as ListView);
+                }
+            }
+
+            // Create tournament
             Tournament tour = new Tournament("test");
 
+            // Register event listener
             foreach (var item in tour.ScheduleList)
             {
                 item.PropertyChanged += OnMatchesPropertyChanged;
@@ -61,40 +70,35 @@ namespace Tennis.Pages
             bw.RunWorkerAsync();
         }
 
+        // Listen updates from schedulers
         private void OnMatchesPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             Schedule? schedule = sender as Schedule;
 
-            foreach (Match match in schedule.Matches)
+            if (schedule == null)
             {
-                App.Current.Dispatcher.Invoke((Action)delegate
-                {
-                    switch (schedule.Type)
-                    {
-                        case ScheduleType.GentlemenSingle:
-                            this.gentlemenSingleMatches.Add(match);
-                            break;
-                        case ScheduleType.LadiesSingle:
-                            this.ladieSingleMatches.Add(match);
-                            break;
-                        case ScheduleType.GentlemenDouble:
-                            this.gentlemensDoubleMatches.Add(match);
-                            break;
-                        case ScheduleType.LadiesDouble:
-                            this.ladiesDoubleMatches.Add(match);
-                            break;
-                        case ScheduleType.MixedDouble:
-                            this.mixedDoubleMatches.Add(match);
-                            break;
-                        default:
-                            break;
-                    }
-                });
+                return;
             }
 
+            if (e.PropertyName == "NewMatches")
+            {
+                // Add new matches in the correct listview
+                foreach (Match match in schedule.Matches)
+                {
+                    App.Current.Dispatcher.Invoke((Action)delegate
+                    {
+                        schedulers[schedule.Type].Add(match);
+                    });
+                }
+            }
+
+            // Always refresh lists when update received from schedule
             App.Current.Dispatcher.Invoke((Action)delegate
             {
-                this.gentlemenSingleListView.Items.Refresh();
+                foreach (ListView listView in listViews)
+                {
+                    listView.Items.Refresh();
+                }
             });
         }
 

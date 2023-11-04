@@ -7,10 +7,10 @@
         mc:Ignorable="d"
         Title="ScheduleView" Height="450" Width="800">
     <Grid>
-        <TabControl>
+        <TabControl Name="tabControl">
             <TabItem Header="Simple Homme" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5">
-                    <ListView Name="gentlemenSingleListView" PreviewMouseLeftButtonDown="OpenMatch">
+                    <ListView Name="GentlemenSingleListView" PreviewMouseLeftButtonDown="OpenMatch">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Round"/>
@@ -22,12 +22,22 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
                             </GridView>
                         </ListView.View>
+
+                        <ListView.Resources>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsFinished}" Value="true">
+                                        <Setter Property="Background" Value="Green" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.Resources>
                     </ListView>
                 </Grid>
             </TabItem>
             <TabItem Header="Simple Femme" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5">
-                    <ListView Name="ladieSingleListView" PreviewMouseLeftButtonDown="OpenMatch">
+                    <ListView Name="LadiesSingleListView" PreviewMouseLeftButtonDown="OpenMatch">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Round"/>
@@ -44,7 +54,7 @@
             </TabItem>
             <TabItem Header="Double Homme" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5">
-                    <ListView Name="gentlemensDoubleListView" PreviewMouseLeftButtonDown="OpenMatch">
+                    <ListView Name="GentlemenDoubleListView" PreviewMouseLeftButtonDown="OpenMatch">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Round"/>
@@ -61,7 +71,7 @@
             </TabItem>
             <TabItem Header="Double Femme" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5">
-                    <ListView Name="ladiesDoubleListView" PreviewMouseLeftButtonDown="OpenMatch">
+                    <ListView Name="LadiesDoubleListView" PreviewMouseLeftButtonDown="OpenMatch">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Round"/>
@@ -78,7 +88,7 @@
             </TabItem>
             <TabItem Header="Double Mixte" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5">
-                    <ListView Name="mixedDoubleListView" PreviewMouseLeftButtonDown="OpenMatch">
+                    <ListView Name="MixedDoubleListView" PreviewMouseLeftButtonDown="OpenMatch">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Round"/>

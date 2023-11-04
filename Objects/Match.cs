@@ -49,10 +49,7 @@ namespace Tennis.Objects
         public DateTime Date { get { return date; } set { date = value; } }
         //public int CurrentSet { get { return currentSet; } }
         public Opponent? Winner { get { return GetWinner(); } }
-
         public bool IsPlayed { get { return IsMatchPlayed(); } }
-
-
         public int Round { get { return round; } set { this.round = value; } }
 
         /// <summary>
@@ -62,6 +59,7 @@ namespace Tennis.Objects
         public Set ActualSet { get { return sets[sets.Count - 1]; } set {  } }
         public int SetsOpponentA { get { return ScoreOpponentA(); }}
         public int SetsOpponentB { get { return ScoreOpponentB(); }}
+        public bool IsFinished { get { return isFinished; } }
 
         /// <summary>
         /// Methods

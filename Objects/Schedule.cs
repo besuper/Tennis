@@ -86,7 +86,7 @@ namespace Tennis.Objects
                 Debug.WriteLine(winners.Count);
 
                 matches = CreateMatches(winners);
-                NotifyPropertyChanged("Matches");
+                NotifyPropertyChanged("NewMatches");
 
                 winners = new List<Opponent>();
 
@@ -126,6 +126,7 @@ namespace Tennis.Objects
             {
                 match.Referee = tournament.GetAvailableReferee(match);
                 match.Play();
+                NotifyPropertyChanged("NewMatch");
                 Console.WriteLine("Le winner est " + match.GetWinner());
                 winners.Add(match.GetWinner());
             }
