@@ -86,50 +86,59 @@ namespace Tennis.Objects
                 Debug.WriteLine(winners.Count);
 
                 matches = CreateMatches(winners);
+
                 NotifyPropertyChanged("NewMatches");
 
                 winners = new List<Opponent>();
 
-                /*if (matches.Count() <= 2)
-                {
-                    PlayMatches(matches, winners);
-                }
-                else
-                {
-                    IEnumerable<Match[]> chunks = matches.Chunk(matches.Count() / 4);
-                    List<Thread> threads = new List<Thread>();
+                // Play everything matches of the some date at the same time
+                DateTime dateRef = matches[0].Date;
+                int matchIndex = 0;
 
-                    foreach (Match[] chunks2 in chunks)
+                while (matchIndex < matches.Count)
+                {
+                    List<Thread> threads = new List<Thread>();
+                    dateRef = matches[matchIndex].Date;
+
+                    // Get matches of date
+                    for (int i = matchIndex; i < matches.Count; i++)
                     {
-                        threads.Add(new Thread(() => PlayMatches(chunks2, winners)));
+                        Match match = matches[i];
+
+                        if (match.Date != dateRef)
+                        {
+                            continue;
+                        }
+
+                        threads.Add(new Thread(() => PlayMatch(match, winners)));
                     }
 
+                    // Play matches
                     foreach (Thread thread in threads)
                     {
                         thread.Start();
                     }
 
+                    // Wait matches finish
                     foreach (Thread thread in threads)
                     {
                         thread.Join();
                     }
-                }*/
-                PlayMatches(matches, winners);
+
+                    matchIndex += threads.Count;
+                }
             } while (winners.Count != 1);
 
             scheduleWinner = winners[0];
         }
 
-        public void PlayMatches(dynamic matches, List<Opponent> winners)
+        public void PlayMatch(Match match, List<Opponent> winners)
         {
-            foreach (Match match in matches)
-            {
-                match.Referee = tournament.GetAvailableReferee(match);
-                match.Play();
-                NotifyPropertyChanged("NewMatch");
-                Console.WriteLine("Le winner est " + match.GetWinner());
-                winners.Add(match.GetWinner());
-            }
+            match.Referee = tournament.GetAvailableReferee(match);
+            match.Play();
+            NotifyPropertyChanged("NewMatch");
+            Console.WriteLine("Le winner est " + match.GetWinner());
+            winners.Add(match.GetWinner());
         }
 
         public List<Match> CreateMatches(List<Opponent> opponents)

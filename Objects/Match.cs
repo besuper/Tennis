@@ -82,9 +82,6 @@ namespace Tennis.Objects
 
             matchSets = schedule.NbWinningSets();
 
-            Console.WriteLine("*************** Match arbitré par " + referee + " ***************");
-            Console.WriteLine("prévu le  " + date);
-
             for (currentSet = 1; currentSet <= matchSets; currentSet++)
             {
                 temp = new Set(this);

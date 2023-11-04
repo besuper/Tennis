@@ -41,7 +41,7 @@ namespace Tennis.Objects
                 set.Match.NotifyPropertyChanged("SetsOpponentA");
                 set.Match.NotifyPropertyChanged("SetsOpponentB");
                 //await Task.Delay(1000);
-                Thread.Sleep(1000);
+                Thread.Sleep(5);
             }
 
             // Afficher le gagnant
