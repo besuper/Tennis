@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,8 +16,10 @@ namespace Tennis.Pages
     {
         public Dictionary<ScheduleType, ObservableCollection<Match>> schedulers = new Dictionary<ScheduleType, ObservableCollection<Match>>();
         public List<ListView> listViews = new List<ListView>();
+        public List<int> openedMatches = new List<int>();
+        public BackgroundWorker bgWorker;
 
-        public ScheduleView()
+        public ScheduleView(string tournamentName)
         {
             InitializeComponent();
 
@@ -39,7 +40,7 @@ namespace Tennis.Pages
             }
 
             // Create tournament
-            Tournament tour = new Tournament("test");
+            Tournament tour = new Tournament(tournamentName);
 
             // Register event listener
             foreach (var item in tour.ScheduleList)
@@ -47,19 +48,33 @@ namespace Tennis.Pages
                 item.PropertyChanged += OnMatchesPropertyChanged;
             }
 
+            this.Title = tournamentName;
+
             RunBackground(tour);
         }
 
         private void RunBackground(Tournament tour)
         {
-            BackgroundWorker bw = new BackgroundWorker();
+            bgWorker = new BackgroundWorker();
+            bgWorker.WorkerSupportsCancellation = true;
 
-            bw.DoWork += (sender, args) =>
+            bgWorker.DoWork += (sender, args) =>
             {
                 tour.Play();
+
+                // Since Play is not blocking we need to block the thread with a while
+                while(true)
+                {
+                    if (bgWorker.CancellationPending)
+                    {
+                        // If the worker is cancelled => stop the tournament
+                        tour.StopTournament();
+                        break;
+                    }
+                }
             };
 
-            bw.RunWorkerCompleted += (sender, args) =>
+            bgWorker.RunWorkerCompleted += (sender, args) =>
             {
                 if (args.Error != null)
                 {
@@ -67,7 +82,7 @@ namespace Tennis.Pages
                 }
             };
 
-            bw.RunWorkerAsync();
+            bgWorker.RunWorkerAsync();
         }
 
         // Listen updates from schedulers
@@ -92,6 +107,11 @@ namespace Tennis.Pages
                 }
             }
 
+            if(App.Current == null)
+            {
+                return;
+            } 
+
             // Always refresh lists when update received from schedule
             App.Current.Dispatcher.Invoke((Action)delegate
             {
@@ -110,14 +130,37 @@ namespace Tennis.Pages
             {
                 Match match = (Match)item;
 
-                if (!match.IsPlayed)
+                // Check if match is playing and if the match view is not already opened
+                if (!match.IsPlayed || openedMatches.Contains(match.GetHashCode()))
                 {
                     return;
                 }
 
+                openedMatches.Add(match.GetHashCode());
+
                 MatchView mv = new MatchView(ref match);
                 mv.Show();
+
+                // Listen for closed event in MatchView window
+                mv.Closed += (sender, e) =>
+                {
+                    openedMatches.Remove(match.GetHashCode());
+                };
             }
+        }
+
+        private void OnClosed(object sender, EventArgs e)
+        {
+            // Send stop notification to the background worker
+            bgWorker.CancelAsync();
+            bgWorker.Dispose();
+        }
+
+        private void OnClosing(object sender, CancelEventArgs e)
+        {
+            // Open main view when schedule view is closed
+            MainWindow mainApp = new MainWindow();
+            mainApp.Show();
         }
     }
 }

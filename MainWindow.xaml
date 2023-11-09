@@ -6,8 +6,24 @@
         xmlns:local="clr-namespace:Tennis"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Button Content="Nouveau" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="CreateTournament"/>
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
 
+        <Button Content="Nouveau tournoi" Grid.Row="0" Click="OpenCreateTournament"/>
+
+        <Grid Grid.Row="1" Margin="0,30,0,0" >
+            <Label Content="Tournois précédants" FontWeight="Bold" />
+            <ListView Margin="0,30,0,0">
+                <ListViewItem>A ListView</ListViewItem>
+                <ListViewItem IsSelected="True">with several</ListViewItem>
+                <ListViewItem>items</ListViewItem>
+                <ListViewItem>items</ListViewItem>
+                <ListViewItem>items</ListViewItem>
+                <ListViewItem>items</ListViewItem>
+            </ListView>
+        </Grid>
     </Grid>
 </Window>

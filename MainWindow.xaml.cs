@@ -26,10 +26,11 @@ namespace Tennis
             InitializeComponent();
         }
 
-        private void CreateTournament(object sender, RoutedEventArgs e)
+        private void OpenCreateTournament(object sender, RoutedEventArgs e)
         {
-            //MatchView mv = new MatchView();
-            //mv.Show();
+            CreateTournamentView tournamentView = new CreateTournamentView();
+            tournamentView.Owner = this;
+            tournamentView.ShowDialog();
         }
     }
 }

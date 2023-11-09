@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tennis.Pages"
         mc:Ignorable="d"
-        Title="ScheduleView" Height="450" Width="800">
+        Title="ScheduleView" Height="450" Width="800" Closed="OnClosed" Closing="OnClosing">
     <Grid>
         <TabControl Name="tabControl">
             <TabItem Header="Simple Homme" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
@@ -27,7 +27,7 @@
                             <Style TargetType="{x:Type ListViewItem}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=IsFinished}" Value="true">
-                                        <Setter Property="Background" Value="Green" />
+                                        <Setter Property="Background" Value="LightGreen" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -49,6 +49,16 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
                             </GridView>
                         </ListView.View>
+
+                        <ListView.Resources>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsFinished}" Value="true">
+                                        <Setter Property="Background" Value="LightGreen" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.Resources>
                     </ListView>
                 </Grid>
             </TabItem>
@@ -66,6 +76,16 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
                             </GridView>
                         </ListView.View>
+
+                        <ListView.Resources>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsFinished}" Value="true">
+                                        <Setter Property="Background" Value="LightGreen" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.Resources>
                     </ListView>
                 </Grid>
             </TabItem>
@@ -83,6 +103,16 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
                             </GridView>
                         </ListView.View>
+
+                        <ListView.Resources>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsFinished}" Value="true">
+                                        <Setter Property="Background" Value="LightGreen" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.Resources>
                     </ListView>
                 </Grid>
             </TabItem>
@@ -100,6 +130,16 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
                             </GridView>
                         </ListView.View>
+
+                        <ListView.Resources>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsFinished}" Value="true">
+                                        <Setter Property="Background" Value="LightGreen" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.Resources>
                     </ListView>
                 </Grid>
             </TabItem>

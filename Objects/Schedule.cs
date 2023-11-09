@@ -22,8 +22,11 @@ namespace Tennis.Objects
         private readonly Tournament tournament;
         private List<Match> matches = new List<Match>();
         private List<Player> players;
+        List<Opponent> winners = new List<Opponent>();
 
         private Opponent? scheduleWinner;
+
+        private bool CancellationPending = false;
 
         /// <summary>
         /// Constructor
@@ -33,6 +36,8 @@ namespace Tennis.Objects
             this.tournament = tournament;
             this.type = type;
             this.players = players;
+
+            this.winners = MakeGroups();
         }
 
         /// <summary>
@@ -75,69 +80,79 @@ namespace Tennis.Objects
 
         public void PlayNextRound()
         {
-            List<Opponent> winners = MakeGroups();
+            actualRound++;
 
-            do
+            Console.WriteLine("/!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ Playing round " + actualRound + " /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\");
+            Debug.WriteLine("New round " + type + " " + actualRound);
+            Debug.WriteLine(winners.Count);
+
+            matches = CreateMatches(winners);
+
+            // Notify the window to update its listview
+            NotifyPropertyChanged("NewMatches");
+
+            winners = new List<Opponent>();
+
+            // Play everything matches of the some date at the same time
+            DateTime dateRef = matches[0].Date;
+            int matchIndex = 0;
+
+            while (matchIndex < matches.Count)
             {
-                actualRound++;
+                List<Thread> threads = new List<Thread>();
+                dateRef = matches[matchIndex].Date;
 
-                Console.WriteLine("/!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ Playing round " + actualRound + " /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\");
-                Debug.WriteLine("New round " + type + " " + actualRound);
-                Debug.WriteLine(winners.Count);
-
-                matches = CreateMatches(winners);
-
-                NotifyPropertyChanged("NewMatches");
-
-                winners = new List<Opponent>();
-
-                // Play everything matches of the some date at the same time
-                DateTime dateRef = matches[0].Date;
-                int matchIndex = 0;
-
-                while (matchIndex < matches.Count)
+                // Get matches of date
+                for (int i = matchIndex; i < matches.Count; i++)
                 {
-                    List<Thread> threads = new List<Thread>();
-                    dateRef = matches[matchIndex].Date;
+                    Match match = matches[i];
 
-                    // Get matches of date
-                    for (int i = matchIndex; i < matches.Count; i++)
+                    if (match.Date != dateRef)
                     {
-                        Match match = matches[i];
-
-                        if (match.Date != dateRef)
-                        {
-                            continue;
-                        }
-
-                        threads.Add(new Thread(() => PlayMatch(match, winners)));
+                        continue;
                     }
 
-                    // Play matches
-                    foreach (Thread thread in threads)
-                    {
-                        thread.Start();
-                    }
-
-                    // Wait matches finish
-                    foreach (Thread thread in threads)
-                    {
-                        thread.Join();
-                    }
-
-                    matchIndex += threads.Count;
+                    threads.Add(new Thread(() => PlayMatch(match)));
                 }
-            } while (winners.Count != 1);
 
-            scheduleWinner = winners[0];
+                // Play matches
+                foreach (Thread thread in threads)
+                {
+                    thread.Start();
+                }
+
+                // Wait matches finish
+                foreach (Thread thread in threads)
+                {
+                    thread.Join();
+                }
+
+                matchIndex += threads.Count;
+            }
+
+            if (winners.Count == 1)
+            {
+                scheduleWinner = winners[0];
+            }
         }
 
-        public void PlayMatch(Match match, List<Opponent> winners)
+        public void PlayMatch(Match match)
         {
-            match.Referee = tournament.GetAvailableReferee(match);
+            // Check if tournament is cancelled
+            if (CancellationPending)
+            {
+                return;
+            }
+
+            while (match.Referee == null)
+            {
+                match.Referee = tournament.GetAvailableReferee(match);
+            }
+
             match.Play();
+
             NotifyPropertyChanged("NewMatch");
-            Console.WriteLine("Le winner est " + match.GetWinner());
+
             winners.Add(match.GetWinner());
         }
 
@@ -164,8 +179,6 @@ namespace Tennis.Objects
 
                 tempMatch = new Match(this, tempGroupBattle);
                 tempMatch.Round = actualRound;
-                // TODO: If referee is null ?
-                //tempMatch.Referee = tournament.GetAvailableReferee(tempMatch);
                 tempMatch.Date = tournament.CurrentDate;
 
                 tournament.AddNewMatch();
@@ -278,9 +291,19 @@ namespace Tennis.Objects
             return opponents;
         }
 
-        public Opponent GetWinner()
+        public Opponent? GetWinner()
         {
             return scheduleWinner;
+        }
+
+        public bool HasNextRound()
+        {
+            return winners.Count > 1;
+        }
+
+        public void StopSchedule()
+        {
+            CancellationPending = true;
         }
 
     }

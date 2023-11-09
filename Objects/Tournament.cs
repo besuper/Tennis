@@ -2,7 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.DirectoryServices;
+using System.Threading;
+using System.Windows.Documents;
 
 namespace Tennis.Objects
 {
@@ -17,6 +20,8 @@ namespace Tennis.Objects
 
         private DateTime currentDate = DateTime.Now;
         private int currentMatchHours = 0;
+
+        private bool CancellationPending = false;
 
         public Tournament(string name)
         {
@@ -72,33 +77,50 @@ namespace Tennis.Objects
 
         public void Play()
         {
-            List<Opponent> winner = new List<Opponent>();
-
+            // Start every schedules in a separate thread
             foreach (Schedule type in scheduleList)
             {
-                type.PlayNextRound();
-                winner.Add(type.GetWinner());
+                Thread t = new Thread(new ThreadStart(() =>
+                {
+                    while (type.HasNextRound() && !CancellationPending)
+                    {
+                        type.PlayNextRound();
+                    }
+                }));
+
+                t.Start();
             }
-
-            Console.WriteLine("Voici les winners");
-
-            foreach (var item in winner)
-            {
-                Console.WriteLine(item);
-            }
-
         }
 
         public Referee? GetAvailableReferee(Match match)
         {
             Referee? referee = null;
 
-            foreach (Referee item in refereeList)
+            // Lock the referee List to avoid simultaneously modifications by threads
+            lock (refereeList)
             {
-                if (item.Available(match))
+                // Randomly sort the refreeList
+                refereeList.Sort((a, b) =>
                 {
-                    referee = item;
-                    break;
+                    return new Random().Next(-1, 2);
+                });
+
+                foreach (Referee item in refereeList)
+                {
+                    // Same here lock the referee to be sure there is not other modification
+                    lock(item)
+                    {
+                        if (item.Match != null && item.Match.Date == match.Date)
+                        {
+                            continue;
+                        }
+
+                        if (item.Available(match))
+                        {
+                            referee = item;
+                            break;
+                        }
+                    }
                 }
             }
 
@@ -133,5 +155,15 @@ namespace Tennis.Objects
             }
         }
 
+        public void StopTournament()
+        {
+            CancellationPending = true;
+
+            // Stop schedules
+            foreach (Schedule schedule in scheduleList)
+            {
+                schedule.StopSchedule();
+            }
+        }
     }
 }
