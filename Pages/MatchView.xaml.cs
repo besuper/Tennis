@@ -1,7 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using Tennis.Objects;
 
 namespace Tennis.Pages
@@ -18,12 +15,6 @@ namespace Tennis.Pages
             this.match = match;
             InitializeComponent();
             this.DataContext = match;
-
-        }
-
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }

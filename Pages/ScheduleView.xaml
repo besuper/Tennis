@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tennis.Pages"
         mc:Ignorable="d"
-        Title="ScheduleView" Height="450" Width="800" Closed="OnClosed" Closing="OnClosing">
+        Title="ScheduleView" Height="650" Width="1100" Closed="OnClosed" Closing="OnClosing">
     <Grid>
         <TabControl Name="tabControl">
-            <TabItem Header="Simple Homme" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
+            <TabItem Header="Simple Homme">
                 <Grid Background="#FFE5E5E5">
                     <ListView Name="GentlemenSingleListView" PreviewMouseLeftButtonDown="OpenMatch">
                         <ListView.View>
@@ -19,7 +19,7 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Time"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Date}" Header="Date"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner" Width="120"/>
                             </GridView>
                         </ListView.View>
 
@@ -35,7 +35,7 @@
                     </ListView>
                 </Grid>
             </TabItem>
-            <TabItem Header="Simple Femme" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
+            <TabItem Header="Simple Femme">
                 <Grid Background="#FFE5E5E5">
                     <ListView Name="LadiesSingleListView" PreviewMouseLeftButtonDown="OpenMatch">
                         <ListView.View>
@@ -62,7 +62,7 @@
                     </ListView>
                 </Grid>
             </TabItem>
-            <TabItem Header="Double Homme" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
+            <TabItem Header="Double Homme">
                 <Grid Background="#FFE5E5E5">
                     <ListView Name="GentlemenDoubleListView" PreviewMouseLeftButtonDown="OpenMatch">
                         <ListView.View>
@@ -89,7 +89,7 @@
                     </ListView>
                 </Grid>
             </TabItem>
-            <TabItem Header="Double Femme" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
+            <TabItem Header="Double Femme">
                 <Grid Background="#FFE5E5E5">
                     <ListView Name="LadiesDoubleListView" PreviewMouseLeftButtonDown="OpenMatch">
                         <ListView.View>
@@ -116,7 +116,7 @@
                     </ListView>
                 </Grid>
             </TabItem>
-            <TabItem Header="Double Mixte" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
+            <TabItem Header="Double Mixte">
                 <Grid Background="#FFE5E5E5">
                     <ListView Name="MixedDoubleListView" PreviewMouseLeftButtonDown="OpenMatch">
                         <ListView.View>

@@ -63,7 +63,7 @@ namespace Tennis.Pages
                 tour.Play();
 
                 // Since Play is not blocking we need to block the thread with a while
-                while(true)
+                while (true)
                 {
                     if (bgWorker.CancellationPending)
                     {
@@ -107,10 +107,10 @@ namespace Tennis.Pages
                 }
             }
 
-            if(App.Current == null)
+            if (App.Current == null)
             {
                 return;
-            } 
+            }
 
             // Always refresh list when update received from schedule
             App.Current.Dispatcher.Invoke((Action)delegate

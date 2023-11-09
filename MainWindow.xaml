@@ -5,17 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tennis"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" ResizeMode="NoResize">
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
 
-        <Button Content="Nouveau tournoi" Grid.Row="0" Click="OpenCreateTournament"/>
+        <Button Content="Nouveau tournoi" Grid.Row="0" Click="OpenCreateTournament" FontSize="14"/>
 
         <Grid Grid.Row="1" Margin="0,30,0,0" >
-            <Label Content="Tournois précédants" FontWeight="Bold" />
+            <Label Content="Tournois précédants" FontSize="18" />
             <ListView Margin="0,30,0,0">
                 <ListViewItem>A ListView</ListViewItem>
                 <ListViewItem IsSelected="True">with several</ListViewItem>

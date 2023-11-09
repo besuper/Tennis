@@ -42,7 +42,7 @@ namespace Tennis.Objects
 
         public List<Player> GetPlayers()
         {
-            //Put this function in DAO
+            // FIXME: Put this function in DAO
             List<Player> list = new List<Player>();
 
             DatabaseManager dm = new DatabaseManager();

@@ -41,7 +41,7 @@
                 <RowDefinition Height="10*"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Content="{Binding Path=Referee}" ContentStringFormat="Arbitré par : {0}"/>
-            <ListView Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="ListView_SelectionChanged">
+            <ListView Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn/>

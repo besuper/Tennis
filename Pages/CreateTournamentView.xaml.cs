@@ -14,7 +14,15 @@ namespace Tennis.Pages
 
         private void CreateTournament(object sender, RoutedEventArgs e)
         {
-            ScheduleView scheduleView = new ScheduleView(this.textbox.Text);
+            string tournamentName = this.textbox.Text.Trim();
+
+            if (tournamentName.Length == 0)
+            {
+                MessageBox.Show("Nom du tournoi invalide", "Erreur de création", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            ScheduleView scheduleView = new ScheduleView(tournamentName);
             scheduleView.Show();
 
             this.Close();

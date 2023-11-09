@@ -5,14 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tennis.Pages"
         mc:Ignorable="d"
-        Title="CreateTournament" Height="450" Width="400">
+        Title="Créer un tournoi" Height="450" Width="400" ResizeMode="NoResize">
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
 
-        <TextBox Grid.Row="0" Grid.Column="0" Name="textbox" Width="150" />
-        <Button Content="Créer le tournoi" Grid.Row="1" Margin="0,10,0,0"  Click="CreateTournament"/>
+        <Label Content="Nom du tournoi" FontWeight="Bold" Padding="0,5,5,5" />
+        <TextBox Grid.Row="1" Name="textbox" Width="150" FontSize="14" />
+        <Button Content="Créer le tournoi" Grid.Row="2" Margin="0,10,0,0"  Click="CreateTournament" FontSize="14"/>
     </Grid>
 </Window>
