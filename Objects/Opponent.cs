@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Tennis.Objects
@@ -22,15 +23,7 @@ namespace Tennis.Objects
 
         public override string? ToString()
         {
-            StringBuilder str = new StringBuilder();
-            str.Append("[");
-            foreach (Player player in players)
-            {
-                str.Append(player.Lastname).Append(" ").Append(player.Firstname).Append(", ");
-            }
-            str.Append("]");
-
-            return str.ToString();
+            return string.Join(", ", players);
         }
     }
 }
