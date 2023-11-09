@@ -15,7 +15,7 @@ namespace Tennis.Pages
     public partial class ScheduleView : Window
     {
         public Dictionary<ScheduleType, ObservableCollection<Match>> schedulers = new Dictionary<ScheduleType, ObservableCollection<Match>>();
-        public List<ListView> listViews = new List<ListView>();
+        public Dictionary<ScheduleType, ListView> listViews = new Dictionary<ScheduleType, ListView>();
         public List<int> openedMatches = new List<int>();
         public BackgroundWorker bgWorker;
 
@@ -35,7 +35,7 @@ namespace Tennis.Pages
                     schedulers[type] = new ObservableCollection<Match>();
 
                     (temp as ListView).ItemsSource = schedulers[type];
-                    listViews.Add(temp as ListView);
+                    listViews[type] = temp as ListView;
                 }
             }
 
@@ -112,13 +112,10 @@ namespace Tennis.Pages
                 return;
             } 
 
-            // Always refresh lists when update received from schedule
+            // Always refresh list when update received from schedule
             App.Current.Dispatcher.Invoke((Action)delegate
             {
-                foreach (ListView listView in listViews)
-                {
-                    listView.Items.Refresh();
-                }
+                listViews[schedule.Type].Items.Refresh();
             });
         }
 

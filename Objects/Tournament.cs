@@ -143,7 +143,7 @@ namespace Tennis.Objects
                 return;
             }
 
-            if (currentMatchHours >= 1)
+            if (currentMatchHours >= 2)
             {
                 currentDate = currentDate.AddHours(2);
 

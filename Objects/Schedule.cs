@@ -3,10 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
-
+using System.Threading.Tasks;
 
 namespace Tennis.Objects
 {
@@ -22,7 +21,7 @@ namespace Tennis.Objects
         private readonly Tournament tournament;
         private List<Match> matches = new List<Match>();
         private List<Player> players;
-        List<Opponent> winners = new List<Opponent>();
+        private List<Opponent> winners = new List<Opponent>();
 
         private Opponent? scheduleWinner;
 
@@ -82,7 +81,6 @@ namespace Tennis.Objects
         {
             actualRound++;
 
-            Console.WriteLine("/!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ Playing round " + actualRound + " /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\ /!\\");
             Debug.WriteLine("New round " + type + " " + actualRound);
             Debug.WriteLine(winners.Count);
 
@@ -99,7 +97,7 @@ namespace Tennis.Objects
 
             while (matchIndex < matches.Count)
             {
-                List<Thread> threads = new List<Thread>();
+                List<Task> tasks = new List<Task>();
                 dateRef = matches[matchIndex].Date;
 
                 // Get matches of date
@@ -112,23 +110,26 @@ namespace Tennis.Objects
                         continue;
                     }
 
-                    threads.Add(new Thread(() => PlayMatch(match)));
+                    Task temp = new Task(() => PlayMatch(match));
+                    temp.Start();
+                    tasks.Add(temp);
                 }
 
-                // Play matches
-                foreach (Thread thread in threads)
-                {
-                    thread.Start();
-                }
+                Task.WaitAll(tasks.ToArray());
 
-                // Wait matches finish
-                foreach (Thread thread in threads)
-                {
-                    thread.Join();
-                }
-
-                matchIndex += threads.Count;
+                matchIndex += tasks.Count;
             }
+
+            // TODO: Remove this debug
+            /*Debug.WriteLine($"Matches finished {matches.Count}");
+
+            foreach (Match match in matches)
+            {
+                if(!match.IsFinished || !match.IsPlayed)
+                {
+                    throw new Exception("Match not finished or not started!!!");
+                }
+            }*/
 
             if (winners.Count == 1)
             {
@@ -147,6 +148,7 @@ namespace Tennis.Objects
             while (match.Referee == null)
             {
                 match.Referee = tournament.GetAvailableReferee(match);
+                Thread.Sleep(20);
             }
 
             match.Play();
