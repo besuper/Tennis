@@ -46,6 +46,7 @@ namespace Tennis.Objects
         public List<Opponent> Oppnents { get { return opponents; } }
         public Schedule Schedule { get { return schedule; } }
         public Referee? Referee { get { return referee; } set { referee = value; } }
+        public Court? Court { get { return court; } set { court = value; } }
         public DateTime Date { get { return date; } set { date = value; } }
         //public int CurrentSet { get { return currentSet; } }
         public Opponent? Winner { get { return GetWinner(); } }
@@ -71,8 +72,6 @@ namespace Tennis.Objects
 
         public virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            //this.CheckForPropertyErrors();
-
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
@@ -133,6 +132,11 @@ namespace Tennis.Objects
             if (referee != null)
             {
                 referee.Release();
+            }
+
+            if(court != null)
+            {
+                court.Release();
             }
 
             int scorePlayerA = ScoreOpponentA();

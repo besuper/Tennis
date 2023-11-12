@@ -33,6 +33,12 @@ namespace Tennis.Objects
             this.refereeList.Add(new Referee("Ricardo", "Ortiz", "Argentine"));
             this.refereeList.Add(new Referee("John", "Blom", "Australie"));
 
+            this.courtList.Add(new Court("Court Philippe Chatrier", 5000, false));
+            this.courtList.Add(new Court("Arthur Ashe Stadium", 10000, true));
+            this.courtList.Add(new Court("Rod Laver Arena", 7000, false));
+            this.courtList.Add(new Court("Margaret Court Arena", 3000, false));
+            this.courtList.Add(new Court("Court central", 3000, false));
+
             SkipNewDay();
             Create();
         }
@@ -108,7 +114,7 @@ namespace Tennis.Objects
                 foreach (Referee item in refereeList)
                 {
                     // Same here lock the referee to be sure there is not other modification
-                    lock(item)
+                    lock (item)
                     {
                         if (item.Match != null && item.Match.Date == match.Date)
                         {
@@ -125,6 +131,41 @@ namespace Tennis.Objects
             }
 
             return referee;
+        }
+
+        public Court? GetAvailableCourt(Match match)
+        {
+            Court? court = null;
+
+            // Lock the court List to avoid simultaneously modifications by threads
+            lock (courtList)
+            {
+                // Randomly sort the refreeList
+                courtList.Sort((a, b) =>
+                {
+                    return new Random().Next(-1, 2);
+                });
+
+                foreach (Court item in courtList)
+                {
+                    // Same here lock the court to be sure there is not other modification
+                    lock (item)
+                    {
+                        if (item.Match != null && item.Match.Date == match.Date)
+                        {
+                            continue;
+                        }
+
+                        if (item.Available(match))
+                        {
+                            court = item;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return court;
         }
 
         public void SkipNewDay()

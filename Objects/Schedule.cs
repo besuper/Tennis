@@ -151,6 +151,12 @@ namespace Tennis.Objects
                 Thread.Sleep(20);
             }
 
+            while (match.Court == null)
+            {
+                match.Court = tournament.GetAvailableCourt(match);
+                Thread.Sleep(20);
+            }
+
             match.Play();
 
             NotifyPropertyChanged("NewMatch");
