@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Tennis.DAO;
+using Tennis.Factory;
 using Tennis.Objects;
 
 namespace Tennis.Pages
@@ -41,6 +43,12 @@ namespace Tennis.Pages
 
             // Create tournament
             Tournament tour = new Tournament(tournamentName);
+
+            AbstractDAOFactory factory = AbstractDAOFactory.GetFactory(DAOFactoryType.MS_SQL_FACTORY);
+            DAO<Tournament> tournamentDAO = factory.GetTournamentDAO();
+
+            tournamentDAO.Create(tour);
+            tour.Create();
 
             // Register event listener
             foreach (var item in tour.ScheduleList)

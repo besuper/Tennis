@@ -6,6 +6,8 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Tennis.DAO;
+using Tennis.Factory;
 
 namespace Tennis.Objects
 {
@@ -17,6 +19,7 @@ namespace Tennis.Objects
         /// </summary>
         private readonly ScheduleType type;
 
+        private int id;
         private int actualRound = 0;
         private readonly Tournament tournament;
         private List<Match> matches = new List<Match>();
@@ -44,6 +47,8 @@ namespace Tennis.Objects
         /// </summary>
         public List<Match> Matches { get { return matches; } }
         public ScheduleType Type { get { return type; } }
+        public int Id { get { return id; } set { this.id = value; } }
+        public Tournament Tournament { get { return tournament; } }
 
         /// <summary>
         /// WPF
@@ -156,6 +161,11 @@ namespace Tennis.Objects
                 match.Court = tournament.GetAvailableCourt(match);
                 Thread.Sleep(20);
             }
+
+            AbstractDAOFactory factory = AbstractDAOFactory.GetFactory(DAOFactoryType.MS_SQL_FACTORY);
+            DAO<Match> matchDAO = factory.GetMatchDAO();
+
+            matchDAO.Create(match);
 
             match.Play();
 

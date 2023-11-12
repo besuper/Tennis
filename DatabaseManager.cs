@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Tennis
 {
-    internal class DatabaseManager
+    public class DatabaseManager
     {
-        private static SqlConnection _connection = new SqlConnection(@"Server=mauvechemineeposeur.ddns.net;Database=tennis;User ID=sa;Password=<Minecraft123>;Encrypt=no");
+        private static SqlConnection _connection;
 
         public static SqlConnection GetConnection()
         {
             if (_connection == null)
             {
-                _connection = new SqlConnection();
+                string connectionString = ConfigurationManager.ConnectionStrings["ChemineeDB"].ConnectionString;
+                _connection = new SqlConnection(connectionString);
             }
 
             if (_connection.State == ConnectionState.Open)

@@ -6,12 +6,14 @@ using System.Diagnostics;
 using System.DirectoryServices;
 using System.Threading;
 using System.Windows.Documents;
+using Tennis.DAO;
+using Tennis.Factory;
 
 namespace Tennis.Objects
 {
     public class Tournament
     {
-
+        private int id;
         private string name;
 
         private List<Court> courtList = new List<Court>();
@@ -27,57 +29,45 @@ namespace Tennis.Objects
         {
             this.name = name;
 
-            this.refereeList.Add(new Referee("Carlos", "Bernardes", "Bresil"));
-            this.refereeList.Add(new Referee("Jaume", "Campistol", "Espagne"));
-            this.refereeList.Add(new Referee("Pierre", "Bacchi", "France"));
-            this.refereeList.Add(new Referee("Ricardo", "Ortiz", "Argentine"));
-            this.refereeList.Add(new Referee("John", "Blom", "Australie"));
+            AbstractDAOFactory factory = AbstractDAOFactory.GetFactory(DAOFactoryType.MS_SQL_FACTORY);
 
-            this.courtList.Add(new Court("Court Philippe Chatrier", 5000, false));
-            this.courtList.Add(new Court("Arthur Ashe Stadium", 10000, true));
-            this.courtList.Add(new Court("Rod Laver Arena", 7000, false));
-            this.courtList.Add(new Court("Margaret Court Arena", 3000, false));
-            this.courtList.Add(new Court("Court central", 3000, false));
+            RefereeDAO refereeDAO = (RefereeDAO)factory.GetRefereeDAO();
+            CourtDAO courtDAO = (CourtDAO)factory.GetCourtDAO();
+
+            this.refereeList = refereeDAO.FindAll();
+            this.courtList = courtDAO.FindAll();
 
             SkipNewDay();
-            Create();
+            //Create();
         }
 
         public DateTime CurrentDate { get { return currentDate; } }
         public List<Schedule> ScheduleList { get { return scheduleList; } }
-
-        public List<Player> GetPlayers()
-        {
-            // FIXME: Put this function in DAO
-            List<Player> list = new List<Player>();
-
-            DatabaseManager dm = new DatabaseManager();
-
-            SqlDataReader request = dm.Get("SELECT * FROM Joueur");
-            while (request.Read())
-            {
-                list.Add(new Player(request.GetString(1), request.GetString(2), "", 0, request.GetString(3)));
-            }
-
-            request.Close();
-
-            return list;
-        }
+        public string Name { get { return name; } }
+        public int Id { get { return id; } set { this.id = value; } }
 
         public void Create()
         {
             Array types = Enum.GetValues(typeof(ScheduleType));
 
-            List<Player> players = GetPlayers();
+            AbstractDAOFactory factory = AbstractDAOFactory.GetFactory(DAOFactoryType.MS_SQL_FACTORY);
+            PlayerDAO playerDAO = (PlayerDAO)factory.GetPlayerDAO();
 
-            if (players.Count != 255)
+            List<Player> players = playerDAO.FindAll();
+
+            if (players.Count != 256)
             {
                 throw new Exception("Can't load players " + players.Count);
             }
 
+            DAO<Schedule> scheduleDAO = factory.GetScheduleDAO();
+
             foreach (ScheduleType type in types)
             {
-                scheduleList.Add(new Schedule(this, type, new List<Player>(players)));
+                Schedule temp = new Schedule(this, type, new List<Player>(players));
+
+                scheduleList.Add(temp);
+                scheduleDAO.Create(temp);
             }
         }
 

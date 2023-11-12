@@ -11,6 +11,7 @@ namespace Tennis.Objects
         /// <summary>
         /// Attributes
         /// </summary>
+        private int id;
         private DateTime date;
         private TimeSpan duration;
 
@@ -43,6 +44,7 @@ namespace Tennis.Objects
         /// <summary>
         /// Getters and Setters
         /// </summary>
+        public int Id { get { return id; } set { this.id = value; } }
         public List<Opponent> Oppnents { get { return opponents; } }
         public Schedule Schedule { get { return schedule; } }
         public Referee? Referee { get { return referee; } set { referee = value; } }
@@ -52,14 +54,15 @@ namespace Tennis.Objects
         public Opponent? Winner { get { return GetWinner(); } }
         public bool IsPlayed { get { return IsMatchPlayed(); } }
         public int Round { get { return round; } set { this.round = value; } }
+        public TimeSpan Duration { get { return duration; } }
 
         /// <summary>
         /// WPF Getters
         /// </summary>
         /// 
-        public Set ActualSet { get { return sets[sets.Count - 1]; } set {  } }
-        public int SetsOpponentA { get { return ScoreOpponentA(); }}
-        public int SetsOpponentB { get { return ScoreOpponentB(); }}
+        public Set ActualSet { get { return sets[sets.Count - 1]; } set { } }
+        public int SetsOpponentA { get { return ScoreOpponentA(); } }
+        public int SetsOpponentB { get { return ScoreOpponentB(); } }
         public bool IsFinished { get { return isFinished; } }
 
         /// <summary>
@@ -134,7 +137,7 @@ namespace Tennis.Objects
                 referee.Release();
             }
 
-            if(court != null)
+            if (court != null)
             {
                 court.Release();
             }

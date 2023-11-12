@@ -6,13 +6,17 @@ namespace Tennis.Objects
 
         // Uniquement utile en bdd?
         //private List<Tournament> tournaments;
+        private int id;
         private Match match;
 
         public Match Match { get { return match; } }
 
-        public Referee(string firstname, string lastname, string nationality) : base(firstname, lastname, nationality)
+        public Referee(int id, string firstname, string lastname, string nationality) : base(firstname, lastname, nationality)
         {
+            this.id = id;
         }
+
+        public int Id { get { return id; } }
 
         public bool Available(Match checkMatch)
         {
