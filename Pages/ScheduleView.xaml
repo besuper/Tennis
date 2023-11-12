@@ -45,6 +45,7 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Oppnents[0]}" Header="Opponent A"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Oppnents[1]}" Header="Opponent B"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Time"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Date}" Header="Date"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
@@ -72,6 +73,7 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Oppnents[0]}" Header="Opponent A"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Oppnents[1]}" Header="Opponent B"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Time"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Date}" Header="Date"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
@@ -99,6 +101,7 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Oppnents[0]}" Header="Opponent A"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Oppnents[1]}" Header="Opponent B"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Time"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Date}" Header="Date"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
@@ -126,6 +129,7 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Oppnents[0]}" Header="Opponent A"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Oppnents[1]}" Header="Opponent B"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Time"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Date}" Header="Date"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
