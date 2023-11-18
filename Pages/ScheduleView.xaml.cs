@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,7 +21,9 @@ namespace Tennis.Pages
         public Dictionary<ScheduleType, ObservableCollection<Match>> schedulers = new Dictionary<ScheduleType, ObservableCollection<Match>>();
         public Dictionary<ScheduleType, ListView> listViews = new Dictionary<ScheduleType, ListView>();
         public List<int> openedMatches = new List<int>();
-        public BackgroundWorker bgWorker;
+
+        private bool started = false;
+        private Tournament tournament;
 
         public ScheduleView(string tournamentName)
         {
@@ -42,55 +46,13 @@ namespace Tennis.Pages
             }
 
             // Create tournament
-            Tournament tour = new Tournament(tournamentName);
+            tournament = new Tournament(tournamentName);
 
+            // Add the tournament into database
             AbstractDAOFactory factory = AbstractDAOFactory.GetFactory(DAOFactoryType.MS_SQL_FACTORY);
             DAO<Tournament> tournamentDAO = factory.GetTournamentDAO();
 
-            tournamentDAO.Create(tour);
-            tour.Create();
-
-            // Register event listener
-            foreach (var item in tour.ScheduleList)
-            {
-                item.PropertyChanged += OnMatchesPropertyChanged;
-            }
-
-            this.Title = tournamentName;
-
-            RunBackground(tour);
-        }
-
-        private void RunBackground(Tournament tour)
-        {
-            bgWorker = new BackgroundWorker();
-            bgWorker.WorkerSupportsCancellation = true;
-
-            bgWorker.DoWork += (sender, args) =>
-            {
-                tour.Play();
-
-                // Since Play is not blocking we need to block the thread with a while
-                while (true)
-                {
-                    if (bgWorker.CancellationPending)
-                    {
-                        // If the worker is cancelled => stop the tournament
-                        tour.StopTournament();
-                        break;
-                    }
-                }
-            };
-
-            bgWorker.RunWorkerCompleted += (sender, args) =>
-            {
-                if (args.Error != null)
-                {
-                    MessageBox.Show(args.Error.ToString());
-                }
-            };
-
-            bgWorker.RunWorkerAsync();
+            tournamentDAO.Create(tournament);
         }
 
         // Listen updates from schedulers
@@ -154,18 +116,39 @@ namespace Tennis.Pages
             }
         }
 
-        private void OnClosed(object sender, EventArgs e)
-        {
-            // Send stop notification to the background worker
-            bgWorker.CancelAsync();
-            bgWorker.Dispose();
-        }
-
         private void OnClosing(object sender, CancelEventArgs e)
         {
+            // Stop the current tournament
+            tournament.StopTournament();
+
             // Open main view when schedule view is closed
             MainWindow mainApp = new MainWindow();
             mainApp.Show();
+        }
+
+        private async void OnActivated(object sender, EventArgs e)
+        {
+            if (!started)
+            {
+                started = true;
+
+                await Task.Run(() =>
+                {
+                    tournament.Create();
+                });
+
+                this.pageGrid.Children.Remove(this.loading);
+
+                // Register event listener
+                foreach (var item in tournament.ScheduleList)
+                {
+                    item.PropertyChanged += OnMatchesPropertyChanged;
+                }
+
+                this.Title = tournament.Name;
+
+                tournament.Play();
+            }
         }
     }
 }
