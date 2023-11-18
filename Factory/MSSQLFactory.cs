@@ -34,5 +34,20 @@ namespace Tennis.Factory
         {
             return new CourtDAO();
         }
+
+        public override DAO<Opponent> GetOpponentDAO()
+        {
+            return new OpponentDAO();
+        }
+
+        public override DAO<Set> GetSetDAO()
+        {
+            return new SetDAO();
+        }
+
+        public override DAO<Game> GetGameDAO()
+        {
+            return new GameDAO();
+        }
     }
 }

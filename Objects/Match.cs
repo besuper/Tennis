@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Tennis.DAO;
+using Tennis.Factory;
 
 namespace Tennis.Objects
 {
@@ -80,6 +82,9 @@ namespace Tennis.Objects
 
         public void Play()
         {
+            AbstractDAOFactory factory = AbstractDAOFactory.GetFactory(DAOFactoryType.MS_SQL_FACTORY);
+            DAO<Set> setDAO = factory.GetSetDAO();
+
             Set temp;
 
             matchSets = schedule.NbWinningSets();
@@ -88,7 +93,14 @@ namespace Tennis.Objects
             {
                 temp = new Set(this);
                 AddSet(temp);
+                //Create a set for the game
+                setDAO.Create(temp);
                 temp.Play();
+                //Add a winner
+                if (temp.Winner != null)
+                {
+                    setDAO.Update(temp);
+                }
 
                 int SetsPlayerA = ScoreOpponentA();
                 int SetsPlayerB = ScoreOpponentB();

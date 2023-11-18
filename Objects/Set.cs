@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Tennis.DAO;
+using Tennis.Factory;
 
 namespace Tennis.Objects
 {
@@ -10,6 +12,7 @@ namespace Tennis.Objects
         /// <summary>
         /// Attributes
         /// </summary>
+        protected int id;
         protected int scoreOp1;
         protected int scoreOp2;
 
@@ -31,6 +34,8 @@ namespace Tennis.Objects
         /// </summary>
         public Match Match { get { return match; } }
         public Opponent? Winner { get { return winner; } }
+
+        public int Id { get { return id; } set { id = value; } }
 
         /// <summary>
         /// WPF Getters
@@ -74,6 +79,9 @@ namespace Tennis.Objects
 
         public void Play()
         {
+            AbstractDAOFactory factory = AbstractDAOFactory.GetFactory(DAOFactoryType.MS_SQL_FACTORY);
+            DAO<Game> gameDAO= factory.GetGameDAO();
+
             Debugger.log($"\n===========[Nouveau set {match.ScoreOpponentA()} - {match.ScoreOpponentB()}]===========");
 
             Game temp;
@@ -84,6 +92,7 @@ namespace Tennis.Objects
 
                 games.Add(temp);
                 temp.Play();
+                gameDAO.Create(temp);
 
                 int GamePointA = GameScorePlayerA();
                 int GamePointB = GameScorePlayerB();

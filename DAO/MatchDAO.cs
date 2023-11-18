@@ -12,7 +12,7 @@ namespace Tennis.DAO
     {
         public override bool Create(Match obj)
         {
-            using (SqlCommand cmd = new SqlCommand("INSERT INTO Matches(match_date, duration, round, id_referee, id_court, id_schedule) output INSERTED.ID_SCHEDULE VALUES(@match_date, @duration, @round, @id_referee, @id_court, @id_schedule)", DatabaseManager.GetConnection()))
+            using (SqlCommand cmd = new SqlCommand("INSERT INTO Matches(match_date, duration, round, id_referee, id_court, id_schedule) output INSERTED.ID_MATCH VALUES(@match_date, @duration, @round, @id_referee, @id_court, @id_schedule)", DatabaseManager.GetConnection()))
             {
                 cmd.Parameters.AddWithValue("@match_date", obj.Date);
                 cmd.Parameters.AddWithValue("@duration", obj.Duration);
@@ -25,6 +25,19 @@ namespace Tennis.DAO
 
                 obj.Id = modified;
 
+                return true;
+            }
+        }
+
+        public bool AddOpponent(Match match, Opponent opponent)
+        {
+            using (SqlCommand cmd = new SqlCommand("INSERT INTO MatchOpponent(id_match, id_opponent) VALUES(@id_match, @id_opponent)", DatabaseManager.GetConnection()))
+            {
+                Debugger.log(match.Id + " " + opponent.Id);
+                cmd.Parameters.AddWithValue("@id_match", match.Id);
+                cmd.Parameters.AddWithValue("@id_opponent", opponent.Id);
+
+                cmd.ExecuteNonQuery();
                 return true;
             }
         }

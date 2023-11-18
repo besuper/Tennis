@@ -5,13 +5,16 @@ namespace Tennis.Objects
 {
     public class Game
     {
-
+        private int id;
         private Random rand = new Random();
         private int currentScoreOp1;
         private int currentScoreOp2;
 
         private Opponent? winner;
         private Set set;
+
+        public int Id { get { return id; } set { id = value; } }
+        public Set Set { get { return set; } }
 
         public dynamic CurrentScoreOp1 { get { return currentScoreOp1 > 40 ? "AD" : this.currentScoreOp1; } set { } }
         public dynamic CurrentScoreOp2 { get { return currentScoreOp2 > 40 ? "AD" : this.currentScoreOp2; } set { } }

@@ -163,9 +163,14 @@ namespace Tennis.Objects
             }
 
             AbstractDAOFactory factory = AbstractDAOFactory.GetFactory(DAOFactoryType.MS_SQL_FACTORY);
-            DAO<Match> matchDAO = factory.GetMatchDAO();
+            MatchDAO matchDAO = (MatchDAO) factory.GetMatchDAO();
 
             matchDAO.Create(match);
+
+            foreach (var opponent in match.Oppnents)
+            {
+                matchDAO.AddOpponent(match, opponent);
+            }
 
             match.Play();
 
@@ -210,6 +215,13 @@ namespace Tennis.Objects
 
         public List<Opponent> MakeGroups()
         {
+
+            AbstractDAOFactory factory = AbstractDAOFactory.GetFactory(DAOFactoryType.MS_SQL_FACTORY);
+            OpponentDAO opponentDAO = (OpponentDAO)factory.GetOpponentDAO();
+
+            //DAO create opponent
+            //Loop, add player to opponent
+
             List<Opponent> opponents = new List<Opponent>();
             int countGroups = 64;
             int countPlayerPerGroup = 2;
@@ -264,10 +276,12 @@ namespace Tennis.Objects
                 for (int i = 0; i < countGroups; i++)
                 {
                     temp = new Opponent();
+                    opponentDAO.Create(temp);
 
                     //Select a man
                     currentIndex = rand.Next(mens.Count);
                     currentPlayer = mens[currentIndex];
+                    opponentDAO.AddPlayer(temp, currentPlayer);
 
                     temp.AddPlayer(currentPlayer);
                     mens.Remove(currentPlayer);
@@ -275,6 +289,7 @@ namespace Tennis.Objects
                     //Select a woman
                     currentIndex = rand.Next(womens.Count);
                     currentPlayer = womens[currentIndex];
+                    opponentDAO.AddPlayer(temp, currentPlayer);
 
                     temp.AddPlayer(currentPlayer);
                     womens.Remove(currentPlayer);
@@ -291,11 +306,15 @@ namespace Tennis.Objects
             for (int i = 0; i < countGroups; i++)
             {
                 temp = new Opponent();
+                opponentDAO.Create(temp);
+
 
                 for (int j = 0; j < countPlayerPerGroup; j++)
                 {
                     currentIndex = rand.Next(players.Count);
                     currentPlayer = players[currentIndex];
+                    opponentDAO.AddPlayer(temp, currentPlayer);
+
 
                     temp.AddPlayer(currentPlayer);
                     players.Remove(currentPlayer);
