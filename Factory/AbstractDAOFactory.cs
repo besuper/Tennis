@@ -22,7 +22,7 @@ namespace Tennis.Factory
 
         public static AbstractDAOFactory Factory = GetFactory();
 
-        public static AbstractDAOFactory GetFactory(DAOFactoryType type = DAOFactoryType.)
+        public static AbstractDAOFactory GetFactory(DAOFactoryType type = DAOFactoryType.MS_SQL_FACTORY)
         {
             switch (type)
             {
