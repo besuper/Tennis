@@ -20,7 +20,7 @@ namespace Tennis.Pages
     {
         public Dictionary<ScheduleType, ObservableCollection<Match>> schedulers = new Dictionary<ScheduleType, ObservableCollection<Match>>();
         public Dictionary<ScheduleType, ListView> listViews = new Dictionary<ScheduleType, ListView>();
-        public List<int> openedMatches = new List<int>();
+        public List<MatchView> openedMatches = new List<MatchView>();
 
         private bool started = false;
         private Tournament tournament;
@@ -92,27 +92,55 @@ namespace Tennis.Pages
             {
                 Match match = (Match)item;
 
-                // Check if match is playing and if the match view is not already opened
-                if (!match.IsPlayed || openedMatches.Contains(match.GetHashCode()))
+                // Check if match is playing
+                if (!match.IsPlayed)
                 {
                     return;
                 }
 
-                openedMatches.Add(match.GetHashCode());
+                bool opened = false;
+
+                // Check if the match view is already opened
+                foreach(MatchView view in openedMatches)
+                {
+                    if(view.MatchId() == match.Id)
+                    {
+                        opened = true;
+                    }
+                }
+
+                if(opened)
+                {
+                    return;
+                }
 
                 MatchView mv = new MatchView(ref match);
                 mv.Show();
 
+                openedMatches.Add(mv);
+
                 // Listen for closed event in MatchView window
                 mv.Closed += (sender, e) =>
                 {
-                    openedMatches.Remove(match.GetHashCode());
+                    // If close event come from user input
+                    if(!mv.IsMainClosing)
+                    {
+                        openedMatches.Remove(mv);
+                    }
                 };
             }
         }
 
         private void OnClosing(object sender, CancelEventArgs e)
         {
+            // Close all match windows
+            foreach(MatchView view in openedMatches)
+            {
+                // Set MainClosing true to avoid collection modified
+                view.IsMainClosing = true;
+                view.Close();
+            }
+
             // Stop the current tournament
             tournament.StopTournament();
 

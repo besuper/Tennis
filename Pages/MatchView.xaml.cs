@@ -19,7 +19,15 @@ namespace Tennis.Pages
             this.DataContext = match;
             //When update in match, update in view
             SetsRecap.ItemsSource = match.Sets;
-            
+
+            IsMainClosing = false;
+        }
+
+        public bool IsMainClosing { get; set; }
+
+        public int MatchId()
+        {
+            return match.Id;
         }
     }
 }
