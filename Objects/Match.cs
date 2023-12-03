@@ -66,6 +66,8 @@ namespace Tennis.Objects
         public int SetsOpponentA { get { return ScoreOpponentA(); } }
         public int SetsOpponentB { get { return ScoreOpponentB(); } }
         public bool IsFinished { get { return isFinished; } }
+        public List<Set> Sets { get{ return sets; } }
+
 
         /// <summary>
         /// Methods

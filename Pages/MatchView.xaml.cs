@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Documents;
 using Tennis.Objects;
 
 namespace Tennis.Pages
@@ -15,6 +17,9 @@ namespace Tennis.Pages
             this.match = match;
             InitializeComponent();
             this.DataContext = match;
+            //When update in match, update in view
+            SetsRecap.ItemsSource = match.Sets;
+            
         }
     }
 }

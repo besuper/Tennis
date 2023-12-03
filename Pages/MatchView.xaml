@@ -41,10 +41,14 @@
                 <RowDefinition Height="10*"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Content="{Binding Path=Referee}" ContentStringFormat="Arbitré par : {0}"/>
-            <ListView Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}">
+            <ListView Grid.Row="1" Name="SetsRecap" Grid.RowSpan="2">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=ScoreOp1}" Header="ScoreOp A"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=ScoreOp2}" Header="ScoreOp B"/>
+
+
                     </GridView>
                 </ListView.View>
             </ListView>
