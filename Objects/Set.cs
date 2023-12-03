@@ -79,8 +79,7 @@ namespace Tennis.Objects
 
         public void Play()
         {
-            AbstractDAOFactory factory = AbstractDAOFactory.GetFactory(DAOFactoryType.MS_SQL_FACTORY);
-            DAO<Game> gameDAO= factory.GetGameDAO();
+            DAO<Game> gameDAO= AbstractDAOFactory.Factory.GetGameDAO();
 
             Debugger.log($"\n===========[Nouveau set {match.ScoreOpponentA()} - {match.ScoreOpponentB()}]===========");
 

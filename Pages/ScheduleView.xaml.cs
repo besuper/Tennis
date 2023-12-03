@@ -48,11 +48,6 @@ namespace Tennis.Pages
             // Create tournament
             tournament = new Tournament(tournamentName);
 
-            // Add the tournament into database
-            AbstractDAOFactory factory = AbstractDAOFactory.GetFactory(DAOFactoryType.MS_SQL_FACTORY);
-            DAO<Tournament> tournamentDAO = factory.GetTournamentDAO();
-
-            tournamentDAO.Create(tournament);
         }
 
         // Listen updates from schedulers

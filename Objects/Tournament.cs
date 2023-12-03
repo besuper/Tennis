@@ -29,11 +29,11 @@ namespace Tennis.Objects
         {
             this.name = name;
 
-            AbstractDAOFactory factory = AbstractDAOFactory.GetFactory(DAOFactoryType.MS_SQL_FACTORY);
+            TournamentDAO tournamentDAO = (TournamentDAO) AbstractDAOFactory.Factory.GetTournamentDAO() ;
+            RefereeDAO refereeDAO = (RefereeDAO) AbstractDAOFactory.Factory.GetRefereeDAO();
+            CourtDAO courtDAO = (CourtDAO)AbstractDAOFactory.Factory.GetCourtDAO();
 
-            RefereeDAO refereeDAO = (RefereeDAO)factory.GetRefereeDAO();
-            CourtDAO courtDAO = (CourtDAO)factory.GetCourtDAO();
-
+            tournamentDAO.Create(this);
             this.refereeList = refereeDAO.FindAll();
             this.courtList = courtDAO.FindAll();
 
@@ -50,8 +50,7 @@ namespace Tennis.Objects
         {
             Array types = Enum.GetValues(typeof(ScheduleType));
 
-            AbstractDAOFactory factory = AbstractDAOFactory.GetFactory(DAOFactoryType.MS_SQL_FACTORY);
-            PlayerDAO playerDAO = (PlayerDAO)factory.GetPlayerDAO();
+            PlayerDAO playerDAO = (PlayerDAO)AbstractDAOFactory.Factory.GetPlayerDAO();
 
             List<Player> players = playerDAO.FindAll();
 
@@ -60,7 +59,7 @@ namespace Tennis.Objects
                 throw new Exception("Can't load players " + players.Count);
             }
 
-            DAO<Schedule> scheduleDAO = factory.GetScheduleDAO();
+            DAO<Schedule> scheduleDAO = AbstractDAOFactory.Factory.GetScheduleDAO();
 
             foreach (ScheduleType type in types)
             {

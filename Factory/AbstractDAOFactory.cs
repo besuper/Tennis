@@ -20,7 +20,9 @@ namespace Tennis.Factory
         public abstract DAO<Set> GetSetDAO();
         public abstract DAO<Game> GetGameDAO();
 
-        public static AbstractDAOFactory GetFactory(DAOFactoryType type)
+        public static AbstractDAOFactory Factory = GetFactory();
+
+        public static AbstractDAOFactory GetFactory(DAOFactoryType type = DAOFactoryType.)
         {
             switch (type)
             {

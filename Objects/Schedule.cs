@@ -162,8 +162,7 @@ namespace Tennis.Objects
                 Thread.Sleep(20);
             }
 
-            AbstractDAOFactory factory = AbstractDAOFactory.GetFactory(DAOFactoryType.MS_SQL_FACTORY);
-            MatchDAO matchDAO = (MatchDAO) factory.GetMatchDAO();
+            MatchDAO matchDAO = (MatchDAO)AbstractDAOFactory.Factory.GetMatchDAO();
 
             matchDAO.Create(match);
 
@@ -216,8 +215,7 @@ namespace Tennis.Objects
         public List<Opponent> MakeGroups()
         {
 
-            AbstractDAOFactory factory = AbstractDAOFactory.GetFactory(DAOFactoryType.MS_SQL_FACTORY);
-            OpponentDAO opponentDAO = (OpponentDAO)factory.GetOpponentDAO();
+            OpponentDAO opponentDAO = (OpponentDAO)AbstractDAOFactory.Factory.GetOpponentDAO();
 
             //DAO create opponent
             //Loop, add player to opponent

@@ -82,8 +82,7 @@ namespace Tennis.Objects
 
         public void Play()
         {
-            AbstractDAOFactory factory = AbstractDAOFactory.GetFactory(DAOFactoryType.MS_SQL_FACTORY);
-            DAO<Set> setDAO = factory.GetSetDAO();
+            DAO<Set> setDAO = AbstractDAOFactory.Factory.GetSetDAO();
 
             Set temp;
 
