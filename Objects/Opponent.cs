@@ -12,7 +12,7 @@ namespace Tennis.Objects
         private List<Player> players = new List<Player>();
         private List<Set> setWinList = new List<Set>();
 
-        private List<Player> Players { get { return players; } set { players = value; } }
+        public List<Player> Players { get { return players; } }
 
         public int Id { get { return id; } set { this.id = value; } }
         public object Date { get; internal set; }

@@ -14,7 +14,7 @@ namespace Tennis.Objects
     public class Tournament
     {
         private int id;
-        private string name;
+        private readonly string name;
 
         private List<Court> courtList = new List<Court>();
         private List<Referee> refereeList = new List<Referee>();
@@ -94,12 +94,6 @@ namespace Tennis.Objects
             // Lock the referee List to avoid simultaneously modifications by threads
             lock (refereeList)
             {
-                // Randomly sort the refreeList
-                refereeList.Sort((a, b) =>
-                {
-                    return new Random().Next(-1, 2);
-                });
-
                 foreach (Referee item in refereeList)
                 {
                     // Same here lock the referee to be sure there is not other modification
@@ -115,7 +109,7 @@ namespace Tennis.Objects
                             referee = item;
                             break;
                         }
-                    }
+                   }
                 }
             }
 
@@ -129,12 +123,6 @@ namespace Tennis.Objects
             // Lock the court List to avoid simultaneously modifications by threads
             lock (courtList)
             {
-                // Randomly sort the refreeList
-                courtList.Sort((a, b) =>
-                {
-                    return new Random().Next(-1, 2);
-                });
-
                 foreach (Court item in courtList)
                 {
                     // Same here lock the court to be sure there is not other modification

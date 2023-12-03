@@ -166,6 +166,19 @@ namespace Tennis.Objects
 
             matchDAO.Create(match);
 
+            // Insert Oppopnents and Players in database
+            OpponentDAO opponentDAO = (OpponentDAO)AbstractDAOFactory.Factory.GetOpponentDAO();
+
+            foreach(Opponent o in match.Oppnents)
+            {
+                opponentDAO.Create(o);
+
+                foreach(Player p in o.Players)
+                {
+                    opponentDAO.AddPlayer(o, p);
+                }
+            }
+
             foreach (var opponent in match.Oppnents)
             {
                 matchDAO.AddOpponent(match, opponent);
@@ -214,8 +227,9 @@ namespace Tennis.Objects
 
         public List<Opponent> MakeGroups()
         {
-
-            OpponentDAO opponentDAO = (OpponentDAO)AbstractDAOFactory.Factory.GetOpponentDAO();
+            // TODO: Remove this DAO to remove waiting tournament creation
+            // FIXME: Correctly load opponents not created when closed the tournament before end
+            //OpponentDAO opponentDAO = (OpponentDAO)AbstractDAOFactory.Factory.GetOpponentDAO();
 
             //DAO create opponent
             //Loop, add player to opponent
@@ -274,12 +288,12 @@ namespace Tennis.Objects
                 for (int i = 0; i < countGroups; i++)
                 {
                     temp = new Opponent();
-                    opponentDAO.Create(temp);
+                    //opponentDAO.Create(temp);
 
                     //Select a man
                     currentIndex = rand.Next(mens.Count);
                     currentPlayer = mens[currentIndex];
-                    opponentDAO.AddPlayer(temp, currentPlayer);
+                    //opponentDAO.AddPlayer(temp, currentPlayer);
 
                     temp.AddPlayer(currentPlayer);
                     mens.Remove(currentPlayer);
@@ -287,7 +301,7 @@ namespace Tennis.Objects
                     //Select a woman
                     currentIndex = rand.Next(womens.Count);
                     currentPlayer = womens[currentIndex];
-                    opponentDAO.AddPlayer(temp, currentPlayer);
+                    //opponentDAO.AddPlayer(temp, currentPlayer);
 
                     temp.AddPlayer(currentPlayer);
                     womens.Remove(currentPlayer);
@@ -304,14 +318,14 @@ namespace Tennis.Objects
             for (int i = 0; i < countGroups; i++)
             {
                 temp = new Opponent();
-                opponentDAO.Create(temp);
+                //opponentDAO.Create(temp);
 
 
                 for (int j = 0; j < countPlayerPerGroup; j++)
                 {
                     currentIndex = rand.Next(players.Count);
                     currentPlayer = players[currentIndex];
-                    opponentDAO.AddPlayer(temp, currentPlayer);
+                    //opponentDAO.AddPlayer(temp, currentPlayer);
 
 
                     temp.AddPlayer(currentPlayer);
