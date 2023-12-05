@@ -24,12 +24,12 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-            <Label Grid.Column="0" Grid.Row="0" Background="Blue" Content="{Binding Path=Oppnents[0]}" Foreground="White"/>
+            <TextBlock Grid.Column="0" Grid.Row="0" Background="Blue" Text="{Binding Path=Oppnents[0]}" Foreground="White" TextWrapping="Wrap"/>
             <Label Grid.Column="1" Grid.Row="0" Content="{Binding Path=SetsOpponentA}"/>
             <Label Grid.Column="2" Grid.Row="0" Content="{Binding Path=ActualSet.ScoreOp1, Mode=TwoWay}"/>
             <Label Grid.Column="3" Grid.Row="0" Content="{Binding Path=ActualSet.ActualGame.CurrentScoreOp1, Mode=TwoWay}"/>
 
-            <Label Grid.Column="0" Grid.Row="1" Background="Blue" Content="{Binding Path=Oppnents[1]}" Foreground="White"/>
+            <TextBlock Grid.Column="0" Grid.Row="1" Background="Blue" Text="{Binding Path=Oppnents[1]}" Foreground="White" TextWrapping="Wrap"/>
             <Label Grid.Column="1" Grid.Row="1" Content="{Binding Path=SetsOpponentB}"/>
             <Label Grid.Column="2" Grid.Row="1" Content="{Binding Path=ActualSet.ScoreOp2, Mode=TwoWay}"/>
             <Label Grid.Column="3" Grid.Row="1" Content="{Binding Path=ActualSet.ActualGame.CurrentScoreOp2, Mode=TwoWay}"/>
@@ -44,11 +44,14 @@
             <ListView Grid.Row="1" Name="SetsRecap" Grid.RowSpan="2">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=ScoreOp1}" Header="ScoreOp A"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=ScoreOp2}" Header="ScoreOp B"/>
-
-
+                        <GridViewColumn Header="Winner" Width="120">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Winner}" TextWrapping="Wrap"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=WinnerScore}" Header="Score"/>
                     </GridView>
                 </ListView.View>
             </ListView>

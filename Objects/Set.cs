@@ -43,6 +43,7 @@ namespace Tennis.Objects
         public Game ActualGame { get { return games[games.Count - 1]; } }
         public int ScoreOp1 { get { return GameScorePlayerA(); } set { } }
         public int ScoreOp2 { get { return GameScorePlayerB(); } set { } }
+        public int WinnerScore { get { return ScoreOp1 > ScoreOp2 ? ScoreOp1 : ScoreOp2; } }
 
         /// <summary>
         /// Methods
