@@ -5,12 +5,70 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tennis.Pages"
         mc:Ignorable="d"
-        Title="MatchView" Height="450" Width="800" ResizeMode="NoResize">
+        Title="MatchView" Height="450" Width="450" ResizeMode="NoResize">
     <Grid>
-        <Image HorizontalAlignment="Left"  Source="/Assets/img/green.jpg" VerticalAlignment="Center" Height="405" Width="579" Margin="8,0,0,0"/>
-        <Ellipse HorizontalAlignment="Left" Height="66"  Stroke="Black" Fill="Yellow" VerticalAlignment="Center" Width="66" Margin="28,0,0,0"/>
-        <Ellipse HorizontalAlignment="Left" Height="66"  Stroke="Black" Fill="Red" VerticalAlignment="Center" Width="66" Margin="506,0,0,0"/>
-        <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Height="100" Width="500">
+        <Image HorizontalAlignment="Left"  Source="/Assets/img/green.jpg" VerticalAlignment="Center" Height="264" Width="377" Margin="37,0,0,0"/>
+        <Ellipse HorizontalAlignment="Left" Height="43"  Stroke="Black" Fill="Yellow" VerticalAlignment="Center" Width="43" Margin="50,0,0,0"/>
+        <Ellipse HorizontalAlignment="Left" Height="43"  Stroke="Black" Fill="Red" VerticalAlignment="Center" Width="43" Margin="361,0,0,0"/>
+        <ListView x:Name="Score" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="1">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="14">
+                                    <Run Text="{Binding [0], Mode=OneWay}" /><Run Text="" FontSize="8" BaselineAlignment="Superscript" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    
+                    <GridViewColumn Header="2">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="14">
+                <Run Text="{Binding [1], Mode=OneWay}" /><Run Text="" FontSize="8" BaselineAlignment="Superscript" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="3">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="14">
+                <Run Text="{Binding [2], Mode=OneWay}" /><Run Text="" FontSize="8" BaselineAlignment="Superscript" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="4">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="14">
+                <Run Text="{Binding [3], Mode=OneWay}" /><Run Text="" FontSize="8" BaselineAlignment="Superscript" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="5">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="14">
+                <Run Text="{Binding [4], Mode=OneWay}" /><Run Text="" FontSize="8" BaselineAlignment="Superscript" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="PTS" DisplayMemberBinding="{Binding CurrentPoint}" />
+                    <GridViewColumn Header="SETS" DisplayMemberBinding="{Binding Id}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <!--<Grid HorizontalAlignment="Left" VerticalAlignment="Top" Height="100" Width="500">
             <Grid.Background>
                 <SolidColorBrush Color="AliceBlue" Opacity="0.5"/>
             </Grid.Background>
@@ -33,29 +91,6 @@
             <Label Grid.Column="1" Grid.Row="1" Content="{Binding Path=SetsOpponentB}"/>
             <Label Grid.Column="2" Grid.Row="1" Content="{Binding Path=ActualSet.ScoreOp2, Mode=TwoWay}"/>
             <Label Grid.Column="3" Grid.Row="1" Content="{Binding Path=ActualSet.ActualGame.CurrentScoreOp2, Mode=TwoWay}"/>
-        </Grid>
-
-        <Grid HorizontalAlignment="Left" Margin="592,0,0,0" Width="208">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="10*"/>
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="{Binding Path=Referee}" ContentStringFormat="Arbitré par : {0}"/>
-            <ListView Grid.Row="1" Name="SetsRecap" Grid.RowSpan="2">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Winner" Width="120">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Path=Winner}" TextWrapping="Wrap"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=WinnerScore}" Header="Score"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-
-        </Grid>
+        </Grid>-->
     </Grid>
 </Window>

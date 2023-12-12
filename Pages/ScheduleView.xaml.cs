@@ -47,7 +47,6 @@ namespace Tennis.Pages
 
             // Create tournament
             tournament = new Tournament(tournamentName);
-
         }
 
         // Listen updates from schedulers
@@ -165,6 +164,7 @@ namespace Tennis.Pages
                 // Register event listener
                 foreach (var item in tournament.ScheduleList)
                 {
+                    // .subscribe
                     item.PropertyChanged += OnMatchesPropertyChanged;
                 }
 

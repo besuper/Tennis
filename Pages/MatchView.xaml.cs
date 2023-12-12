@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Input;
 using Tennis.Objects;
 
 namespace Tennis.Pages
@@ -18,9 +20,10 @@ namespace Tennis.Pages
             InitializeComponent();
             this.DataContext = match;
             //When update in match, update in view
-            SetsRecap.ItemsSource = match.Sets;
+            //SetsRecap.ItemsSource = match.Sets;
 
             IsMainClosing = false;
+            Score.ItemsSource = match.summary;
         }
 
         public bool IsMainClosing { get; set; }

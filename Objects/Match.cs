@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Tennis.DAO;
@@ -28,6 +29,9 @@ namespace Tennis.Objects
         private List<Set> sets = new List<Set>();
         private Opponent? winner;
 
+        //Dictionary<Opponent, List<Set>> summary = new Dictionary<Opponent, List<Set>>();
+        public ObservableCollection<MatchSummary> summary = new ObservableCollection<MatchSummary>();
+
         private bool isFinished = false;
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -41,6 +45,15 @@ namespace Tennis.Objects
         {
             this.schedule = schedule;
             this.opponents = opponents;
+
+
+            //this.summary.Add(opponents[0], sets.Find( => set.Winner == opponents[0]);
+            //this.summary.Add(opponents[1], sets);
+
+            for (int i = 0; i < opponents.Count; i++)
+            {
+                summary.Add(new MatchSummary(i, sets));
+            }
         }
 
         /// <summary>
