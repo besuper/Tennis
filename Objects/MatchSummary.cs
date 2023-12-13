@@ -1,45 +1,89 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Tennis.Objects
 {
-    public class MatchSummary
+    public class MatchSummary : INotifyPropertyChanged
     {
 
         private int position;
         private List<Set> sets;
-        private int TieBreakScore;
-        private int CurrentPoint;
+        private Match match;
+
+        private string tieBreakScore;
+        private string currentPoint;
+        private string totalSet;
+
+        public string CurrentPoint { get { return currentPoint; } set { this.currentPoint = value; } }
+
+        public string TotalSet { get { return totalSet; } set { this.totalSet = value; } }
+
+        public string TieBreakScore { get { return tieBreakScore; } set { this.tieBreakScore = value; } }
 
 
-        public MatchSummary(int position, List<Set> sets)
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            this.position = position;
-            this.sets = sets;
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public string this[int set]
+        public MatchSummary(int position, Match match)
+        {
+            this.position = position;
+            this.match = match;
+            this.sets = match.Sets;
+        }
+
+        [System.Runtime.CompilerServices.IndexerName("Item")]
+        public string[] this[int set]
         {
             get 
             {
-                if (set >= sets.Count) return "";
+                TieBreakScore = "";
+
+                if (set >= sets.Count) return new string[] { "", "" };
 
                 if (this.position == 0)
                 {
-                    CurrentPoint = sets[set].Match.ActualSet.ActualGame.CurrentScoreOp1;
-                    return ""+sets[set].GameScorePlayerA();
+                    currentPoint = ""+ sets[set].Match.ActualSet.ActualGame.CurrentScoreOp1;
+                    totalSet = "" + sets[set].Match.ScoreOpponentA();
+
+                    if (sets[set].ActualGame.IsTieBreak)
+                    {
+                        TieBreakScore = ""+sets[set].ActualGame.CurrentScoreOp1;
+                    }
+
+                    return new string[2] { "" + sets[set].GameScorePlayerA(), TieBreakScore };
                 }
-                CurrentPoint = sets[set].Match.ActualSet.ActualGame.CurrentScoreOp2;
-                return "" +sets[set].GameScorePlayerB();
+                currentPoint = ""+ sets[set].Match.ActualSet.ActualGame.CurrentScoreOp2;
+                totalSet = "" + sets[set].Match.ScoreOpponentB();
+
+                if (sets[set].ActualGame.IsTieBreak)
+                {
+                    TieBreakScore = ""+sets[set].ActualGame.CurrentScoreOp2;
+                }
+                return new string[2] { ""+sets[set].GameScorePlayerB(), TieBreakScore };
             }
         }
 
-        public int this[double a]
+        public void Update()
         {
-            get { return 0; }
+            if(this.position == 0)
+            {
+                currentPoint = "" + match.ActualSet.ActualGame.CurrentScoreOp1;
+                totalSet = "" + match.ScoreOpponentA();
+            }
+            else
+            {
+                currentPoint = "" + match.ActualSet.ActualGame.CurrentScoreOp2;
+                totalSet = "" + match.ScoreOpponentB();
+            }
         }
     }
 }

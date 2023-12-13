@@ -10,61 +10,61 @@
         <Image HorizontalAlignment="Left"  Source="/Assets/img/green.jpg" VerticalAlignment="Center" Height="264" Width="377" Margin="37,0,0,0"/>
         <Ellipse HorizontalAlignment="Left" Height="43"  Stroke="Black" Fill="Yellow" VerticalAlignment="Center" Width="43" Margin="50,0,0,0"/>
         <Ellipse HorizontalAlignment="Left" Height="43"  Stroke="Black" Fill="Red" VerticalAlignment="Center" Width="43" Margin="361,0,0,0"/>
-        <ListView x:Name="Score" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <ListView x:Name="Score" HorizontalAlignment="Left" VerticalAlignment="Top" Width="250">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="1">
+                    <GridViewColumn Header="1" Width="25">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock FontSize="14">
-                                    <Run Text="{Binding [0], Mode=OneWay}" /><Run Text="" FontSize="8" BaselineAlignment="Superscript" />
-                                </TextBlock>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    
-                    <GridViewColumn Header="2">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock FontSize="14">
-                <Run Text="{Binding [1], Mode=OneWay}" /><Run Text="" FontSize="8" BaselineAlignment="Superscript" />
+                                    <Run Text="{Binding Item[0][0], Mode=OneWay}" /><Run Text="{Binding Item[0][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
                                 </TextBlock>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="3">
+                    <GridViewColumn Header="2" Width="25">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock FontSize="14">
-                <Run Text="{Binding [2], Mode=OneWay}" /><Run Text="" FontSize="8" BaselineAlignment="Superscript" />
+                <Run Text="{Binding Item[1][0], Mode=OneWay}" /><Run Text="{Binding Item[1][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
                                 </TextBlock>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="4">
+                    <GridViewColumn Header="3" Width="25">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock FontSize="14">
-                <Run Text="{Binding [3], Mode=OneWay}" /><Run Text="" FontSize="8" BaselineAlignment="Superscript" />
+                <Run Text="{Binding Item[2][0], Mode=OneWay}" /><Run Text="{Binding Item[2][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
                                 </TextBlock>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="5">
+                    <GridViewColumn Header="4" Width="25">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock FontSize="14">
-                <Run Text="{Binding [4], Mode=OneWay}" /><Run Text="" FontSize="8" BaselineAlignment="Superscript" />
+                <Run Text="{Binding Item[3][0], Mode=OneWay}" /><Run Text="{Binding Item[3][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
                                 </TextBlock>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="PTS" DisplayMemberBinding="{Binding CurrentPoint}" />
-                    <GridViewColumn Header="SETS" DisplayMemberBinding="{Binding Id}" />
+                    <GridViewColumn Header="5" Width="25">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="14">
+                <Run Text="{Binding Item[4][0], Mode=OneWay}" /><Run Text="{Binding Item[4][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="PTS" DisplayMemberBinding="{Binding CurrentPoint}" Width="50" />
+                    <GridViewColumn Header="SETS" DisplayMemberBinding="{Binding TotalSet}" Width="50" />
                 </GridView>
             </ListView.View>
         </ListView>

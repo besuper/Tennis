@@ -52,7 +52,7 @@ namespace Tennis.Objects
 
             for (int i = 0; i < opponents.Count; i++)
             {
-                summary.Add(new MatchSummary(i, sets));
+                summary.Add(new MatchSummary(i, this));
             }
         }
 
@@ -174,6 +174,8 @@ namespace Tennis.Objects
             isFinished = true;
             Console.WriteLine("Fin du match");
             Console.WriteLine("Scores : " + scorePlayerA + " - " + scorePlayerB);
+
+            UpdateSumary();
         }
 
         public Opponent GetWinner()
@@ -223,6 +225,22 @@ namespace Tennis.Objects
         public bool IsMatchPlayed()
         {
             return sets.Count > 0;
+        }
+
+        public void UpdateSumary()
+        {
+            foreach(MatchSummary summ in this.summary)
+            {
+                summ.Update();
+
+                summ.NotifyPropertyChanged("Item");
+                summ.NotifyPropertyChanged("CurrentPoint");
+                summ.NotifyPropertyChanged("TotalSet");
+                summ.NotifyPropertyChanged("TieBreakScore");
+                
+
+
+            }
         }
 
     }

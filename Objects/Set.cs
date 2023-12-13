@@ -41,9 +41,8 @@ namespace Tennis.Objects
         /// WPF Getters
         /// </summary>
         public Game ActualGame { get { return games[games.Count - 1]; } }
-        public int ScoreOp1 { get { return GameScorePlayerA(); } set { } }
-        public int ScoreOp2 { get { return GameScorePlayerB(); } set { } }
-        public int WinnerScore { get { return ScoreOp1 > ScoreOp2 ? ScoreOp1 : ScoreOp2; } }
+        public int ScoreOp1 { get { return scoreOp1; } set { } }
+        public int ScoreOp2 { get { return scoreOp2; } set { } }
 
         /// <summary>
         /// Methods
@@ -126,7 +125,10 @@ namespace Tennis.Objects
                         // super tie-break
                         SuperTieBreak stb = new SuperTieBreak(match);
                         stb.Play(10);
-                        match.AddSet(stb);
+                        Game tempgame = new Game(stb);
+                        this.games.Add(tempgame);
+
+                        winner = stb.Winner;
                         break;
                     }
                     else
@@ -135,14 +137,22 @@ namespace Tennis.Objects
                         Debugger.log("Tie-break non pris en charge");
 
                         // On fais gagner le Set aléatoiremenet temporraielent
-                        if (rnd == 0)
+                        /*if (rnd == 0)
                         {
                             winner = match.Oppnents[0];
                         }
                         else
                         {
                             winner = match.Oppnents[1];
-                        }
+                        }*/
+                        // FIXME: !
+                        SuperTieBreak stb = new SuperTieBreak(match);
+                        //match.AddSet(stb);
+                        stb.Play(7);
+                        Game tempgame = new Game(stb);
+                        this.games.Add(tempgame);
+
+                        winner = stb.Winner;
 
                         break;
                     }

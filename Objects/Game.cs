@@ -9,6 +9,7 @@ namespace Tennis.Objects
         private Random rand = new Random();
         private int currentScoreOp1;
         private int currentScoreOp2;
+        private bool isTieBreak = false;
 
         private Opponent? winner;
         private Set set;
@@ -21,10 +22,19 @@ namespace Tennis.Objects
 
 
         public Opponent Winner { get { return winner; } }
+        public bool IsTieBreak { get { return isTieBreak; } }
 
         public Game(Set set)
         {
             this.set = set;
+        }
+
+        public Game(SuperTieBreak tieBreak)
+        {
+            isTieBreak = true;
+            winner = tieBreak.Winner;
+            currentScoreOp1 = tieBreak.ScoreOp1;
+            currentScoreOp2 = tieBreak.ScoreOp2;
         }
 
         public void Play()
@@ -36,6 +46,8 @@ namespace Tennis.Objects
             // Jouer une partie (un jeu)
             while (winner == null)
             {
+                set.Match.UpdateSumary();
+
                 set.Match.NotifyPropertyChanged("ActualSet");
                 set.Match.NotifyPropertyChanged("SetsOpponentA");
                 set.Match.NotifyPropertyChanged("SetsOpponentB");
@@ -43,8 +55,10 @@ namespace Tennis.Objects
                 set.Match.NotifyPropertyChanged("ActualSet");
                 set.Match.NotifyPropertyChanged("SetsOpponentA");
                 set.Match.NotifyPropertyChanged("SetsOpponentB");
+
+                set.Match.UpdateSumary();
                 //await Task.Delay(1000);
-                Thread.Sleep(5000);
+                Thread.Sleep(5);
             }
 
             // Afficher le gagnant
