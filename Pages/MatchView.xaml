@@ -7,10 +7,12 @@
         mc:Ignorable="d"
         Title="MatchView" Height="450" Width="450" ResizeMode="NoResize">
     <Grid>
+        <Label HorizontalAlignment="Left" Content="{Binding Path=Referee}" ContentStringFormat="Arbitré par : {0}" Margin="10,349,0,55"/>
+        <Label HorizontalAlignment="Left" Content="{Binding Court}" ContentStringFormat="Dans la court : {0}" Margin="15,391,0,10"/>
         <Image HorizontalAlignment="Left"  Source="/Assets/img/green.jpg" VerticalAlignment="Center" Height="264" Width="377" Margin="37,0,0,0"/>
         <Ellipse HorizontalAlignment="Left" Height="43"  Stroke="Black" Fill="Yellow" VerticalAlignment="Center" Width="43" Margin="50,0,0,0"/>
         <Ellipse HorizontalAlignment="Left" Height="43"  Stroke="Black" Fill="Red" VerticalAlignment="Center" Width="43" Margin="361,0,0,0"/>
-        <ListView x:Name="Score" HorizontalAlignment="Left" VerticalAlignment="Top" Width="250">
+        <ListView x:Name="Score" HorizontalAlignment="Left" VerticalAlignment="Top" Width="450">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="1" Width="25">
@@ -65,10 +67,17 @@
 
                     <GridViewColumn Header="PTS" DisplayMemberBinding="{Binding CurrentPoint}" Width="50" />
                     <GridViewColumn Header="SETS" DisplayMemberBinding="{Binding TotalSet}" Width="50" />
+                    <GridViewColumn Header="OPPONENT" DisplayMemberBinding="{Binding Opponent}" Width="50" />
                 </GridView>
             </ListView.View>
         </ListView>
+
+
+        
+
+
         <!--<Grid HorizontalAlignment="Left" VerticalAlignment="Top" Height="100" Width="500">
+
             <Grid.Background>
                 <SolidColorBrush Color="AliceBlue" Opacity="0.5"/>
             </Grid.Background>

@@ -18,6 +18,7 @@ namespace Tennis.Pages
         {
             this.match = match;
             InitializeComponent();
+
             this.DataContext = match;
             //When update in match, update in view
             //SetsRecap.ItemsSource = match.Sets;
