@@ -54,6 +54,7 @@ namespace Tennis.Objects
 
             List<Player> players = playerDAO.FindAll();
 
+            // Check: Players count
             if (players.Count != 256)
             {
                 throw new Exception("Can't load players " + players.Count);

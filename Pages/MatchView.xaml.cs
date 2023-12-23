@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -12,26 +13,24 @@ namespace Tennis.Pages
     /// </summary>
     public partial class MatchView : Window
     {
-        private Match match;
+        private readonly Match match;
 
         public MatchView(ref Match match)
         {
-            this.match = match;
             InitializeComponent();
 
-            this.DataContext = match;
-            //When update in match, update in view
-            //SetsRecap.ItemsSource = match.Sets;
+            this.match = match;
+            this.DataContext = this.match;
 
             IsMainClosing = false;
-            Score.ItemsSource = match.summary;
+            Score.ItemsSource = this.match.summary;
         }
 
         public bool IsMainClosing { get; set; }
 
         public int MatchId()
         {
-            return match.Id;
+            return this.match.Id;
         }
     }
 }

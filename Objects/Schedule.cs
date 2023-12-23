@@ -312,8 +312,8 @@ namespace Tennis.Objects
                 return opponents;
             }
 
-            Debug.WriteLine(type);
-            Debug.WriteLine(players.Count);
+            // Debug.WriteLine(type);
+            // Debug.WriteLine(players.Count);
 
             for (int i = 0; i < countGroups; i++)
             {
@@ -326,7 +326,6 @@ namespace Tennis.Objects
                     currentIndex = rand.Next(players.Count);
                     currentPlayer = players[currentIndex];
                     //opponentDAO.AddPlayer(temp, currentPlayer);
-
 
                     temp.AddPlayer(currentPlayer);
                     players.Remove(currentPlayer);

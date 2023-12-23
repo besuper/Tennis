@@ -48,13 +48,7 @@ namespace Tennis.Objects
             {
                 set.Match.UpdateSumary();
 
-                set.Match.NotifyPropertyChanged("ActualSet");
-                set.Match.NotifyPropertyChanged("SetsOpponentA");
-                set.Match.NotifyPropertyChanged("SetsOpponentB");
                 SimulateAGame();
-                set.Match.NotifyPropertyChanged("ActualSet");
-                set.Match.NotifyPropertyChanged("SetsOpponentA");
-                set.Match.NotifyPropertyChanged("SetsOpponentB");
 
                 set.Match.UpdateSumary();
                 //await Task.Delay(1000);

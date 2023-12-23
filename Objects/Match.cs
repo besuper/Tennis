@@ -2,14 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Tennis.DAO;
 using Tennis.Factory;
 
 namespace Tennis.Objects
 {
-    public class Match : INotifyPropertyChanged
+    public class Match
     {
         /// <summary>
         /// Attributes
@@ -29,12 +27,9 @@ namespace Tennis.Objects
         private List<Set> sets = new List<Set>();
         private Opponent? winner;
 
-        //Dictionary<Opponent, List<Set>> summary = new Dictionary<Opponent, List<Set>>();
         public ObservableCollection<MatchSummary> summary = new ObservableCollection<MatchSummary>();
 
         private bool isFinished = false;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Constructor
@@ -45,10 +40,6 @@ namespace Tennis.Objects
         {
             this.schedule = schedule;
             this.opponents = opponents;
-
-
-            //this.summary.Add(opponents[0], sets.Find( => set.Winner == opponents[0]);
-            //this.summary.Add(opponents[1], sets);
 
             for (int i = 0; i < opponents.Count; i++)
             {
@@ -65,7 +56,6 @@ namespace Tennis.Objects
         public Referee? Referee { get { return referee; } set { referee = value; } }
         public Court? Court { get { return court; } set { court = value; } }
         public DateTime Date { get { return date; } set { date = value; } }
-        //public int CurrentSet { get { return currentSet; } }
         public Opponent? Winner { get { return GetWinner(); } }
         public bool IsPlayed { get { return IsMatchPlayed(); } }
         public int Round { get { return round; } set { this.round = value; } }
@@ -88,11 +78,6 @@ namespace Tennis.Objects
         public void AddSet(Set set)
         {
             this.sets.Add(set);
-        }
-
-        public virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public void Play()
@@ -237,9 +222,6 @@ namespace Tennis.Objects
                 summ.NotifyPropertyChanged("CurrentPoint");
                 summ.NotifyPropertyChanged("TotalSet");
                 summ.NotifyPropertyChanged("TieBreakScore");
-                
-
-
             }
         }
 
