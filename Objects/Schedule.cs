@@ -96,7 +96,7 @@ namespace Tennis.Objects
 
             winners = new List<Opponent>();
 
-            // Play everything matches of the some date at the same time
+            // Play everything matches of the same date at the same time
             DateTime dateRef = matches[0].Date;
             int matchIndex = 0;
 
@@ -150,20 +150,30 @@ namespace Tennis.Objects
                 return;
             }
 
-            while (match.Referee == null)
+            // Find a referee
+            Referee? foundReferee = null;
+
+            while (foundReferee == null)
             {
-                match.Referee = tournament.GetAvailableReferee(match);
+                foundReferee = tournament.GetAvailableReferee(match);
                 Thread.Sleep(20);
             }
 
-            while (match.Court == null)
+            match.Referee = foundReferee;
+
+            // Find a court
+            Court? foundCourt = null;
+
+            while (foundCourt == null)
             {
-                match.Court = tournament.GetAvailableCourt(match);
+                foundCourt = tournament.GetAvailableCourt(match);
                 Thread.Sleep(20);
             }
 
+            match.Court = foundCourt;
+
+            // Create match into database
             MatchDAO matchDAO = (MatchDAO)AbstractDAOFactory.Factory.GetMatchDAO();
-
             matchDAO.Create(match);
 
             // Insert Oppopnents and Players in database
@@ -188,7 +198,12 @@ namespace Tennis.Objects
 
             NotifyPropertyChanged("NewMatch");
 
-            winners.Add(match.GetWinner());
+            if(!match.IsFinished)
+            {
+                throw new Exception("Match not finished after play()");
+            }
+
+            winners.Add(match.GetWinner()!);
         }
 
         public List<Match> CreateMatches(List<Opponent> opponents)

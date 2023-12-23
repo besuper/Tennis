@@ -105,7 +105,7 @@ namespace Tennis.Objects
                             continue;
                         }
 
-                        if (item.Available(match))
+                        if (item.IsAvailable(match))
                         {
                             referee = item;
                             break;
@@ -134,7 +134,7 @@ namespace Tennis.Objects
                             continue;
                         }
 
-                        if (item.Available(match))
+                        if (item.IsAvailable(match))
                         {
                             court = item;
                             break;

@@ -1,13 +1,12 @@
 using System;
-using System.Diagnostics;
 
 namespace Tennis.Objects
 {
     public class Player : Person
     {
-        private int id;
-        private int rank;
-        private GenderType gender;
+        private readonly int id;
+        private readonly int rank;
+        private readonly GenderType gender;
 
         public Player(int id, string firstname, string lastname, string nationality, int rank, int gender) : base(firstname, lastname, nationality)
         {
@@ -15,8 +14,14 @@ namespace Tennis.Objects
             this.rank = rank;
 
             Array genders = Enum.GetValues(typeof(ScheduleType));
+            object? _gender = genders.GetValue(gender);
 
-            this.gender = (GenderType)genders.GetValue(gender);
+            if (_gender == null)
+            {
+                throw new Exception("Can't find gender");
+            }
+
+            this.gender = (GenderType)_gender;
         }
 
         public int Id { get { return this.id; } }

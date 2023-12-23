@@ -4,9 +4,9 @@ namespace Tennis.Objects
     public class Person
     {
 
-        private string firstname;
-        private string lastname;
-        private string nationality;
+        private readonly string firstname;
+        private readonly string lastname;
+        private readonly string nationality;
 
         public string Firstname { get { return firstname; } }
         public string Lastname { get { return lastname; } }

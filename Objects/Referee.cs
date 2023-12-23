@@ -3,22 +3,20 @@ namespace Tennis.Objects
 
     public class Referee : Person
     {
-
         // Uniquement utile en bdd?
         //private List<Tournament> tournaments;
-        private int id;
-        private Match match;
+        private readonly int id;
+        private Match? match;
 
-        public Match Match { get { return match; } }
+        public Match? Match { get { return match; } }
+        public int Id { get { return id; } }
 
         public Referee(int id, string firstname, string lastname, string nationality) : base(firstname, lastname, nationality)
         {
             this.id = id;
         }
 
-        public int Id { get { return id; } }
-
-        public bool Available(Match checkMatch)
+        public bool IsAvailable(Match checkMatch)
         {
             bool isAvailable = match == null;
 

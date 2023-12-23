@@ -5,43 +5,62 @@ namespace Tennis.Objects
 {
     public class Game
     {
+        /// <summary>
+        /// Attributes
+        /// </summary>
         private int id;
-        private Random rand = new Random();
         private int currentScoreOp1;
         private int currentScoreOp2;
-        private bool isTieBreak = false;
+
+        private readonly Random rand = new Random();
+        private readonly bool isTieBreak = false;
 
         private Opponent? winner;
-        private Set set;
+        private readonly Set set;
 
+        /// <summary>
+        /// Getters and Setters
+        /// </summary>
         public int Id { get { return id; } set { id = value; } }
         public Set Set { get { return set; } }
 
         public dynamic CurrentScoreOp1 { get { return currentScoreOp1 > 40 ? "AD" : this.currentScoreOp1; } set { } }
         public dynamic CurrentScoreOp2 { get { return currentScoreOp2 > 40 ? "AD" : this.currentScoreOp2; } set { } }
 
-
-        public Opponent Winner { get { return winner; } }
+        public Opponent? Winner { get { return winner; } }
         public bool IsTieBreak { get { return isTieBreak; } }
 
+        /// <summary>
+        /// Constructor from a classic set
+        /// </summary>
+        /// <param name="set"></param>
         public Game(Set set)
         {
             this.set = set;
         }
 
+        /// <summary>
+        /// Constructor from a tie-break/super tie-break
+        /// </summary>
+        /// <param name="tieBreak"></param>
         public Game(SuperTieBreak tieBreak)
         {
             isTieBreak = true;
+
+            this.set = tieBreak;
             winner = tieBreak.Winner;
             currentScoreOp1 = tieBreak.ScoreOp1;
             currentScoreOp2 = tieBreak.ScoreOp2;
         }
 
+        /// <summary>
+        /// Methods
+        /// </summary>
         public void Play()
         {
             winner = null;
 
-            Debugger.log($"\n===========[Nouveau jeu {set.GameScorePlayerA()} - {set.GameScorePlayerB()}]===========");
+            // Debugger.log($"\n===========[Nouveau jeu {set.GameScorePlayerA()} - {set.GameScorePlayerB()}]===========");
 
             // Jouer une partie (un jeu)
             while (winner == null)
@@ -51,20 +70,8 @@ namespace Tennis.Objects
                 SimulateAGame();
 
                 set.Match.UpdateSumary();
-                //await Task.Delay(1000);
+
                 Thread.Sleep(5);
-            }
-
-            // Afficher le gagnant
-            if (winner == set.Match.Oppnents[0])
-            {
-                Debugger.log(set.Match.Oppnents[0] + " a remporté le jeu");
-
-            }
-            else
-            {
-                Debugger.log(set.Match.Oppnents[1] + " a remporté le jeu");
-
             }
         }
 
@@ -150,8 +157,8 @@ namespace Tennis.Objects
             }
         }
 
-        // Retourne 0 ou 1
-        // Permet de définir un gagant pour une balle dans une partie
+        // Return 0 or 1
+        // Determines the winner of an exchange
         int Dice()
         {
             return rand.Next(0, 2);

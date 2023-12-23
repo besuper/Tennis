@@ -2,13 +2,15 @@ namespace Tennis.Objects
 {
     public class Court
     {
-
-        private int id;
-        private string name;
-        private int nbSpectators;
-        private bool covered;
+        private readonly int id;
+        private readonly string name;
+        private readonly int nbSpectators;
+        private readonly bool covered;
 
         private Match? match;
+
+        public Match? Match { get { return match; } }
+        public int Id { get { return id; } }
 
         public Court(int id, string name, int nbSpectators, bool covered)
         {
@@ -18,16 +20,13 @@ namespace Tennis.Objects
             this.covered = covered;
         }
 
-        public Match? Match { get { return match; } }
-        public int Id { get { return id; } }
-
-        public bool Available(Match checkMatch)
+        public bool IsAvailable(Match checkMatch)
         {
-            bool isAvailable = match == null;
+            bool isAvailable = this.match == null;
 
             if (isAvailable)
             {
-                match = checkMatch;
+                this.match = checkMatch;
             }
 
             return isAvailable;
@@ -35,12 +34,12 @@ namespace Tennis.Objects
 
         public void Release()
         {
-            match = null;
+            this.match = null;
         }
 
         public override string? ToString()
         {
-            return name;
+            return this.name;
         }
     }
 }

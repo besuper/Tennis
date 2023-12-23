@@ -20,12 +20,11 @@ namespace Tennis.Objects
         private int currentSet = 0;
         private int matchSets = 0;
 
-        private Court? court;
-        private readonly Schedule schedule;
-        private Referee? referee;
-        private readonly List<Opponent> opponents;
+        private Court court;
+        private Referee referee;
         private List<Set> sets = new List<Set>();
-        private Opponent? winner;
+        private readonly Schedule schedule;
+        private readonly List<Opponent> opponents;
 
         public ObservableCollection<MatchSummary> summary = new ObservableCollection<MatchSummary>();
 
@@ -53,10 +52,9 @@ namespace Tennis.Objects
         public int Id { get { return id; } set { this.id = value; } }
         public List<Opponent> Oppnents { get { return opponents; } }
         public Schedule Schedule { get { return schedule; } }
-        public Referee? Referee { get { return referee; } set { referee = value; } }
-        public Court? Court { get { return court; } set { court = value; } }
+        public Referee Referee { get { return referee; } set { referee = value; } }
+        public Court Court { get { return court; } set { court = value; } }
         public DateTime Date { get { return date; } set { date = value; } }
-        public Opponent? Winner { get { return GetWinner(); } }
         public bool IsPlayed { get { return IsMatchPlayed(); } }
         public int Round { get { return round; } set { this.round = value; } }
         public TimeSpan Duration { get { return duration; } }
@@ -69,8 +67,8 @@ namespace Tennis.Objects
         public int SetsOpponentA { get { return ScoreOpponentA(); } }
         public int SetsOpponentB { get { return ScoreOpponentB(); } }
         public bool IsFinished { get { return isFinished; } }
-        public List<Set> Sets { get{ return sets; } }
-
+        public List<Set> Sets { get { return sets; } }
+        public Opponent? Winner { get { return GetWinner(); } }
 
         /// <summary>
         /// Methods
@@ -142,33 +140,21 @@ namespace Tennis.Objects
                 }
             }
 
-            // TODO: Remove null verification (match always have a referee)
-            if (referee != null)
-            {
-                referee.Release();
-            }
-
-            if (court != null)
-            {
-                court.Release();
-            }
-
-            int scorePlayerA = ScoreOpponentA();
-            int scorePlayerB = ScoreOpponentB();
+            referee.Release();
+            court.Release();
 
             isFinished = true;
-            Console.WriteLine("Fin du match");
-            Console.WriteLine("Scores : " + scorePlayerA + " - " + scorePlayerB);
 
             UpdateSumary();
         }
 
-        public Opponent GetWinner()
+        public Opponent? GetWinner()
         {
             if (isFinished)
             {
                 return ScoreOpponentA() > ScoreOpponentB() ? opponents[0] : opponents[1];
             }
+
             return null;
         }
 

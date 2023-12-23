@@ -8,14 +8,12 @@ namespace Tennis.Objects
     public class Opponent
     {
         private int id;
-        private List<Match> matches = new List<Match>();
         private List<Player> players = new List<Player>();
-        private List<Set> setWinList = new List<Set>();
 
         public List<Player> Players { get { return players; } }
 
         public int Id { get { return id; } set { this.id = value; } }
-        public object Date { get; internal set; }
+        // public object Date { get; internal set; } ????
 
         public Opponent()
         { }
