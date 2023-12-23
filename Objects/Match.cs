@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using Tennis.DAO;
 using Tennis.Factory;
 
@@ -14,7 +15,7 @@ namespace Tennis.Objects
         /// </summary>
         private int id;
         private DateTime date;
-        private TimeSpan duration;
+        private TimeSpan duration = new TimeSpan(0, 0, 0);
 
         private int round;
         private int currentSet = 0;
@@ -90,9 +91,13 @@ namespace Tennis.Objects
             {
                 temp = new Set(this);
                 AddSet(temp);
+
+                this.AddDuration(15);
+
                 //Create a set for the game
                 setDAO.Create(temp);
                 temp.Play();
+
                 //Add a winner
                 if (temp.Winner != null)
                 {
@@ -209,6 +214,11 @@ namespace Tennis.Objects
                 summ.NotifyPropertyChanged("TotalSet");
                 summ.NotifyPropertyChanged("TieBreakScore");
             }
+        }
+
+        public void AddDuration(int minutes)
+        {
+            this.duration = this.duration.Add(new TimeSpan(0, minutes, 0));
         }
 
     }
