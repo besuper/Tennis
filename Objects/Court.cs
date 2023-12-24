@@ -1,3 +1,7 @@
+using System;
+using Tennis.DAO;
+using Tennis.Factory;
+
 namespace Tennis.Objects
 {
     public class Court
@@ -40,6 +44,13 @@ namespace Tennis.Objects
         public override string? ToString()
         {
             return this.name;
+        }
+
+        public static Court GetById(int idCourt)
+        {
+            DAO<Court> courtDAO = AbstractDAOFactory.GetFactory().GetCourtDAO();
+
+            return courtDAO.Find(idCourt);
         }
     }
 }

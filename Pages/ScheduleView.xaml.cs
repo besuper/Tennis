@@ -49,6 +49,34 @@ namespace Tennis.Pages
             tournament = new Tournament(tournamentName);
         }
 
+        public ScheduleView(Tournament tournament)
+        {
+            InitializeComponent();
+            //this.Owner.Close();
+            List<Schedule> schedules = Schedule.GetAllScheduleFromTournamen(tournament);
+
+            // Create schedulers from Enum
+            Array types = Enum.GetValues(typeof(ScheduleType));
+
+            foreach (Schedule schedule in schedules)
+            {
+                object temp = this.tabControl.FindName(schedule.Type + "ListView");
+
+                if (temp != null && temp is ListView)
+                {
+                    schedulers[schedule.Type] = new ObservableCollection<Match>(schedule.Matches);
+
+                    (temp as ListView).ItemsSource = schedulers[schedule.Type];
+                    listViews[schedule.Type] = temp as ListView;
+                }
+            }
+
+            // Create tournament
+            this.tournament = tournament;
+            this.started = true;
+            this.pageGrid.Children.Remove(this.loading);
+        }
+
         // Listen updates from schedulers
         private void OnMatchesPropertyChanged(object sender, PropertyChangedEventArgs e)
         {

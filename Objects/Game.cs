@@ -71,7 +71,7 @@ namespace Tennis.Objects
 
                 set.Match.UpdateSumary();
 
-                Thread.Sleep(5);
+                //Thread.Sleep(5);
             }
         }
 

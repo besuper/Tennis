@@ -1,7 +1,10 @@
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Tennis.DAO;
+using Tennis.Factory;
 
 namespace Tennis.Objects
 {
@@ -18,6 +21,15 @@ namespace Tennis.Objects
         public Opponent()
         { }
 
+        public Opponent(int id)
+        { 
+            this.id = id;
+
+            //Load les players
+            this.players = Player.GetPlayersFromOpponent(this);
+            Console.WriteLine("Opponent : " + this.ToString());
+        }
+
         public void AddPlayer(Player player)
         {
             players.Add(player);
@@ -26,6 +38,13 @@ namespace Tennis.Objects
         public override string? ToString()
         {
             return string.Join(", ", players);
+        }
+
+        public static List<Opponent> GetOpponnentFromMatch(Match match)
+        {
+            OpponentDAO opponentDAO = (OpponentDAO) AbstractDAOFactory.GetFactory().GetOpponentDAO();
+
+            return opponentDAO.GetOpponnentFromMatch(match);
         }
     }
 }

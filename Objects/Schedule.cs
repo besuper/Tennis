@@ -42,6 +42,16 @@ namespace Tennis.Objects
             this.winners = MakeGroups();
         }
 
+        public Schedule(int id, ScheduleType type, Tournament tournament)
+        {
+            this.id = id;
+            this.type = type;
+            this.tournament = tournament;
+
+            matches = Match.GetAllMatchesFromSchedule(this);
+
+        }
+
         /// <summary>
         /// Getters and Setters
         /// </summary>
@@ -182,11 +192,8 @@ namespace Tennis.Objects
             foreach(Opponent o in match.Oppnents)
             {
                 opponentDAO.Create(o);
+                opponentDAO.AddPlayer(o);
 
-                foreach(Player p in o.Players)
-                {
-                    opponentDAO.AddPlayer(o, p);
-                }
             }
 
             foreach (var opponent in match.Oppnents)
@@ -369,5 +376,11 @@ namespace Tennis.Objects
             CancellationPending = true;
         }
 
+        public static List<Schedule> GetAllScheduleFromTournamen(Tournament tournament)
+        {
+            ScheduleDAO scheduleDAO = (ScheduleDAO)AbstractDAOFactory.Factory.GetScheduleDAO();
+
+            return scheduleDAO.GetAllScheduleFromTournamen(tournament);
+        }
     }
 }

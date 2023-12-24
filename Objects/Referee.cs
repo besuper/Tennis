@@ -1,3 +1,6 @@
+using Tennis.DAO;
+using Tennis.Factory;
+
 namespace Tennis.Objects
 {
 
@@ -32,6 +35,13 @@ namespace Tennis.Objects
         {
             match = null;
         }
+
+        public static Referee GetById(int id)
+        {
+            DAO<Referee> refereeDAO = AbstractDAOFactory.GetFactory().GetRefereeDAO();
+
+            return refereeDAO.Find(id);
+        }   
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using Tennis.Objects;
 
@@ -17,9 +18,28 @@ namespace Tennis.DAO
             throw new NotImplementedException();
         }
 
-        public override Referee Find(int id)
+        public override Referee? Find(int id)
         {
-            throw new NotImplementedException();
+            Referee referee = null;
+
+            using (SqlCommand command = new SqlCommand("SELECT * FROM Referees WHERE id_referee = @id", DatabaseManager.GetConnection()))
+            {
+                command.Parameters.AddWithValue("@id", id);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        referee = new Referee(
+                            id,
+                            reader.GetString("firstname"),
+                            reader.GetString("lastname"),
+                            reader.GetString("nationality")
+                            );
+                    }
+                }
+            }
+
+            return referee;
         }
 
         public override bool Update(Referee obj)

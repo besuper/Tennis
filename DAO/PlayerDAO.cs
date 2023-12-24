@@ -52,5 +52,24 @@ namespace Tennis.DAO
 
             return list;
         }
+
+        internal List<Player> GetPlayersFromOpponent(Opponent opponent)
+        {
+            List<Player> players = new List<Player>();
+
+            using (SqlCommand command = new SqlCommand("SELECT * FROM Players INNER JOIN PlayersOpponent ON PlayersOpponent.id_player = Players.id_player WHERE id_opponent = @id", DatabaseManager.GetConnection()))
+            {
+                command.Parameters.AddWithValue("@id", opponent.Id);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        players.Add(new Player(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetInt32(5)));
+                    }
+                }
+            }
+
+            return players;
+        }
     }
 }

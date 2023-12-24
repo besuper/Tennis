@@ -16,13 +16,12 @@
 
         <Grid Grid.Row="1" Margin="0,30,0,0" >
             <Label Content="Tournois précédants" FontSize="18" />
-            <ListView Margin="0,30,0,0">
-                <ListViewItem>A ListView</ListViewItem>
-                <ListViewItem IsSelected="True">with several</ListViewItem>
-                <ListViewItem>items</ListViewItem>
-                <ListViewItem>items</ListViewItem>
-                <ListViewItem>items</ListViewItem>
-                <ListViewItem>items</ListViewItem>
+            <ListView x:Name="TournamentList" Margin="0,30,0,0" PreviewMouseLeftButtonDown="OpenTournament">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Nom" />
+                    </GridView>
+                </ListView.View>
             </ListView>
         </Grid>
     </Grid>

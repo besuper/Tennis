@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Windows.Documents;
 using Tennis.Objects;
 
 namespace Tennis.DAO
@@ -33,6 +35,22 @@ namespace Tennis.DAO
         public override bool Update(Tournament obj)
         {
             throw new NotImplementedException();
+        }
+
+        public List<Tournament> FindAll()
+        {
+            List<Tournament> tournaments = new List<Tournament>();
+            using (SqlCommand cmd = new SqlCommand("SELECT * FROM Tournaments", DatabaseManager.GetConnection()))
+            {
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Tournament tournament = new Tournament(reader.GetInt32(0), reader.GetString(1));
+                    tournaments.Add(tournament);
+                }
+            }
+
+            return tournaments;
         }
     }
 }

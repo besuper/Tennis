@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using Tennis.Objects;
 
@@ -51,6 +53,31 @@ namespace Tennis.DAO
         public override bool Update(Match obj)
         {
             throw new NotImplementedException();
+        }
+
+        internal List<Match> GetAllMatchesFromSchedule(Schedule schedule)
+        {
+            List<Match> matches = new List<Match>();
+            using (SqlCommand cmd = new SqlCommand("SELECT * FROM Matches WHERE id_schedule = @id", DatabaseManager.GetConnection()))
+            {
+                cmd.Parameters.AddWithValue("@id", schedule.Id);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Match match= new Match(
+                        reader.GetInt32("id_match"), 
+                        reader.GetDateTime("match_date"), 
+                        reader.GetTimeSpan(2), // duration, ne fonctionne pas en str
+                        reader.GetInt32("round"), 
+                        reader.GetInt32("id_referee"), 
+                        reader.GetInt32("id_court"),
+                        schedule
+                        );
+                    matches.Add(match);
+                }
+            }
+
+            return matches;
         }
     }
 }

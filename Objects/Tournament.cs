@@ -41,6 +41,12 @@ namespace Tennis.Objects
             //Create();
         }
 
+        public Tournament(int id, string name)
+        {
+            this.id = id;
+            this.name = name;
+        }
+
         public DateTime CurrentDate { get { return currentDate; } }
         public List<Schedule> ScheduleList { get { return scheduleList; } }
         public string Name { get { return name; } }
@@ -183,6 +189,13 @@ namespace Tennis.Objects
             {
                 schedule.StopSchedule();
             }
+        }
+
+        public static List<Tournament> GetTournaments()
+        {
+            TournamentDAO tournamentDAO = (TournamentDAO)AbstractDAOFactory.Factory.GetTournamentDAO();
+
+            return tournamentDAO.FindAll();
         }
     }
 }

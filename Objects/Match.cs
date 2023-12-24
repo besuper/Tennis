@@ -47,6 +47,24 @@ namespace Tennis.Objects
             }
         }
 
+        public Match(int id, DateTime date, TimeSpan duration, int round, int idReferee, int idCourt, Schedule schedule)
+        {
+            this.id = id;
+            this.date = date;
+            this.duration = duration;
+            this.round = round;
+
+            this.referee = Referee.GetById(idReferee);
+            
+            this.court = Court.GetById(idCourt);
+            this.schedule = schedule;
+
+
+            //this.opponents = opponents;
+            this.opponents = Opponent.GetOpponnentFromMatch(this);
+
+        }
+
         /// <summary>
         /// Getters and Setters
         /// </summary>
@@ -221,5 +239,11 @@ namespace Tennis.Objects
             this.duration = this.duration.Add(new TimeSpan(0, minutes, 0));
         }
 
+        public static List<Match> GetAllMatchesFromSchedule(Schedule schedule)
+        {
+            MatchDAO matchDAO = (MatchDAO) AbstractDAOFactory.Factory.GetMatchDAO();
+
+            return matchDAO.GetAllMatchesFromSchedule(schedule);
+        }
     }
 }

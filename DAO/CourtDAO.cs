@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using Tennis.Objects;
 
@@ -19,7 +20,25 @@ namespace Tennis.DAO
 
         public override Court Find(int id)
         {
-            throw new NotImplementedException();
+            Court referee = null;
+
+            using (SqlCommand command = new SqlCommand("SELECT * FROM Courts WHERE id_court = @id", DatabaseManager.GetConnection()))
+            {
+                command.Parameters.AddWithValue("@id", id);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        referee = new Court(id,
+                            reader.GetString("nom"),
+                            reader.GetInt32("nb_spectator"),
+                            reader.GetBoolean("covered")
+                        );
+                    }
+                }
+            }
+
+            return referee;
         }
 
         public override bool Update(Court obj)
