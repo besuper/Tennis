@@ -55,7 +55,7 @@ namespace Tennis.DAO
             throw new NotImplementedException();
         }
 
-        internal List<Match> GetAllMatchesFromSchedule(Schedule schedule)
+        public List<Match> GetAllMatchesFromSchedule(Schedule schedule)
         {
             List<Match> matches = new List<Match>();
             using (SqlCommand cmd = new SqlCommand("SELECT * FROM Matches WHERE id_schedule = @id", DatabaseManager.GetConnection()))

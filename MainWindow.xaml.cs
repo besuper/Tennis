@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Tennis.Objects;
@@ -26,16 +27,24 @@ namespace Tennis
             tournamentView.ShowDialog();
         }
 
-        private void OpenTournament(object sender, RoutedEventArgs e)
+        private async void OpenTournament(object sender, RoutedEventArgs e)
         {
             var item = (sender as ListView).SelectedItem;
 
             if (item != null)
             {
                 Tournament tournament = (Tournament)item;
+
                 ScheduleView scheduleView = new ScheduleView(tournament);
-                scheduleView.Owner = this;
                 scheduleView.Show();
+
+                // Start database loading in a new Task
+                await Task.Run(() =>
+                {
+                    scheduleView.LoadFromDatabase();
+                });
+
+                this.Close();
             }
         }
     }

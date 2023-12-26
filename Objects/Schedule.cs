@@ -48,7 +48,7 @@ namespace Tennis.Objects
             this.type = type;
             this.tournament = tournament;
 
-            matches = Match.GetAllMatchesFromSchedule(this);
+            // matches = Match.GetAllMatchesFromSchedule(this);
 
         }
 
@@ -376,7 +376,13 @@ namespace Tennis.Objects
             CancellationPending = true;
         }
 
-        public static List<Schedule> GetAllScheduleFromTournamen(Tournament tournament)
+        // Load Matches from database
+        public void LoadMatches()
+        {
+            this.matches = Match.GetAllMatchesFromSchedule(this);
+        }
+
+        public static List<Schedule> GetAllScheduleFromTournament(Tournament tournament)
         {
             ScheduleDAO scheduleDAO = (ScheduleDAO)AbstractDAOFactory.Factory.GetScheduleDAO();
 

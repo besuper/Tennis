@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Tennis.DAO;
-using Tennis.Factory;
 using Tennis.Objects;
 
 namespace Tennis.Pages
@@ -49,32 +46,47 @@ namespace Tennis.Pages
             tournament = new Tournament(tournamentName);
         }
 
+        // Create tournament from database
         public ScheduleView(Tournament tournament)
         {
             InitializeComponent();
-            //this.Owner.Close();
-            List<Schedule> schedules = Schedule.GetAllScheduleFromTournamen(tournament);
 
-            // Create schedulers from Enum
-            Array types = Enum.GetValues(typeof(ScheduleType));
+            this.tournament = tournament;
+            this.Title = tournament.Name;
+            this.started = true;
+
+            this.pageGrid.Children.Remove(this.loading);
+        }
+
+        public void LoadFromDatabase()
+        {
+            List<Schedule> schedules = Schedule.GetAllScheduleFromTournament(tournament);
+            List<Task> tasks = new List<Task>();
 
             foreach (Schedule schedule in schedules)
             {
-                object temp = this.tabControl.FindName(schedule.Type + "ListView");
-
-                if (temp != null && temp is ListView)
+                Task temp = new Task(() =>
                 {
-                    schedulers[schedule.Type] = new ObservableCollection<Match>(schedule.Matches);
+                    schedule.LoadMatches();
 
-                    (temp as ListView).ItemsSource = schedulers[schedule.Type];
-                    listViews[schedule.Type] = temp as ListView;
-                }
+                    App.Current.Dispatcher.Invoke((Action)delegate
+                    {
+                        object temp = this.tabControl.FindName(schedule.Type + "ListView");
+
+                        if (temp != null && temp is ListView)
+                        {
+                            schedulers[schedule.Type] = new ObservableCollection<Match>(schedule.Matches);
+
+                            (temp as ListView).ItemsSource = schedulers[schedule.Type];
+                            listViews[schedule.Type] = temp as ListView;
+                        }
+                    });
+                });
+                temp.Start();
+                tasks.Add(temp);
             }
 
-            // Create tournament
-            this.tournament = tournament;
-            this.started = true;
-            this.pageGrid.Children.Remove(this.loading);
+            Task.WaitAll(tasks.ToArray());
         }
 
         // Listen updates from schedulers

@@ -56,9 +56,7 @@ namespace Tennis.Objects
         {
             Array types = Enum.GetValues(typeof(ScheduleType));
 
-            PlayerDAO playerDAO = (PlayerDAO)AbstractDAOFactory.Factory.GetPlayerDAO();
-
-            List<Player> players = playerDAO.FindAll();
+            List<Player> players = Player.GetAllPlayers();
 
             // Check: Players count
             if (players.Count != 256)

@@ -58,7 +58,7 @@ namespace Tennis.DAO
             throw new NotImplementedException();
         }
 
-        internal List<Opponent> GetOpponnentFromMatch(Match match)
+        public List<Opponent> GetOpponnentFromMatch(Match match)
         {
             List<Opponent> opponents = new List<Opponent>();
             using (SqlCommand cmd = new SqlCommand("SELECT * FROM MatchOpponent INNER JOIN Opponents ON Opponents.id_opponent = MatchOpponent.id_opponent WHERE id_match = @id", DatabaseManager.GetConnection()))

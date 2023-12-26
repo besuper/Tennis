@@ -29,6 +29,13 @@ namespace Tennis.Objects
 
         public int Id { get { return this.id; } }
 
+        public static List<Player> GetAllPlayers()
+        {
+            PlayerDAO playerDAO = (PlayerDAO)AbstractDAOFactory.GetFactory().GetPlayerDAO();
+
+            return playerDAO.FindAll();
+        }
+
         public static List<Player> GetPlayersFromOpponent(Opponent opponent)
         {
             PlayerDAO playerDAO = (PlayerDAO)AbstractDAOFactory.GetFactory().GetPlayerDAO();

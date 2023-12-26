@@ -57,7 +57,7 @@ namespace Tennis.DAO
             throw new NotImplementedException();
         }
 
-        internal List<Game> GetGamesFromSet(Set set)
+        public List<Game> GetGamesFromSet(Set set)
         {
             List<Game> games = new List<Game>();
             using (SqlCommand cmd = new SqlCommand("SELECT * FROM Games WHERE id_set = @id", DatabaseManager.GetConnection()))

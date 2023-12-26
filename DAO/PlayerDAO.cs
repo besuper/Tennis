@@ -53,7 +53,7 @@ namespace Tennis.DAO
             return list;
         }
 
-        internal List<Player> GetPlayersFromOpponent(Opponent opponent)
+        public List<Player> GetPlayersFromOpponent(Opponent opponent)
         {
             List<Player> players = new List<Player>();
 
