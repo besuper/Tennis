@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using Tennis.Objects;
 
@@ -42,6 +43,27 @@ namespace Tennis.DAO
 
                 return true;
             }
+        }
+
+        public List<Set> GetSetsFromMatch(Match match)
+        {
+            List<Set> sets = new List<Set>();
+            using (SqlCommand cmd = new SqlCommand("SELECT * FROM Sets WHERE id_match = @id", DatabaseManager.GetConnection()))
+            {
+                cmd.Parameters.AddWithValue("@id", match.Id);
+                using(SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        sets.Add(new Set(
+                            reader.GetInt32(reader.GetOrdinal("id_set")),
+                            match)
+                            );
+                    }
+                }   
+            }
+            return sets;
+
         }
     }
 }

@@ -63,6 +63,17 @@ namespace Tennis.Objects
             //this.opponents = opponents;
             this.opponents = Opponent.GetOpponnentFromMatch(this);
 
+            //Load each set
+            this.sets = Set.GetAllSetsFromMatch(this);
+
+            //Create a MatchSummary
+
+            for (int i = 0; i < opponents.Count; i++)
+            {
+                summary.Add(new MatchSummary(i, this));
+            }
+
+            isFinished = true;
         }
 
         /// <summary>

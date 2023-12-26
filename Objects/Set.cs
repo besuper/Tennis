@@ -29,6 +29,25 @@ namespace Tennis.Objects
             this.match = match;
         }
 
+        public Set(int id, Match match)
+        {
+            this.id = id;
+            this.match = match;
+
+            //Load each game
+            games = Game.GetAllGamesFromSet(this);
+            
+            if (GameScorePlayerA() > GameScorePlayerB())
+            {
+                winner = match.Oppnents[0];
+            }
+            else
+            {
+                winner = match.Oppnents[1];
+            }
+
+        }
+
         /// <summary>
         /// Getters and Setters
         /// </summary>
@@ -160,5 +179,10 @@ namespace Tennis.Objects
             }
         }
 
+        public static List<Set> GetAllSetsFromMatch(Match match)
+        {
+            SetDAO setDAO = (SetDAO)AbstractDAOFactory.Factory.GetSetDAO();
+            return setDAO.GetSetsFromMatch(match);
+        }
     }
 }

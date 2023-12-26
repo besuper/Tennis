@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using Tennis.Objects;
 
@@ -53,6 +55,30 @@ namespace Tennis.DAO
         public override bool Update(Game obj)
         {
             throw new NotImplementedException();
+        }
+
+        internal List<Game> GetGamesFromSet(Set set)
+        {
+            List<Game> games = new List<Game>();
+            using (SqlCommand cmd = new SqlCommand("SELECT * FROM Games WHERE id_set = @id", DatabaseManager.GetConnection()))
+            {
+                cmd.Parameters.AddWithValue("@id", set.Id);
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        games.Add(new Game(
+                            reader.GetInt32("id_game"),
+                            reader.GetString("score_a"),
+                            reader.GetString("score_b"),
+                            reader.GetInt32("id_opponent"), //Winner of the set
+                            set)
+                            );
+                    }
+                }
+            }
+            return games;
+
         }
     }
 }

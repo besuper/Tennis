@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
+using Tennis.DAO;
+using Tennis.Factory;
 
 namespace Tennis.Objects
 {
@@ -36,6 +39,16 @@ namespace Tennis.Objects
         /// <param name="set"></param>
         public Game(Set set)
         {
+            this.set = set;
+        }
+
+        public Game(int id, String scoreA, String scoreB, int winner, Set set)
+        {
+            this.id = id;
+            this.currentScoreOp1 = scoreA == "AD" ? 41 : int.Parse(scoreA);
+            this.currentScoreOp2 = scoreB == "AD" ? 41 : int.Parse(scoreB);
+            //Get the winner from the id from match
+            this.winner = set.Match.Oppnents.Find(x => x.Id == winner);
             this.set = set;
         }
 
@@ -162,6 +175,12 @@ namespace Tennis.Objects
         int Dice()
         {
             return rand.Next(0, 2);
+        }
+
+        public static List<Game> GetAllGamesFromSet(Set set)
+        {
+            GameDAO gameDAO = (GameDAO) AbstractDAOFactory.Factory.GetGameDAO();
+            return gameDAO.GetGamesFromSet(set);
         }
     }
 }
