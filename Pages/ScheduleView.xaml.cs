@@ -31,15 +31,7 @@ namespace Tennis.Pages
 
             foreach (ScheduleType type in types)
             {
-                object temp = this.tabControl.FindName(type + "ListView");
-
-                if (temp != null && temp is ListView)
-                {
-                    schedulers[type] = new ObservableCollection<Match>();
-
-                    (temp as ListView).ItemsSource = schedulers[type];
-                    listViews[type] = temp as ListView;
-                }
+                SetupListView(type);
             }
 
             // Create tournament
@@ -58,6 +50,7 @@ namespace Tennis.Pages
             this.pageGrid.Children.Remove(this.loading);
         }
 
+        // Load the tournament from database
         public void LoadFromDatabase()
         {
             List<Schedule> schedules = Schedule.GetAllScheduleFromTournament(tournament);
@@ -71,15 +64,7 @@ namespace Tennis.Pages
 
                     App.Current.Dispatcher.Invoke((Action)delegate
                     {
-                        object temp = this.tabControl.FindName(schedule.Type + "ListView");
-
-                        if (temp != null && temp is ListView)
-                        {
-                            schedulers[schedule.Type] = new ObservableCollection<Match>(schedule.Matches);
-
-                            (temp as ListView).ItemsSource = schedulers[schedule.Type];
-                            listViews[schedule.Type] = temp as ListView;
-                        }
+                        SetupListView(schedule.Type, schedule.Matches);
                     });
                 });
                 temp.Start();
@@ -123,6 +108,7 @@ namespace Tennis.Pages
             });
         }
 
+        // On click listener to view match details
         private void OpenMatch(object sender, MouseButtonEventArgs e)
         {
             var item = (sender as ListView).SelectedItem;
@@ -140,15 +126,15 @@ namespace Tennis.Pages
                 bool opened = false;
 
                 // Check if the match view is already opened
-                foreach(MatchView view in openedMatches)
+                foreach (MatchView view in openedMatches)
                 {
-                    if(view.MatchId() == match.Id)
+                    if (view.MatchId() == match.Id)
                     {
                         opened = true;
                     }
                 }
 
-                if(opened)
+                if (opened)
                 {
                     return;
                 }
@@ -162,7 +148,7 @@ namespace Tennis.Pages
                 mv.Closed += (sender, e) =>
                 {
                     // If close event come from user input
-                    if(!mv.IsMainClosing)
+                    if (!mv.IsMainClosing)
                     {
                         openedMatches.Remove(mv);
                     }
@@ -173,9 +159,9 @@ namespace Tennis.Pages
         private void OnClosing(object sender, CancelEventArgs e)
         {
             // Close all match windows
-            foreach(MatchView view in openedMatches)
+            foreach (MatchView view in openedMatches)
             {
-                // Set MainClosing true to avoid collection modified
+                // Set MainClosing true to avoid collection modified in openedMatches
                 view.IsMainClosing = true;
                 view.Close();
             }
@@ -188,17 +174,21 @@ namespace Tennis.Pages
             mainApp.Show();
         }
 
+        // When the window is activated
         private async void OnActivated(object sender, EventArgs e)
         {
+            // Only run this code once
             if (!started)
             {
                 started = true;
 
+                // Create tournament in a separate thread
                 await Task.Run(() =>
                 {
                     tournament.Create();
                 });
 
+                // Remove waiting text
                 this.pageGrid.Children.Remove(this.loading);
 
                 // Register event listener
@@ -211,6 +201,21 @@ namespace Tennis.Pages
                 this.Title = tournament.Name;
 
                 tournament.Play();
+            }
+        }
+
+        public void SetupListView(ScheduleType type, List<Match>? defaultContent = null)
+        {
+            object temp = this.tabControl.FindName(type + "ListView");
+
+            if (temp != null && temp is ListView)
+            {
+                ListView tempView = (ListView)temp;
+
+                schedulers[type] = new ObservableCollection<Match>(defaultContent == null ? new List<Match>() : defaultContent);
+                listViews[type] = tempView;
+
+                tempView.ItemsSource = schedulers[type];
             }
         }
     }

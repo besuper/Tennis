@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Tennis.DAO;
 using Tennis.Factory;
 
@@ -6,6 +7,10 @@ namespace Tennis.Objects
 {
     public class Court
     {
+        /// <summary>
+        /// Attributes
+        /// </summary>
+
         private readonly int id;
         private readonly string name;
         private readonly int nbSpectators;
@@ -13,9 +18,9 @@ namespace Tennis.Objects
 
         private Match? match;
 
-        public Match? Match { get { return match; } }
-        public int Id { get { return id; } }
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public Court(int id, string name, int nbSpectators, bool covered)
         {
             this.id = id;
@@ -23,6 +28,17 @@ namespace Tennis.Objects
             this.nbSpectators = nbSpectators;
             this.covered = covered;
         }
+
+        /// <summary>
+        /// Getters and Setters
+        /// </summary>
+
+        public Match? Match { get { return match; } }
+        public int Id { get { return id; } }
+
+        /// <summary>
+        /// Methods
+        /// </summary>
 
         public bool IsAvailable(Match checkMatch)
         {
@@ -46,11 +62,22 @@ namespace Tennis.Objects
             return this.name;
         }
 
+        /// <summary>
+        /// DAO Methods
+        /// </summary>
+
         public static Court GetById(int idCourt)
         {
             DAO<Court> courtDAO = AbstractDAOFactory.GetFactory().GetCourtDAO();
 
             return courtDAO.Find(idCourt);
+        }
+
+        public static List<Court> GetAll()
+        {
+            CourtDAO courtDAO = (CourtDAO)AbstractDAOFactory.GetFactory().GetCourtDAO();
+
+            return courtDAO.FindAll();
         }
     }
 }

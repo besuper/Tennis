@@ -1,11 +1,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Diagnostics;
-using System.DirectoryServices;
 using System.Threading;
-using System.Windows.Documents;
 using Tennis.DAO;
 using Tennis.Factory;
 
@@ -13,6 +9,10 @@ namespace Tennis.Objects
 {
     public class Tournament
     {
+        /// <summary>
+        /// Attributes
+        /// </summary>
+        /// 
         private int id;
         private readonly string name;
 
@@ -25,32 +25,47 @@ namespace Tennis.Objects
 
         private bool CancellationPending = false;
 
+        /// <summary>
+        /// Constructor from create new tournament
+        /// </summary>
+        /// <param name="name"></param>
         public Tournament(string name)
         {
             this.name = name;
 
-            TournamentDAO tournamentDAO = (TournamentDAO) AbstractDAOFactory.Factory.GetTournamentDAO() ;
-            RefereeDAO refereeDAO = (RefereeDAO) AbstractDAOFactory.Factory.GetRefereeDAO();
-            CourtDAO courtDAO = (CourtDAO)AbstractDAOFactory.Factory.GetCourtDAO();
+            TournamentDAO tournamentDAO = (TournamentDAO) AbstractDAOFactory.Factory.GetTournamentDAO();
 
             tournamentDAO.Create(this);
-            this.refereeList = refereeDAO.FindAll();
-            this.courtList = courtDAO.FindAll();
+
+            this.refereeList = Referee.GetAll();
+            this.courtList = Court.GetAll();
 
             SkipNewDay();
-            //Create();
         }
 
+        /// <summary>
+        /// Constructor from database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="match"></param>
         public Tournament(int id, string name)
         {
             this.id = id;
             this.name = name;
         }
 
+        /// <summary>
+        /// Getters and Setters
+        /// </summary>
+        /// 
         public DateTime CurrentDate { get { return currentDate; } }
         public List<Schedule> ScheduleList { get { return scheduleList; } }
         public string Name { get { return name; } }
         public int Id { get { return id; } set { this.id = value; } }
+
+        /// <summary>
+        /// Methods
+        /// </summary>
 
         public void Create()
         {
@@ -188,6 +203,10 @@ namespace Tennis.Objects
                 schedule.StopSchedule();
             }
         }
+
+        /// <summary>
+        /// DAO Methods
+        /// </summary>
 
         public static List<Tournament> GetTournaments()
         {

@@ -1,7 +1,5 @@
 
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using Tennis.DAO;
 using Tennis.Factory;
 
@@ -29,6 +27,11 @@ namespace Tennis.Objects
             this.match = match;
         }
 
+        /// <summary>
+        /// Constructor from database loading
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="match"></param>
         public Set(int id, Match match)
         {
             this.id = id;
@@ -36,7 +39,7 @@ namespace Tennis.Objects
 
             //Load each game
             games = Game.GetAllGamesFromSet(this);
-            
+
             if (GameScorePlayerA() > GameScorePlayerB())
             {
                 winner = match.Oppnents[0];
@@ -98,10 +101,6 @@ namespace Tennis.Objects
 
         public void Play()
         {
-            DAO<Game> gameDAO= AbstractDAOFactory.Factory.GetGameDAO();
-
-            Debugger.log($"\n===========[Nouveau set {match.ScoreOpponentA()} - {match.ScoreOpponentB()}]===========");
-
             Game temp;
 
             for (int actualGameState = 1; actualGameState <= 12; actualGameState++)
@@ -109,8 +108,10 @@ namespace Tennis.Objects
                 temp = new Game(this);
 
                 games.Add(temp);
+
                 temp.Play();
-                gameDAO.Create(temp);
+
+                Game.CreateGame(temp);
 
                 int GamePointA = GameScorePlayerA();
                 int GamePointB = GameScorePlayerB();
@@ -136,14 +137,12 @@ namespace Tennis.Objects
                     // Si le set est le dernier du match (3 ou 5 sets) alors c'est un super tie-break
                     // Get the last set and replace it by a SuperTieBreak
 
-                    Random rand = new Random();
-                    int rnd = rand.Next(0, 2);
-
                     if (match.IsWinningSet())
                     {
                         // super tie-break
                         SuperTieBreak stb = new SuperTieBreak(match);
                         stb.Play(10);
+
                         Game tempgame = new Game(stb);
                         this.games.Add(tempgame);
 
@@ -153,21 +152,11 @@ namespace Tennis.Objects
                     else
                     {
                         // tie-break
-                        Debugger.log("Tie-break non pris en charge");
 
-                        // On fais gagner le Set aléatoiremenet temporraielent
-                        /*if (rnd == 0)
-                        {
-                            winner = match.Oppnents[0];
-                        }
-                        else
-                        {
-                            winner = match.Oppnents[1];
-                        }*/
                         // FIXME: !
                         SuperTieBreak stb = new SuperTieBreak(match);
-                        //match.AddSet(stb);
                         stb.Play(7);
+
                         Game tempgame = new Game(stb);
                         this.games.Add(tempgame);
 
@@ -178,6 +167,10 @@ namespace Tennis.Objects
                 }
             }
         }
+
+        /// <summary>
+        /// DAO Methods
+        /// </summary>
 
         public static List<Set> GetAllSetsFromMatch(Match match)
         {

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Tennis.DAO;
 using Tennis.Factory;
 
@@ -42,6 +43,13 @@ namespace Tennis.Objects
 
             return refereeDAO.Find(id);
         }   
+
+        public static List<Referee> GetAll()
+        {
+            RefereeDAO refereeDAO = (RefereeDAO)AbstractDAOFactory.GetFactory().GetRefereeDAO();
+
+            return refereeDAO.FindAll();
+        }
 
     }
 }

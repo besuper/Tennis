@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using Tennis.DAO;
 using Tennis.Factory;
 
@@ -47,6 +46,9 @@ namespace Tennis.Objects
             }
         }
 
+        /// <summary>
+        /// Constructor from database loading
+        /// </summary>
         public Match(int id, DateTime date, TimeSpan duration, int round, int idReferee, int idCourt, Schedule schedule)
         {
             this.id = id;
@@ -55,19 +57,15 @@ namespace Tennis.Objects
             this.round = round;
 
             this.referee = Referee.GetById(idReferee);
-            
             this.court = Court.GetById(idCourt);
+
             this.schedule = schedule;
 
-
-            //this.opponents = opponents;
             this.opponents = Opponent.GetOpponnentFromMatch(this);
 
-            //Load each set
             this.sets = Set.GetAllSetsFromMatch(this);
 
             //Create a MatchSummary
-
             for (int i = 0; i < opponents.Count; i++)
             {
                 summary.Add(new MatchSummary(i, this));
@@ -249,6 +247,10 @@ namespace Tennis.Objects
         {
             this.duration = this.duration.Add(new TimeSpan(0, minutes, 0));
         }
+
+        /// <summary>
+        /// DAO Methods
+        /// </summary>
 
         public static List<Match> GetAllMatchesFromSchedule(Schedule schedule)
         {
