@@ -21,6 +21,7 @@ namespace Tennis.Pages
 
             this.match = match;
             this.DataContext = this.match;
+            this.Title = $"{this.match.Opponents[0]} ({this.match.ScoreOpponentA()}) - {this.match.Opponents[1]} ({this.match.ScoreOpponentB()})";
 
             IsMainClosing = false;
             Score.ItemsSource = this.match.summary;

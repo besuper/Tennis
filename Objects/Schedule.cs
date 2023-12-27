@@ -189,14 +189,14 @@ namespace Tennis.Objects
             // Insert Oppopnents and Players in database
             OpponentDAO opponentDAO = (OpponentDAO)AbstractDAOFactory.Factory.GetOpponentDAO();
 
-            foreach(Opponent o in match.Oppnents)
+            foreach(Opponent o in match.Opponents)
             {
                 opponentDAO.Create(o);
                 opponentDAO.AddPlayer(o);
 
             }
 
-            foreach (var opponent in match.Oppnents)
+            foreach (var opponent in match.Opponents)
             {
                 matchDAO.AddOpponent(match, opponent);
             }

@@ -52,7 +52,7 @@ namespace Tennis.Objects
             this.currentScoreOp2 = scoreB == "AD" ? 41 : int.Parse(scoreB);
 
             //Get the winner by id from match winner id
-            this.winner = set.Match.Oppnents.Find(x => x.Id == winner);
+            this.winner = set.Match.Opponents.Find(x => x.Id == winner);
             this.set = set;
         }
 
@@ -103,13 +103,13 @@ namespace Tennis.Objects
                 if (gagnantTour == 0)
                 {
                     currentScoreOp1++;
-                    Debugger.log(set.Match.Oppnents[0] + " prend l'avantage");
+                    Debugger.log(set.Match.Opponents[0] + " prend l'avantage");
 
                 }
                 else
                 {
                     currentScoreOp2++;
-                    Debugger.log(set.Match.Oppnents[1] + " prend l'avantage");
+                    Debugger.log(set.Match.Opponents[1] + " prend l'avantage");
 
                 }
             }
@@ -125,9 +125,9 @@ namespace Tennis.Objects
                 if (currentScoreOp1 == 41 || currentScoreOp1 == 40)
                 {
 
-                    Debugger.log(set.Match.Oppnents[0] + " remporte la partie");
+                    Debugger.log(set.Match.Opponents[0] + " remporte la partie");
 
-                    winner = set.Match.Oppnents[0];
+                    winner = set.Match.Opponents[0];
 
                     return;
                 }
@@ -136,14 +136,14 @@ namespace Tennis.Objects
                 if (currentScoreOp2 == 41)
                 {
                     currentScoreOp2--;
-                    Debugger.log(set.Match.Oppnents[1] + " perd sont avantage, retour a l'égalité!");
+                    Debugger.log(set.Match.Opponents[1] + " perd sont avantage, retour a l'égalité!");
 
                     return;
                 }
 
                 currentScoreOp1 += currentScoreOp1 == 30 ? 10 : 15;
 
-                Debugger.log(set.Match.Oppnents[0] + " : " + currentScoreOp1);
+                Debugger.log(set.Match.Opponents[0] + " : " + currentScoreOp1);
 
             }
             else
@@ -152,9 +152,9 @@ namespace Tennis.Objects
                 // Ou alors il a gagné avec 40 points (la vérification de l'égalité ce fais plus haut!)
                 if (currentScoreOp2 == 41 || currentScoreOp2 == 40)
                 {
-                    Debugger.log(set.Match.Oppnents[1] + " remporte la partie");
+                    Debugger.log(set.Match.Opponents[1] + " remporte la partie");
 
-                    winner = set.Match.Oppnents[1];
+                    winner = set.Match.Opponents[1];
 
                     return;
                 }
@@ -163,14 +163,14 @@ namespace Tennis.Objects
                 if (currentScoreOp1 == 41)
                 {
                     currentScoreOp1--;
-                    Debugger.log(set.Match.Oppnents[0] + " perd sont avantage, retour a l'égalité!");
+                    Debugger.log(set.Match.Opponents[0] + " perd sont avantage, retour a l'égalité!");
 
                     return;
                 }
 
                 currentScoreOp2 += currentScoreOp2 == 30 ? 10 : 15;
 
-                Debugger.log(set.Match.Oppnents[1] + " : " + currentScoreOp2);
+                Debugger.log(set.Match.Opponents[1] + " : " + currentScoreOp2);
             }
         }
 

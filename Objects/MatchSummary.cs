@@ -14,9 +14,9 @@ namespace Tennis.Objects
         private string currentPoint = "";
         private string totalSet = "";
 
-        public Opponent Opponent { get { return match.Oppnents[position]; } }
+        public Opponent Opponent { get { return match.Opponents[position]; } }
         public Match Match { get { return match; } }
-        public string CurrentPoint { get { return currentPoint; } set { this.currentPoint = value; } }
+        public string CurrentPoint { get { return match.IsFinished ? "" : currentPoint; } set { this.currentPoint = value; } }
 
         public string TotalSet { get { return totalSet; } set { this.totalSet = value; } }
 

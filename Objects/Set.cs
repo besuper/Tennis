@@ -42,11 +42,11 @@ namespace Tennis.Objects
 
             if (GameScorePlayerA() > GameScorePlayerB())
             {
-                winner = match.Oppnents[0];
+                winner = match.Opponents[0];
             }
             else
             {
-                winner = match.Oppnents[1];
+                winner = match.Opponents[1];
             }
 
         }
@@ -75,7 +75,7 @@ namespace Tennis.Objects
 
             foreach (Game game in games)
             {
-                if (game.Winner != null && game.Winner == match.Oppnents[0])
+                if (game.Winner != null && game.Winner == match.Opponents[0])
                 {
                     GameScoreA++;
                 }
@@ -90,7 +90,7 @@ namespace Tennis.Objects
 
             foreach (Game game in games)
             {
-                if (game.Winner != null && game.Winner == match.Oppnents[1])
+                if (game.Winner != null && game.Winner == match.Opponents[1])
                 {
                     GameScoreB++;
                 }
@@ -119,14 +119,14 @@ namespace Tennis.Objects
                 if (GamePointA >= 6 && (GamePointA - GamePointB) >= 2)
                 {
                     // Le joueur A a forcement gagné le SET ici
-                    winner = match.Oppnents[0];
+                    winner = match.Opponents[0];
                     break;
                 }
 
                 if (GamePointB >= 6 && (GamePointB - GamePointA) >= 2)
                 {
                     // Le joueur B a forcement gagné le SET ici
-                    winner = Match.Oppnents[1];
+                    winner = Match.Opponents[1];
                     break;
                 }
 

@@ -16,8 +16,8 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Round"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Oppnents[0]}" Header="Opponent A"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Oppnents[1]}" Header="Opponent B"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Opponents[0]}" Header="Opponent A"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Opponents[1]}" Header="Opponent B"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Duration}" Header="Time"/>
@@ -44,8 +44,8 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Round"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Oppnents[0]}" Header="Opponent A"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Oppnents[1]}" Header="Opponent B"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Opponents[0]}" Header="Opponent A"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Opponents[1]}" Header="Opponent B"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Duration}" Header="Time"/>
@@ -72,8 +72,8 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Round"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Oppnents[0]}" Header="Opponent A"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Oppnents[1]}" Header="Opponent B"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Opponents[0]}" Header="Opponent A"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Opponents[1]}" Header="Opponent B"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Duration}" Header="Time"/>
@@ -100,8 +100,8 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Round"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Oppnents[0]}" Header="Opponent A"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Oppnents[1]}" Header="Opponent B"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Opponents[0]}" Header="Opponent A"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Opponents[1]}" Header="Opponent B"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Duration}" Header="Time"/>
@@ -128,8 +128,8 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Round"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Oppnents[0]}" Header="Opponent A"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Oppnents[1]}" Header="Opponent B"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Opponents[0]}" Header="Opponent A"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Opponents[1]}" Header="Opponent B"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Duration}" Header="Time"/>

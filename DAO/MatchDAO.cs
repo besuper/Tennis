@@ -52,8 +52,22 @@ namespace Tennis.DAO
 
         public override bool Update(Match obj)
         {
-            throw new NotImplementedException();
+            using (SqlCommand cmd = new SqlCommand("UPDATE Matches SET match_date = @match_date, duration = @duration, round = @round, id_referee = @id_referee, id_court = @id_court, id_schedule = @id_schedule WHERE id_match = @id_match", DatabaseManager.GetConnection()))
+            {
+                cmd.Parameters.AddWithValue("@match_date", obj.Date);
+                cmd.Parameters.AddWithValue("@duration", obj.Duration);
+                cmd.Parameters.AddWithValue("@round", obj.Round);
+                cmd.Parameters.AddWithValue("@id_referee", obj.Referee!.Id);
+                cmd.Parameters.AddWithValue("@id_court", obj.Court!.Id);
+                cmd.Parameters.AddWithValue("@id_schedule", obj.Schedule.Id);
+                cmd.Parameters.AddWithValue("@id_match", obj.Id);
+
+                int rowsAffected = cmd.ExecuteNonQuery();
+
+                return rowsAffected > 0;
+            }
         }
+
 
         public List<Match> GetAllMatchesFromSchedule(Schedule schedule)
         {

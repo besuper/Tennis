@@ -37,12 +37,12 @@ namespace Tennis.Objects
                     // Then have at least 2 more points than the opponent
                     if (scoreOp1 - scoreOp2 >= 2)
                     {
-                        winner = Match.Oppnents[0];
+                        winner = Match.Opponents[0];
                     }
 
                     if (scoreOp2 - scoreOp1 >= 2)
                     {
-                        winner = Match.Oppnents[1];
+                        winner = Match.Opponents[1];
                     }
                 }
 

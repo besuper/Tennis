@@ -69,8 +69,9 @@ namespace Tennis.Objects
             for (int i = 0; i < opponents.Count; i++)
             {
                 summary.Add(new MatchSummary(i, this));
+                summary[i].TotalSet = i == 0 ? $"{ScoreOpponentA()}" : $"{ScoreOpponentB()}";
             }
-
+            //Loaded match so already played
             isFinished = true;
         }
 
@@ -78,7 +79,7 @@ namespace Tennis.Objects
         /// Getters and Setters
         /// </summary>
         public int Id { get { return id; } set { this.id = value; } }
-        public List<Opponent> Oppnents { get { return opponents; } }
+        public List<Opponent> Opponents { get { return opponents; } }
         public Schedule Schedule { get { return schedule; } }
         public Referee Referee { get { return referee; } set { referee = value; } }
         public Court Court { get { return court; } set { court = value; } }
@@ -174,6 +175,10 @@ namespace Tennis.Objects
 
             referee.Release();
             court.Release();
+
+            //Update le match pour la duration, pas opti
+            MatchDAO matchDAO = (MatchDAO) AbstractDAOFactory.Factory.GetMatchDAO();
+            matchDAO.Update(this);
 
             isFinished = true;
 
