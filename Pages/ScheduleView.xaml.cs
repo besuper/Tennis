@@ -223,6 +223,17 @@ namespace Tennis.Pages
                 listViews[type] = tempView;
 
                 tempView.ItemsSource = schedulers[type];
+
+                // Delete loading schedule label
+                object loadingLabel = this.tabControl.FindName($"Loading{type}");
+
+                if(loadingLabel != null)
+                {
+                    Label l = (Label)loadingLabel;
+                    Grid g = (Grid)l.Parent;
+
+                    g.Children.Remove(l);
+                }
             }
         }
     }
