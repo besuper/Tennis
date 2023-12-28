@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text;
 using Tennis.Objects;
 
 namespace Tennis.DAO
@@ -24,6 +25,40 @@ namespace Tennis.DAO
                 obj.Id = modified;
 
                 return true;
+            }
+        }
+
+        public bool CreateGames(List<Game> objs)
+        {
+            string query = "INSERT INTO Games(id_opponent, id_set, score_a, score_b) VALUES";
+            StringBuilder sb = new StringBuilder(query);
+            foreach (Game game in objs)
+            {
+                int position = objs.IndexOf(game);
+                sb.Append($"(@id_opponent{position}, @id_set, @score_a{position}, @score_b{position}),");
+            }
+
+            using (SqlCommand cmd = new SqlCommand(sb.ToString().TrimEnd(','), DatabaseManager.GetConnection()))
+            {
+                foreach (Game game in objs)
+                {
+                    int position = objs.IndexOf(game);
+                    cmd.Parameters.AddWithValue($"@id_opponent{position}", game.Winner!.Id);
+                    //cmd.Parameters.AddWithValue($"@id_set{position}", game.Set.Id);
+                    Console.WriteLine(game.Set.Id);
+                    cmd.Parameters.AddWithValue($"@score_a{position}", $"{game.CurrentScoreOp1}");
+                    cmd.Parameters.AddWithValue($"@score_b{position}", $"{game.CurrentScoreOp2}");
+
+                }
+
+                cmd.Parameters.AddWithValue($"@id_set", objs[0].Set.Id);
+
+                //See the final command
+                Console.WriteLine(cmd.CommandText);
+
+                int modified = cmd.ExecuteNonQuery();
+
+                return modified != objs.Count;
             }
         }
 

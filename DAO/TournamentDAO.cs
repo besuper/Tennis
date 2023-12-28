@@ -24,7 +24,14 @@ namespace Tennis.DAO
 
         public override bool Delete(Tournament obj)
         {
-            throw new NotImplementedException();
+            using (SqlCommand cmd = new SqlCommand("DELETE FROM Tournaments WHERE id_tournament = @id", DatabaseManager.GetConnection()))
+            {
+                cmd.Parameters.AddWithValue("@id", obj.Id);
+
+                int modified = cmd.ExecuteNonQuery();
+
+                return modified == 1;
+            }
         }
 
         public override Tournament Find(int id)
@@ -40,7 +47,7 @@ namespace Tennis.DAO
         public List<Tournament> FindAll()
         {
             List<Tournament> tournaments = new List<Tournament>();
-            using (SqlCommand cmd = new SqlCommand("SELECT * FROM Tournaments", DatabaseManager.GetConnection()))
+            using (SqlCommand cmd = new SqlCommand("SELECT t.id_tournament, t.name FROM Tournaments t JOIN Schedules s ON s.id_tournament = t.id_tournament JOIN Matches m ON m.id_schedule = s.id_schedule WHERE s.schedule_type = 0 GROUP BY t.id_tournament, t.name HAVING COUNT(m.id_match) = 127", DatabaseManager.GetConnection()))
             {
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
