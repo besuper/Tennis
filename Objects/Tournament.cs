@@ -92,6 +92,7 @@ namespace Tennis.Objects
 
         public void Play()
         {
+            int count = 0;
             // Start every schedules in a separate thread
             foreach (Schedule type in scheduleList)
             {
@@ -100,6 +101,15 @@ namespace Tennis.Objects
                     while (type.HasNextRound() && !CancellationPending)
                     {
                         type.PlayNextRound();
+                    }
+                    count++;
+
+                    if (count == scheduleList.Count)
+                    {
+                        if (!IsFinished())
+                        {
+                            Tournament.Delete(this);
+                        }
                     }
                 }));
 
@@ -204,6 +214,19 @@ namespace Tennis.Objects
             }
         }
 
+        public bool IsFinished()
+        {
+            foreach (Schedule schedule in scheduleList)
+            {
+                if (schedule.HasNextRound())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// DAO Methods
         /// </summary>
@@ -213,6 +236,13 @@ namespace Tennis.Objects
             TournamentDAO tournamentDAO = (TournamentDAO)AbstractDAOFactory.Factory.GetTournamentDAO();
 
             return tournamentDAO.FindAll();
+        }
+
+        public static bool Delete(Tournament tournament)
+        {
+            TournamentDAO tournamentDAO = (TournamentDAO)AbstractDAOFactory.Factory.GetTournamentDAO();
+
+            return tournamentDAO.Delete(tournament);
         }
     }
 }

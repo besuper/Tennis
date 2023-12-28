@@ -192,11 +192,19 @@ namespace Tennis.Objects
             gameDAO.Create(game);
         }
 
+        public static void CreateGames(List<Game> games)
+        {
+            GameDAO gameDAO = (GameDAO) AbstractDAOFactory.Factory.GetGameDAO();
+
+            gameDAO.CreateGames(games);
+        }
+
         public static List<Game> GetAllGamesFromSet(Set set)
         {
             GameDAO gameDAO = (GameDAO) AbstractDAOFactory.Factory.GetGameDAO();
             return gameDAO.GetGamesFromSet(set);
         }
+
     }
 }
 

@@ -111,7 +111,7 @@ namespace Tennis.Objects
 
                 temp.Play();
 
-                Game.CreateGame(temp);
+                //Game.CreateGame(temp);
 
                 int GamePointA = GameScorePlayerA();
                 int GamePointB = GameScorePlayerB();
@@ -166,6 +166,7 @@ namespace Tennis.Objects
                     }
                 }
             }
+            Game.CreateGames(games);
         }
 
         /// <summary>

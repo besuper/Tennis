@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Tennis.Objects;
@@ -172,6 +174,11 @@ namespace Tennis.Pages
             // Open main view when schedule view is closed
             MainWindow mainApp = new MainWindow();
             mainApp.Show();
+        }
+
+        private void OnClosed(object sender, EventArgs e)
+        {
+            
         }
 
         // When the window is activated
