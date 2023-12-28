@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Windows.Documents;
+using System.Data;
 using Tennis.Objects;
 
 namespace Tennis.DAO
@@ -47,13 +47,20 @@ namespace Tennis.DAO
         public List<Tournament> FindAll()
         {
             List<Tournament> tournaments = new List<Tournament>();
+
             using (SqlCommand cmd = new SqlCommand("SELECT t.id_tournament, t.name FROM Tournaments t JOIN Schedules s ON s.id_tournament = t.id_tournament JOIN Matches m ON m.id_schedule = s.id_schedule WHERE s.schedule_type = 0 GROUP BY t.id_tournament, t.name HAVING COUNT(m.id_match) = 127", DatabaseManager.GetConnection()))
             {
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                using(SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    Tournament tournament = new Tournament(reader.GetInt32(0), reader.GetString(1));
-                    tournaments.Add(tournament);
+                    while (reader.Read())
+                    {
+                        Tournament tournament = new Tournament(
+                            reader.GetInt32("id_tournament"), 
+                            reader.GetString("name")
+                        );
+
+                        tournaments.Add(tournament);
+                    }
                 }
             }
 

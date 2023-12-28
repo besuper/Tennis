@@ -25,6 +25,7 @@ namespace Tennis.DAO
             using (SqlCommand command = new SqlCommand("SELECT * FROM Referees WHERE id_referee = @id", DatabaseManager.GetConnection()))
             {
                 command.Parameters.AddWithValue("@id", id);
+
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
@@ -34,7 +35,7 @@ namespace Tennis.DAO
                             reader.GetString("firstname"),
                             reader.GetString("lastname"),
                             reader.GetString("nationality")
-                            );
+                        );
                     }
                 }
             }
@@ -57,12 +58,11 @@ namespace Tennis.DAO
                 {
                     while (reader.Read())
                     {
-                        //list.Add(new Player(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetInt32(5)));
                         list.Add(new Referee(
-                            (int)reader["id_referee"],
-                            (string)reader["firstname"],
-                            (string)reader["lastname"],
-                            (string)reader["nationality"]
+                            reader.GetInt32("id_referee"),
+                            reader.GetString("firstname"),
+                            reader.GetString("lastname"),
+                            reader.GetString("nationality")
                         ));
                     }
                 }

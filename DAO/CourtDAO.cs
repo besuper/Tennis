@@ -18,13 +18,14 @@ namespace Tennis.DAO
             throw new NotImplementedException();
         }
 
-        public override Court Find(int id)
+        public override Court? Find(int id)
         {
-            Court referee = null;
+            Court? referee = null;
 
             using (SqlCommand command = new SqlCommand("SELECT * FROM Courts WHERE id_court = @id", DatabaseManager.GetConnection()))
             {
                 command.Parameters.AddWithValue("@id", id);
+
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
@@ -56,12 +57,11 @@ namespace Tennis.DAO
                 {
                     while (reader.Read())
                     {
-                        //list.Add(new Player(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetInt32(5)));
                         list.Add(new Court(
-                            (int)reader["id_court"],
-                            (string)reader["nom"],
-                            (int)reader["nb_spectator"],
-                            (bool)reader["covered"]
+                            reader.GetInt32("id_court"),
+                            reader.GetString("nom"),
+                            reader.GetInt32("nb_spectator"),
+                            reader.GetBoolean("covered")
                         ));
                     }
                 }

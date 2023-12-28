@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using Tennis.Objects;
 
@@ -11,7 +12,6 @@ namespace Tennis.DAO
         {
             using (SqlCommand cmd = new SqlCommand("INSERT INTO Sets(id_match) output INSERTED.id_set VALUES(@id_match)", DatabaseManager.GetConnection()))
             {
-
                 cmd.Parameters.AddWithValue("@id_match", obj.Match.Id);
 
                 int modified = (int)cmd.ExecuteScalar();
@@ -48,17 +48,19 @@ namespace Tennis.DAO
         public List<Set> GetSetsFromMatch(Match match)
         {
             List<Set> sets = new List<Set>();
+
             using (SqlCommand cmd = new SqlCommand("SELECT * FROM Sets WHERE id_match = @id", DatabaseManager.GetConnection()))
             {
                 cmd.Parameters.AddWithValue("@id", match.Id);
+
                 using(SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         sets.Add(new Set(
-                            reader.GetInt32(reader.GetOrdinal("id_set")),
-                            match)
-                            );
+                            reader.GetInt32("id_set"),
+                            match
+                        ));
                     }
                 }   
             }

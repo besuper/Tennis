@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
+using System.Windows.Documents;
 using Tennis.Objects;
 
 namespace Tennis.DAO
@@ -37,14 +39,13 @@ namespace Tennis.DAO
                 {
                     while (reader.Read())
                     {
-                        //list.Add(new Player(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetInt32(5)));
                         list.Add(new Player(
-                            (int)reader["id_player"],
-                            (string)reader["firstname"],
-                            (string)reader["lastname"],
-                            (string)reader["nationality"],
-                            (int)reader["player_rank"],
-                            (int)reader["gender"]
+                            reader.GetInt32("id_player"),
+                            reader.GetString("firstname"),
+                            reader.GetString("lastname"),
+                            reader.GetString("nationality"),
+                            reader.GetInt32("player_rank"),
+                            reader.GetInt32("gender")
                         ));
                     }
                 }
@@ -60,11 +61,19 @@ namespace Tennis.DAO
             using (SqlCommand command = new SqlCommand("SELECT * FROM Players INNER JOIN PlayersOpponent ON PlayersOpponent.id_player = Players.id_player WHERE id_opponent = @id", DatabaseManager.GetConnection()))
             {
                 command.Parameters.AddWithValue("@id", opponent.Id);
+
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        players.Add(new Player(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetInt32(5)));
+                        players.Add(new Player(
+                            reader.GetInt32("id_player"),
+                            reader.GetString("firstname"),
+                            reader.GetString("lastname"),
+                            reader.GetString("nationality"),
+                            reader.GetInt32("player_rank"),
+                            reader.GetInt32("gender")
+                        ));
                     }
                 }
             }

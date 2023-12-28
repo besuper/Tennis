@@ -19,7 +19,6 @@ namespace Tennis.DAO
                 cmd.Parameters.AddWithValue("@score_a", obj.CurrentScoreOp1);
                 cmd.Parameters.AddWithValue("@score_b", obj.CurrentScoreOp2);
 
-
                 int modified = (int)cmd.ExecuteScalar();
 
                 obj.Id = modified;
@@ -30,50 +29,32 @@ namespace Tennis.DAO
 
         public bool CreateGames(List<Game> objs)
         {
-            string query = "INSERT INTO Games(id_opponent, id_set, score_a, score_b) VALUES";
-            StringBuilder sb = new StringBuilder(query);
+            StringBuilder sb = new StringBuilder("INSERT INTO Games(id_opponent, id_set, score_a, score_b) VALUES");
+
             foreach (Game game in objs)
             {
                 int position = objs.IndexOf(game);
                 sb.Append($"(@id_opponent{position}, @id_set, @score_a{position}, @score_b{position}),");
             }
 
-            using (SqlCommand cmd = new SqlCommand(sb.ToString().TrimEnd(','), DatabaseManager.GetConnection()))
+            string query = sb.ToString().TrimEnd(',');
+
+            using (SqlCommand cmd = new SqlCommand(query, DatabaseManager.GetConnection()))
             {
                 foreach (Game game in objs)
                 {
                     int position = objs.IndexOf(game);
+
                     cmd.Parameters.AddWithValue($"@id_opponent{position}", game.Winner!.Id);
-                    //cmd.Parameters.AddWithValue($"@id_set{position}", game.Set.Id);
-                    Console.WriteLine(game.Set.Id);
                     cmd.Parameters.AddWithValue($"@score_a{position}", $"{game.CurrentScoreOp1}");
                     cmd.Parameters.AddWithValue($"@score_b{position}", $"{game.CurrentScoreOp2}");
-
                 }
 
                 cmd.Parameters.AddWithValue($"@id_set", objs[0].Set.Id);
 
-                //See the final command
-                Console.WriteLine(cmd.CommandText);
-
                 int modified = cmd.ExecuteNonQuery();
 
                 return modified != objs.Count;
-            }
-        }
-
-        public bool CreateWithoutWinner(Set obj)
-        {
-            using (SqlCommand cmd = new SqlCommand("INSERT INTO Sets(id_match) output INSERTED.id_set VALUES(@id_match)", DatabaseManager.GetConnection()))
-            {
-
-                cmd.Parameters.AddWithValue("@id_match", obj.Match.Id);
-
-                int modified = (int)cmd.ExecuteScalar();
-
-                obj.Id = modified;
-
-                return true;
             }
         }
 
@@ -98,6 +79,7 @@ namespace Tennis.DAO
             using (SqlCommand cmd = new SqlCommand("SELECT * FROM Games WHERE id_set = @id", DatabaseManager.GetConnection()))
             {
                 cmd.Parameters.AddWithValue("@id", set.Id);
+
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -107,8 +89,8 @@ namespace Tennis.DAO
                             reader.GetString("score_a"),
                             reader.GetString("score_b"),
                             reader.GetInt32("id_opponent"), //Winner of the set
-                            set)
-                            );
+                            set
+                        ));
                     }
                 }
             }

@@ -31,7 +31,6 @@ namespace Tennis.DAO
         {
             using (SqlCommand cmd = new SqlCommand("INSERT INTO MatchOpponent(id_match, id_opponent) VALUES(@id_match, @id_opponent)", DatabaseManager.GetConnection()))
             {
-                Debugger.log(match.Id + " " + opponent.Id);
                 cmd.Parameters.AddWithValue("@id_match", match.Id);
                 cmd.Parameters.AddWithValue("@id_opponent", opponent.Id);
 
@@ -72,22 +71,27 @@ namespace Tennis.DAO
         public List<Match> GetAllMatchesFromSchedule(Schedule schedule)
         {
             List<Match> matches = new List<Match>();
+
             using (SqlCommand cmd = new SqlCommand("SELECT * FROM Matches WHERE id_schedule = @id", DatabaseManager.GetConnection()))
             {
                 cmd.Parameters.AddWithValue("@id", schedule.Id);
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    Match match= new Match(
-                        reader.GetInt32("id_match"), 
-                        reader.GetDateTime("match_date"), 
-                        reader.GetTimeSpan(2), // duration, ne fonctionne pas en str
-                        reader.GetInt32("round"), 
-                        reader.GetInt32("id_referee"), 
-                        reader.GetInt32("id_court"),
-                        schedule
+                    while (reader.Read())
+                    {
+                        Match match = new Match(
+                            reader.GetInt32("id_match"),
+                            reader.GetDateTime("match_date"),
+                            reader.GetTimeSpan(2), // duration, ne fonctionne pas en str
+                            reader.GetInt32("round"),
+                            reader.GetInt32("id_referee"),
+                            reader.GetInt32("id_court"),
+                            schedule
                         );
-                    matches.Add(match);
+
+                        matches.Add(match);
+                    }
                 }
             }
 

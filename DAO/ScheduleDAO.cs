@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Reflection;
+using System.Data;
 using Tennis.Objects;
 
 namespace Tennis.DAO
@@ -43,21 +43,25 @@ namespace Tennis.DAO
             Array genders = Enum.GetValues(typeof(ScheduleType));
 
             List<Schedule> schedules = new List<Schedule>();
+
             using (SqlCommand cmd = new SqlCommand("SELECT * FROM Schedules WHERE id_tournament = @id", DatabaseManager.GetConnection()))
             {
                 cmd.Parameters.AddWithValue("@id", tournament.Id);
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+
+                using(SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    object? _scheduleType = genders.GetValue(reader.GetInt32(1));
-
-                    if (_scheduleType == null)
+                    while (reader.Read())
                     {
-                        throw new Exception("Can't find gender");
-                    }
+                        object? _scheduleType = genders.GetValue(reader.GetInt32("schedule_type"));
 
-                    Schedule schedule = new Schedule(reader.GetInt32(0), (ScheduleType)_scheduleType, tournament);
-                    schedules.Add(schedule);
+                        if (_scheduleType == null)
+                        {
+                            throw new Exception("Can't find gender");
+                        }
+
+                        Schedule schedule = new Schedule(reader.GetInt32("id_schedule"), (ScheduleType)_scheduleType, tournament);
+                        schedules.Add(schedule);
+                    }
                 }
             }
 
