@@ -11,13 +11,14 @@ namespace Tennis.DAO
     {
         public override bool Create(Game obj)
         {
-            using (SqlCommand cmd = new SqlCommand("INSERT INTO Games(id_opponent, id_set, score_a, score_b) output INSERTED.id_game VALUES(@id_opponent, @id_set, @score_a, @score_b)", DatabaseManager.GetConnection()))
+            using (SqlCommand cmd = new SqlCommand("INSERT INTO Games(id_opponent, id_set, score_a, score_b, isTieBreak) output INSERTED.id_game VALUES(@id_opponent, @id_set, @score_a, @score_b, @isTieBreak)", DatabaseManager.GetConnection()))
             {
 
                 cmd.Parameters.AddWithValue("@id_opponent", obj.Winner!.Id);
                 cmd.Parameters.AddWithValue("@id_set", obj.Set.Id);
                 cmd.Parameters.AddWithValue("@score_a", obj.CurrentScoreOp1);
                 cmd.Parameters.AddWithValue("@score_b", obj.CurrentScoreOp2);
+                cmd.Parameters.AddWithValue("@isTieBreak", obj is TieBreak);
 
                 int modified = (int)cmd.ExecuteScalar();
 
@@ -29,12 +30,12 @@ namespace Tennis.DAO
 
         public bool CreateGames(List<Game> objs)
         {
-            StringBuilder sb = new StringBuilder("INSERT INTO Games(id_opponent, id_set, score_a, score_b) VALUES");
+            StringBuilder sb = new StringBuilder("INSERT INTO Games(id_opponent, id_set, score_a, score_b, isTieBreak) VALUES");
 
             foreach (Game game in objs)
             {
                 int position = objs.IndexOf(game);
-                sb.Append($"(@id_opponent{position}, @id_set, @score_a{position}, @score_b{position}),");
+                sb.Append($"(@id_opponent{position}, @id_set, @score_a{position}, @score_b{position}, @isTieBreak{position}),");
             }
 
             string query = sb.ToString().TrimEnd(',');
@@ -48,6 +49,13 @@ namespace Tennis.DAO
                     cmd.Parameters.AddWithValue($"@id_opponent{position}", game.Winner!.Id);
                     cmd.Parameters.AddWithValue($"@score_a{position}", $"{game.CurrentScoreOp1}");
                     cmd.Parameters.AddWithValue($"@score_b{position}", $"{game.CurrentScoreOp2}");
+                    cmd.Parameters.AddWithValue($"@isTieBreak{position}", game is TieBreak);
+
+
+                    if (game is TieBreak)
+                    {
+                        Console.WriteLine("C UN TIBRAKE");
+                    }
                 }
 
                 cmd.Parameters.AddWithValue($"@id_set", objs[0].Set.Id);
@@ -84,13 +92,27 @@ namespace Tennis.DAO
                 {
                     while (reader.Read())
                     {
-                        games.Add(new Game(
-                            reader.GetInt32("id_game"),
-                            reader.GetString("score_a"),
-                            reader.GetString("score_b"),
-                            reader.GetInt32("id_opponent"), //Winner of the set
-                            set
-                        ));
+                        if (Convert.ToBoolean(reader.GetBoolean("isTieBreak")))
+                        {
+                            games.Add(new TieBreak(
+                                reader.GetInt32("id_game"),
+                                reader.GetString("score_a"),
+                                reader.GetString("score_b"),
+                                reader.GetInt32("id_opponent"), //Winner of the set
+                                set
+                            ));
+                        }
+                        else
+                        {
+                            games.Add(new Game(
+                                reader.GetInt32("id_game"),
+                                reader.GetString("score_a"),
+                                reader.GetString("score_b"),
+                                reader.GetInt32("id_opponent"), //Winner of the set
+                                set
+                            ));
+                        }
+
                     }
                 }
             }

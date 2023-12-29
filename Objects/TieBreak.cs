@@ -1,19 +1,30 @@
 
 using System;
+using System.Diagnostics;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Tennis.Objects
 {
-    public class SuperTieBreak : Set
+    public class TieBreak : Game
     {
-        public SuperTieBreak(Match match) : base(match)
+        private int max;
+
+        public TieBreak(Set set, int max) : base(set)
         {
+            this.max = max;
         }
 
-        public void Play(int max)
+        public TieBreak(int id, String scoreA, String scoreB, int winner, Set set) : base(id, scoreA, scoreB, winner, set)
+        {
+
+        }
+
+        public override void Play()
         {
             Random rand = new Random();
             int rnd;
 
+            
             winner = null;
 
             do
@@ -23,26 +34,26 @@ namespace Tennis.Objects
                 // Randomize who got the point
                 if (rnd == 0)
                 {
-                    scoreOp1 += 1;
+                    currentScoreOp1 += 1;
                 }
                 else
                 {
-                    scoreOp2 += 1;
+                    currentScoreOp2 += 1;
                 }
 
                 // Check if is there a winner
                 // The winner must have more score than the max
-                if (scoreOp1 >= max || scoreOp2 >= max)
+                if (currentScoreOp1 >= max || currentScoreOp2 >= max)
                 {
                     // Then have at least 2 more points than the opponent
-                    if (scoreOp1 - scoreOp2 >= 2)
+                    if (currentScoreOp1 - currentScoreOp2 >= 2)
                     {
-                        winner = Match.Opponents[0];
+                        winner = Set.Match.Opponents[0];
                     }
 
-                    if (scoreOp2 - scoreOp1 >= 2)
+                    if (currentScoreOp2 - currentScoreOp1 >= 2)
                     {
-                        winner = Match.Opponents[1];
+                        winner = Set.Match.Opponents[1];
                     }
                 }
 

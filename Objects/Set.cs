@@ -140,11 +140,11 @@ namespace Tennis.Objects
                     if (match.IsWinningSet())
                     {
                         // super tie-break
-                        SuperTieBreak stb = new SuperTieBreak(match);
-                        stb.Play(10);
+                        TieBreak stb = new TieBreak(this, max : 10);
+                        stb.Play();
 
-                        Game tempgame = new Game(stb);
-                        this.games.Add(tempgame);
+                        //Game tempgame = new Game(stb);
+                        this.games.Add(stb);
 
                         winner = stb.Winner;
                         break;
@@ -154,11 +154,11 @@ namespace Tennis.Objects
                         // tie-break
 
                         // FIXME: !
-                        SuperTieBreak stb = new SuperTieBreak(match);
-                        stb.Play(7);
+                        TieBreak stb = new TieBreak(this, max : 7);
+                        stb.Play();
 
-                        Game tempgame = new Game(stb);
-                        this.games.Add(tempgame);
+                        //Game tempgame = new Game(stb);
+                        this.games.Add(stb);
 
                         winner = stb.Winner;
 

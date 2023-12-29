@@ -47,7 +47,7 @@ namespace Tennis.Objects
 
                 if (this.position == 0)
                 {
-                    if (sets[set].ActualGame.IsTieBreak)
+                    if (sets[set].ActualGame is TieBreak)
                     {
                         TieBreakScore = $"{sets[set].ActualGame.CurrentScoreOp1}";
                     }
@@ -55,7 +55,7 @@ namespace Tennis.Objects
                     return new string[2] { $"{sets[set].GameScorePlayerA()}", TieBreakScore };
                 }
 
-                if (sets[set].ActualGame.IsTieBreak)
+                if (sets[set].ActualGame is TieBreak)
                 {
                     TieBreakScore = $"{sets[set].ActualGame.CurrentScoreOp2}";
                 }

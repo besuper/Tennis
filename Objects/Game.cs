@@ -12,13 +12,12 @@ namespace Tennis.Objects
         /// Attributes
         /// </summary>
         private int id;
-        private int currentScoreOp1;
-        private int currentScoreOp2;
+        protected int currentScoreOp1;
+        protected int currentScoreOp2;
 
         private readonly Random rand = new Random();
-        private readonly bool isTieBreak = false;
 
-        private Opponent? winner;
+        protected Opponent? winner;
         private readonly Set set;
 
         /// <summary>
@@ -31,7 +30,6 @@ namespace Tennis.Objects
         public dynamic CurrentScoreOp2 { get { return currentScoreOp2 > 40 ? "AD" : this.currentScoreOp2; } set { } }
 
         public Opponent? Winner { get { return winner; } }
-        public bool IsTieBreak { get { return isTieBreak; } }
 
         /// <summary>
         /// Constructor from a classic set
@@ -57,23 +55,9 @@ namespace Tennis.Objects
         }
 
         /// <summary>
-        /// Constructor from a tie-break/super tie-break
-        /// </summary>
-        /// <param name="tieBreak"></param>
-        public Game(SuperTieBreak tieBreak)
-        {
-            isTieBreak = true;
-
-            this.set = tieBreak;
-            winner = tieBreak.Winner;
-            currentScoreOp1 = tieBreak.ScoreOp1;
-            currentScoreOp2 = tieBreak.ScoreOp2;
-        }
-
-        /// <summary>
         /// Methods
         /// </summary>
-        public void Play()
+        public virtual void Play()
         {
             winner = null;
 
