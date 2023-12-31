@@ -1,0 +1,129 @@
+﻿<Window x:Class="Tennis.Pages.RecapTournamentView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tennis.Pages"
+        mc:Ignorable="d"
+        Title="Récapitulatif du tournoi" Height="700" Width="800"
+        ResizeMode="NoResize" Closing="OnClosing">
+    <Grid HorizontalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="700"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="8*" />
+        </Grid.RowDefinitions>
+
+        <Label Content="{Binding Path=Name, Mode=OneWay}" ContentStringFormat="Récapitulatif du tournoi {0}" Grid.Row="0" FontWeight="Bold" FontSize="16"></Label>
+
+        <ItemsControl Grid.Row="1" Name="controls">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Content="{Binding Path=Type, Mode=OneWay}" ContentStringFormat="Vainqueur de {0}" FontWeight="Bold"></Label>
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Column="0" Content="{Binding Winner}"></Label>
+                            <ListView x:Name="Score" Grid.Column="1" ItemsSource="{Binding LastMatchSummary}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="1" Width="25">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock FontSize="14">
+                                    <Run Text="{Binding Item[0][0], Mode=OneWay}" />
+                                    <Run Text="{Binding Item[0][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn Header="2" Width="25">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock FontSize="14">
+                                    <Run Text="{Binding Item[1][0], Mode=OneWay}" />
+                                    <Run Text="{Binding Item[1][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn Header="3" Width="25">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock FontSize="14">
+                                    <Run Text="{Binding Item[2][0], Mode=OneWay}" />
+                                    <Run Text="{Binding Item[2][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn Header="4" Width="25">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock FontSize="14">
+                                    <Run Text="{Binding Item[3][0], Mode=OneWay}" />
+                                    <Run Text="{Binding Item[3][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn Header="5" Width="25">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock FontSize="14">
+                                    <Run Text="{Binding Item[4][0], Mode=OneWay}" />
+                                    <Run Text="{Binding Item[4][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn Header="PTS" DisplayMemberBinding="{Binding CurrentPoint}" Width="50" />
+                                        <GridViewColumn Header="SETS" DisplayMemberBinding="{Binding TotalSet}" Width="50" />
+                                        <GridViewColumn Header="OPPONENT" DisplayMemberBinding="{Binding Opponent}" Width="200" />
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <!--<Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Content="Vainqueur GENTLEMEN SINGLE"></Label>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Content="Jean Reno"></Label>
+                <Label Grid.Column="1" Content="MATCH SUMMARY"></Label>
+            </Grid>
+        </Grid>-->
+    </Grid>
+</Window>

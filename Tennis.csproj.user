@@ -10,12 +10,18 @@
     <Compile Update="Pages\CreateTournamentView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Pages\RecapTournamentView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\CreateTournamentView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\RecapTournamentView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

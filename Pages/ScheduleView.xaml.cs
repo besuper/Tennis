@@ -24,6 +24,8 @@ namespace Tennis.Pages
         private bool started = false;
         private Tournament tournament;
 
+        private RecapTournamentView? recapView = null;
+
         public ScheduleView(string tournamentName)
         {
             InitializeComponent();
@@ -38,6 +40,7 @@ namespace Tennis.Pages
 
             // Create tournament
             tournament = new Tournament(tournamentName);
+            tournament.TournamentFinished = OnTournamentFinished;
         }
 
         // Create tournament from database
@@ -60,6 +63,8 @@ namespace Tennis.Pages
 
             foreach (Schedule schedule in schedules)
             {
+                this.tournament.ScheduleList.Add(schedule);
+
                 Task temp = new Task(() =>
                 {
                     schedule.LoadMatches();
@@ -74,6 +79,12 @@ namespace Tennis.Pages
             }
 
             Task.WaitAll(tasks.ToArray());
+
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                recapView = new RecapTournamentView(tournament);
+                recapView.Show();
+            });
         }
 
         // Listen updates from schedulers
@@ -171,14 +182,26 @@ namespace Tennis.Pages
             // Stop the current tournament
             tournament.StopTournament();
 
+            // Close recap view if opened
+            if(recapView != null)
+            {
+                recapView.IsSystemClosing = true;
+                recapView.Close();
+            }
+
             // Open main view when schedule view is closed
             MainWindow mainApp = new MainWindow();
             mainApp.Show();
         }
 
-        private void OnClosed(object sender, EventArgs e)
+        // Fired when tournament is finished
+        private void OnTournamentFinished()
         {
-            
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                recapView = new RecapTournamentView(tournament);
+                recapView.Show();
+            });
         }
 
         // When the window is activated

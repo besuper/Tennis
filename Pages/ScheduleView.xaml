@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tennis.Pages"
         mc:Ignorable="d"
-        Title="ScheduleView" Height="650" Width="1100" Closing="OnClosing" Closed="OnClosed" Activated="OnActivated">
+        Title="ScheduleView" Height="650" Width="1100" Closing="OnClosing" Activated="OnActivated">
     <Grid Name="pageGrid">
         <Label Panel.ZIndex="5" FontSize="36" Name="loading" Content="Création du tournoi..." HorizontalAlignment="Center" VerticalAlignment="Center" />
         

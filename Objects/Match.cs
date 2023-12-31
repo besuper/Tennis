@@ -87,6 +87,7 @@ namespace Tennis.Objects
         public bool IsPlayed { get { return IsMatchPlayed(); } }
         public int Round { get { return round; } set { this.round = value; } }
         public TimeSpan Duration { get { return duration; } }
+        public ObservableCollection<MatchSummary> MatchSummary { get { return summary; } }
 
         /// <summary>
         /// WPF Getters

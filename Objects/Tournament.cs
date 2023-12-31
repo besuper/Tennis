@@ -33,7 +33,7 @@ namespace Tennis.Objects
         {
             this.name = name;
 
-            TournamentDAO tournamentDAO = (TournamentDAO) AbstractDAOFactory.Factory.GetTournamentDAO();
+            TournamentDAO tournamentDAO = (TournamentDAO)AbstractDAOFactory.Factory.GetTournamentDAO();
 
             tournamentDAO.Create(this);
 
@@ -62,6 +62,9 @@ namespace Tennis.Objects
         public List<Schedule> ScheduleList { get { return scheduleList; } }
         public string Name { get { return name; } }
         public int Id { get { return id; } set { this.id = value; } }
+
+        public delegate void TournamentFinishedDelegate();
+        public TournamentFinishedDelegate? TournamentFinished = null;
 
         /// <summary>
         /// Methods
@@ -102,10 +105,16 @@ namespace Tennis.Objects
                     {
                         type.PlayNextRound();
                     }
+
                     count++;
 
                     if (count == scheduleList.Count)
                     {
+                        if (TournamentFinished != null)
+                        {
+                            TournamentFinished();
+                        }
+
                         if (!IsFinished())
                         {
                             Tournament.Delete(this);
@@ -139,7 +148,7 @@ namespace Tennis.Objects
                             referee = item;
                             break;
                         }
-                   }
+                    }
                 }
             }
 
