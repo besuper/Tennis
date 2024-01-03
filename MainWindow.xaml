@@ -16,7 +16,7 @@
 
         <Grid Grid.Row="1" Margin="0,30,0,0" >
             <Label Content="Tournois précédants" FontSize="18" />
-            <ListView x:Name="TournamentList" Margin="0,30,0,0" PreviewMouseLeftButtonDown="OpenTournament">
+            <ListView x:Name="TournamentList" Margin="0,30,0,0" PreviewMouseDoubleClick="OpenTournament">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Nom" />

@@ -13,7 +13,7 @@
             <TabItem Header="Simple Homme">
                 <Grid Background="#FFE5E5E5">
                     <Label Panel.ZIndex="5" FontSize="36" Name="LoadingGentlemenSingle" Content="Chargement de la compétition..." HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <ListView Name="GentlemenSingleListView" PreviewMouseLeftButtonDown="OpenMatch">
+                    <ListView Name="GentlemenSingleListView" PreviewMouseDoubleClick="OpenMatch">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Round"/>
@@ -42,7 +42,7 @@
             <TabItem Header="Simple Femme">
                 <Grid Background="#FFE5E5E5">
                     <Label Panel.ZIndex="5" FontSize="36" Name="LoadingLadiesSingle" Content="Chargement de la compétition..." HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <ListView Name="LadiesSingleListView" PreviewMouseLeftButtonDown="OpenMatch">
+                    <ListView Name="LadiesSingleListView" PreviewMouseDoubleClick="OpenMatch">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Round"/>
@@ -71,7 +71,7 @@
             <TabItem Header="Double Homme">
                 <Grid Background="#FFE5E5E5">
                     <Label Panel.ZIndex="5" FontSize="36" Name="LoadingGentlemenDouble" Content="Chargement de la compétition..." HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <ListView Name="GentlemenDoubleListView" PreviewMouseLeftButtonDown="OpenMatch">
+                    <ListView Name="GentlemenDoubleListView" PreviewMouseDoubleClick="OpenMatch">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Round"/>
@@ -100,7 +100,7 @@
             <TabItem Header="Double Femme">
                 <Grid Background="#FFE5E5E5">
                     <Label Panel.ZIndex="5" FontSize="36" Name="LoadingLadiesDouble" Content="Chargement de la compétition..." HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <ListView Name="LadiesDoubleListView" PreviewMouseLeftButtonDown="OpenMatch">
+                    <ListView Name="LadiesDoubleListView" PreviewMouseDoubleClick="OpenMatch">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Round"/>
@@ -129,7 +129,7 @@
             <TabItem Header="Double Mixte">
                 <Grid Background="#FFE5E5E5">
                     <Label Panel.ZIndex="5" FontSize="36" Name="LoadingMixedDouble" Content="Chargement de la compétition..." HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <ListView Name="MixedDoubleListView" PreviewMouseLeftButtonDown="OpenMatch">
+                    <ListView Name="MixedDoubleListView" PreviewMouseDoubleClick="OpenMatch">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Round}" Header="Round"/>
