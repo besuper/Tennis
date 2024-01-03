@@ -12,7 +12,7 @@ namespace Tennis
         {
             if (_connection == null)
             {
-                string connectionString = ConfigurationManager.ConnectionStrings["ChemineeDB"].ConnectionString;
+                string connectionString = ConfigurationManager.ConnectionStrings["Tennis"].ConnectionString;
                 _connection = new SqlConnection(connectionString);
             }
 
