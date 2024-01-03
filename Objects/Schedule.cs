@@ -49,7 +49,6 @@ namespace Tennis.Objects
             this.id = id;
             this.type = type;
             this.tournament = tournament;
-
             // matches = Match.GetAllMatchesFromSchedule(this);
 
         }
@@ -385,6 +384,8 @@ namespace Tennis.Objects
         public void LoadMatches()
         {
             this.matches = Match.GetAllMatchesFromSchedule(this);
+
+            scheduleWinner = this.matches.Last().GetWinner();
         }
 
         public static List<Schedule> GetAllScheduleFromTournament(Tournament tournament)

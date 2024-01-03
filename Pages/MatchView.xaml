@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tennis.Pages"
         mc:Ignorable="d"
-        Title="MatchView" Height="450" Width="450" ResizeMode="NoResize">
+        Title="MatchView" Height="450" Width="475" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="450"/>
+            <ColumnDefinition Width="475"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -43,10 +43,10 @@
         <ListView x:Name="Score" HorizontalAlignment="Left" VerticalAlignment="Top" Width="450" Grid.Row="0">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="1" Width="25">
+                    <GridViewColumn Header="1" Width="35">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="14">
+                                <TextBlock FontSize="14" FontWeight="{Binding Item[0][2], Mode=OneWay}">
                                     <Run Text="{Binding Item[0][0], Mode=OneWay}" />
                                     <Run Text="{Binding Item[0][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
                                 </TextBlock>
@@ -54,10 +54,10 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="2" Width="25">
+                    <GridViewColumn Header="2" Width="35">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="14">
+                                <TextBlock FontSize="14" FontWeight="{Binding Item[1][2], Mode=OneWay}">
                                     <Run Text="{Binding Item[1][0], Mode=OneWay}" />
                                     <Run Text="{Binding Item[1][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
                                 </TextBlock>
@@ -65,10 +65,10 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="3" Width="25">
+                    <GridViewColumn Header="3" Width="35">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="14">
+                                <TextBlock FontSize="14" FontWeight="{Binding Item[2][2], Mode=OneWay}">
                                     <Run Text="{Binding Item[2][0], Mode=OneWay}" />
                                     <Run Text="{Binding Item[2][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
                                 </TextBlock>
@@ -76,10 +76,10 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="4" Width="25">
+                    <GridViewColumn Header="4" Width="35">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="14">
+                                <TextBlock FontSize="14" FontWeight="{Binding Item[3][2], Mode=OneWay}">
                                     <Run Text="{Binding Item[3][0], Mode=OneWay}" />
                                     <Run Text="{Binding Item[3][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
                                 </TextBlock>
@@ -87,10 +87,10 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="5" Width="25">
+                    <GridViewColumn Header="5" Width="35">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="14">
+                                <TextBlock FontSize="14" FontWeight="{Binding Item[4][2], Mode=OneWay}">
                                     <Run Text="{Binding Item[4][0], Mode=OneWay}" />
                                     <Run Text="{Binding Item[4][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
                                 </TextBlock>

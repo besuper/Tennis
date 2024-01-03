@@ -52,7 +52,7 @@ namespace Tennis.Objects
                         TieBreakScore = $"{sets[set].ActualGame.CurrentScoreOp1}";
                     }
 
-                    return new string[2] { $"{sets[set].GameScorePlayerA()}", TieBreakScore };
+                    return new string[3] { $"{sets[set].GameScorePlayerA()}", TieBreakScore, sets[set].GameScorePlayerB() < sets[set].GameScorePlayerA() ? "Bold" : "Normal" };
                 }
 
                 if (sets[set].ActualGame is TieBreak)
@@ -60,7 +60,7 @@ namespace Tennis.Objects
                     TieBreakScore = $"{sets[set].ActualGame.CurrentScoreOp2}";
                 }
 
-                return new string[2] { $"{sets[set].GameScorePlayerB()}", TieBreakScore };
+                return new string[3] { $"{sets[set].GameScorePlayerB()}", TieBreakScore , sets[set].GameScorePlayerB() > sets[set].GameScorePlayerA() ? "Bold" : "Normal" };
             }
         }
 
