@@ -72,7 +72,7 @@ namespace Tennis.Objects
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public Opponent? Winner { get { return this.matches.Last().Winner; } }
+        public Opponent? Winner { get { return this.GetWinner(); } }
         public ObservableCollection<MatchSummary>? LastMatchSummary { get { return this.matches.Last().MatchSummary; } }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Tennis.Objects
             }
         }
 
-        public void PlayMatch(Match match)
+        private void PlayMatch(Match match)
         {
             // Check if tournament is cancelled
             if (CancellationPending)
@@ -218,7 +218,7 @@ namespace Tennis.Objects
             winners.Add(match.GetWinner()!);
         }
 
-        public List<Match> CreateMatches(List<Opponent> opponents)
+        private List<Match> CreateMatches(List<Opponent> opponents)
         {
             List<Match> matches = new List<Match>();
             Random random = new Random();
@@ -252,7 +252,7 @@ namespace Tennis.Objects
             return matches;
         }
 
-        public List<Opponent> MakeGroups()
+        private List<Opponent> MakeGroups()
         {
             // TODO: Remove this DAO to remove waiting tournament creation
             // FIXME: Correctly load opponents not created when closed the tournament before end

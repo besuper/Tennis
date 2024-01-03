@@ -103,11 +103,6 @@ namespace Tennis.Objects
         /// <summary>
         /// Methods
         /// </summary>
-        public void AddSet(Set set)
-        {
-            this.sets.Add(set);
-        }
-
         public void Play()
         {
             DAO<Set> setDAO = AbstractDAOFactory.Factory.GetSetDAO();
@@ -119,7 +114,7 @@ namespace Tennis.Objects
             for (currentSet = 1; currentSet <= matchSets; currentSet++)
             {
                 temp = new Set(this);
-                AddSet(temp);
+                this.sets.Add(temp);
 
                 this.AddDuration(15);
 
@@ -231,7 +226,7 @@ namespace Tennis.Objects
             return ((matchSets == 5 && ScoreOpponentA() == 2) || (matchSets == 3 && ScoreOpponentA() == 1)) && ScoreOpponentA() == ScoreOpponentB();
         }
 
-        public bool IsMatchPlayed()
+        private bool IsMatchPlayed()
         {
             return sets.Count > 0;
         }
@@ -249,7 +244,7 @@ namespace Tennis.Objects
             }
         }
 
-        public void AddDuration(int minutes)
+        private void AddDuration(int minutes)
         {
             this.duration = this.duration.Add(new TimeSpan(0, minutes, 0));
         }

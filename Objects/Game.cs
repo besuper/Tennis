@@ -169,13 +169,6 @@ namespace Tennis.Objects
         /// Methods
         /// </summary>
 
-        public static void CreateGame(Game game)
-        {
-            DAO<Game> gameDAO = AbstractDAOFactory.Factory.GetGameDAO();
-
-            gameDAO.Create(game);
-        }
-
         public static void CreateGames(List<Game> games)
         {
             GameDAO gameDAO = (GameDAO) AbstractDAOFactory.Factory.GetGameDAO();

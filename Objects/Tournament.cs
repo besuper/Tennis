@@ -184,7 +184,7 @@ namespace Tennis.Objects
             return court;
         }
 
-        public void SkipNewDay()
+        private void SkipNewDay()
         {
             DateTime tempDate = currentDate;
             tempDate = tempDate.AddDays(1);
