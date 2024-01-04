@@ -1,7 +1,6 @@
 
 using System;
 using System.Diagnostics;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace Tennis.Objects
 {
@@ -21,7 +20,6 @@ namespace Tennis.Objects
 
         public override void Play()
         {
-            Random rand = new Random();
             int rnd;
 
             
@@ -29,7 +27,7 @@ namespace Tennis.Objects
 
             do
             {
-                rnd = rand.Next(0, 2);
+                rnd = Dice();
 
                 // Randomize who got the point
                 if (rnd == 0)

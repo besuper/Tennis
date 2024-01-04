@@ -31,7 +31,7 @@ namespace Tennis.DAO
 
         public List<Player> FindAll()
         {
-            List<Player> list = new List<Player>();
+            List<Player> list = new List<Player>(256);
 
             using (SqlCommand command = new SqlCommand("SELECT * FROM Players", DatabaseManager.GetConnection()))
             {

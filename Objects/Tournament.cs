@@ -122,6 +122,7 @@ namespace Tennis.Objects
                     {
                         if (TournamentFinished != null)
                         {
+                            //Was set in the ScheduleView
                             TournamentFinished();
                         }
 
@@ -136,60 +137,46 @@ namespace Tennis.Objects
             }
         }
 
-        public Referee? GetAvailableReferee(Match match)
+        public Referee? GetAvailableReferee()
         {
             Referee? referee = null;
+            Referee? temp = null;
 
-            // Lock the referee List to avoid simultaneously modifications by threads
-            lock (refereeList)
+            Random random = new Random();
+            int i = random.Next(refereeList.Count);
+            for (; i < refereeList.Count; i++)
             {
-                foreach (Referee item in refereeList)
-                {
-                    // Same here lock the referee to be sure there is not other modification
-                    lock (item)
-                    {
-                        if (item.Match != null && item.Match.Date == match.Date)
-                        {
-                            continue;
-                        }
+                temp = refereeList[i];
 
-                        if (item.IsAvailable(match))
-                        {
-                            referee = item;
-                            break;
-                        }
-                    }
+                if (temp.IsAvailable())
+                {
+                    referee = temp;
+                    break;
                 }
             }
 
             return referee;
         }
 
-        public Court? GetAvailableCourt(Match match)
+        public Court? GetAvailableCourt()
         {
             Court? court = null;
+            Court? temp = null;
 
-            // Lock the court List to avoid simultaneously modifications by threads
-            lock (courtList)
+
+            Random random = new Random();
+            int i = random.Next(courtList.Count);
+            for (; i < courtList.Count; i++)
             {
-                foreach (Court item in courtList)
-                {
-                    // Same here lock the court to be sure there is not other modification
-                    lock (item)
-                    {
-                        if (item.Match != null && item.Match.Date == match.Date)
-                        {
-                            continue;
-                        }
+                temp = courtList[i];
 
-                        if (item.IsAvailable(match))
-                        {
-                            court = item;
-                            break;
-                        }
-                    }
+                if (temp.IsAvailable())
+                {
+                    court = temp;
+                    break;
                 }
             }
+
 
             return court;
         }

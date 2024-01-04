@@ -12,7 +12,7 @@ namespace Tennis.Objects
         private readonly int id;
         private Match? match;
 
-        public Match? Match { get { return match; } }
+        public Match? Match { get { return match; } set { this.match = value; } }
         public int Id { get { return id; } }
 
         public Referee(int id, string firstname, string lastname, string nationality) : base(firstname, lastname, nationality)
@@ -20,16 +20,9 @@ namespace Tennis.Objects
             this.id = id;
         }
 
-        public bool IsAvailable(Match checkMatch)
+        public bool IsAvailable()
         {
-            bool isAvailable = match == null;
-
-            if (isAvailable)
-            {
-                match = checkMatch;
-            }
-
-            return isAvailable;
+            return this.match == null;
         }
 
         public void Release()
@@ -42,7 +35,7 @@ namespace Tennis.Objects
             DAO<Referee> refereeDAO = AbstractDAOFactory.GetFactory().GetRefereeDAO();
 
             return refereeDAO.Find(id);
-        }   
+        }
 
         public static List<Referee> GetAll()
         {

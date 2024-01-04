@@ -108,7 +108,7 @@ namespace Tennis.Objects
             // Notify the window to update its listview
             NotifyPropertyChanged("NewMatches");
 
-            winners = new List<Opponent>();
+            winners.Clear();
 
             // Play everything matches of the same date at the same time
             DateTime dateRef = matches[0].Date;
@@ -169,10 +169,11 @@ namespace Tennis.Objects
 
             while (foundReferee == null)
             {
-                foundReferee = tournament.GetAvailableReferee(match);
+                foundReferee = tournament.GetAvailableReferee();
                 Thread.Sleep(20);
             }
 
+            foundReferee.Match = match;
             match.Referee = foundReferee;
 
             // Find a court
@@ -180,10 +181,11 @@ namespace Tennis.Objects
 
             while (foundCourt == null)
             {
-                foundCourt = tournament.GetAvailableCourt(match);
+                foundCourt = tournament.GetAvailableCourt();
                 Thread.Sleep(20);
             }
 
+            foundCourt.Match = match;
             match.Court = foundCourt;
 
             // Create match into database
@@ -193,7 +195,7 @@ namespace Tennis.Objects
             // Insert Oppopnents and Players in database
             OpponentDAO opponentDAO = (OpponentDAO)AbstractDAOFactory.Factory.GetOpponentDAO();
 
-            foreach(Opponent o in match.Opponents)
+            foreach (Opponent o in match.Opponents)
             {
                 opponentDAO.Create(o);
                 opponentDAO.AddPlayer(o);
@@ -209,7 +211,7 @@ namespace Tennis.Objects
 
             NotifyPropertyChanged("NewMatch");
 
-            if(!match.IsFinished)
+            if (!match.IsFinished)
             {
                 throw new Exception("Match not finished after play()");
             }
@@ -253,13 +255,6 @@ namespace Tennis.Objects
 
         private List<Opponent> MakeGroups()
         {
-            // TODO: Remove this DAO to remove waiting tournament creation
-            // FIXME: Correctly load opponents not created when closed the tournament before end
-            //OpponentDAO opponentDAO = (OpponentDAO)AbstractDAOFactory.Factory.GetOpponentDAO();
-
-            //DAO create opponent
-            //Loop, add player to opponent
-
             List<Opponent> opponents = new List<Opponent>();
             int countGroups = 64;
             int countPlayerPerGroup = 2;

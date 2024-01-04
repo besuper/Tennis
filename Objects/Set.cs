@@ -10,12 +10,12 @@ namespace Tennis.Objects
         /// <summary>
         /// Attributes
         /// </summary>
-        protected int id;
-        protected int scoreOp1;
-        protected int scoreOp2;
+        private int id;
+        private int scoreOp1;
+        private int scoreOp2;
 
         private readonly Match match;
-        protected Opponent? winner;
+        private Opponent? winner;
         private List<Game> games = new List<Game>();
 
         /// <summary>
@@ -140,10 +140,10 @@ namespace Tennis.Objects
                     if (match.IsWinningSet())
                     {
                         // super tie-break
+
                         TieBreak stb = new TieBreak(this, max : 10);
                         stb.Play();
 
-                        //Game tempgame = new Game(stb);
                         this.games.Add(stb);
 
                         winner = stb.Winner;
@@ -153,11 +153,9 @@ namespace Tennis.Objects
                     {
                         // tie-break
 
-                        // FIXME: !
                         TieBreak stb = new TieBreak(this, max : 7);
                         stb.Play();
 
-                        //Game tempgame = new Game(stb);
                         this.games.Add(stb);
 
                         winner = stb.Winner;

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using Tennis.DAO;
 using Tennis.Factory;
 
@@ -17,7 +18,6 @@ namespace Tennis.Objects
         private TimeSpan duration = new TimeSpan(0, 0, 0);
 
         private int round;
-        private int currentSet = 0;
         private int matchSets = 0;
 
         private Court court;
@@ -111,59 +111,36 @@ namespace Tennis.Objects
 
             matchSets = schedule.NbWinningSets();
 
-            for (currentSet = 1; currentSet <= matchSets; currentSet++)
+            for (int currentSet = 1; currentSet <= matchSets; currentSet++)
             {
                 temp = new Set(this);
                 this.sets.Add(temp);
 
-                this.AddDuration(15);
+                this.AddDuration(minutes: 15);
 
                 //Create a set for the game
                 setDAO.Create(temp);
                 temp.Play();
 
                 //Add a winner
-                if (temp.Winner != null)
-                {
-                    setDAO.Update(temp);
-                }
+                setDAO.Update(temp);
 
                 int SetsPlayerA = ScoreOpponentA();
                 int SetsPlayerB = ScoreOpponentB();
 
                 if (matchSets == 3)
                 {
-                    // Si le joueur A a au moins gagné 2 set, il gagne
-                    if (SetsPlayerA >= 2)
+                    // Si le joueur A ou B à au moins gagné 2 set, il gagne
+                    if (SetsPlayerA >= 2 || SetsPlayerB >= 2)
                     {
-                        Console.WriteLine(opponents[0] + " a remporté le matche!!");
-
-                        break;
-                    }
-
-                    // Si le joueur B a au moins gagné 2 set, il gagne
-                    if (SetsPlayerB >= 2)
-                    {
-                        Console.WriteLine(opponents[1] + " a remporté le matche!!");
-
                         break;
                     }
                 }
                 else if (matchSets == 5)
                 {
-                    // Si le joueur A a au moins gagné 3 set, il gagne
-                    if (SetsPlayerA >= 3)
+                    // Si le joueur A ou B à au moins gagné 3 set, il gagne
+                    if (SetsPlayerA >= 3 || SetsPlayerB >= 3)
                     {
-                        Console.WriteLine(opponents[0] + " a remporté le matche!!");
-
-                        break;
-                    }
-
-                    // Si le joueur B a au moins gagné 3 set, il gagne
-                    if (SetsPlayerB >= 3)
-                    {
-                        Console.WriteLine(opponents[1] + " a remporté le matche!!");
-
                         break;
                     }
                 }
@@ -173,7 +150,7 @@ namespace Tennis.Objects
             court.Release();
 
             //Update le match pour la duration, pas opti
-            MatchDAO matchDAO = (MatchDAO) AbstractDAOFactory.Factory.GetMatchDAO();
+            MatchDAO matchDAO = (MatchDAO)AbstractDAOFactory.Factory.GetMatchDAO();
             matchDAO.Update(this);
 
             isFinished = true;
@@ -233,7 +210,7 @@ namespace Tennis.Objects
 
         public void UpdateSumary()
         {
-            foreach(MatchSummary summ in this.summary)
+            foreach (MatchSummary summ in this.summary)
             {
                 summ.Update();
 
@@ -255,7 +232,7 @@ namespace Tennis.Objects
 
         public static List<Match> GetAllMatchesFromSchedule(Schedule schedule)
         {
-            MatchDAO matchDAO = (MatchDAO) AbstractDAOFactory.Factory.GetMatchDAO();
+            MatchDAO matchDAO = (MatchDAO)AbstractDAOFactory.Factory.GetMatchDAO();
 
             return matchDAO.GetAllMatchesFromSchedule(schedule);
         }

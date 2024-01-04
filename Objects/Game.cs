@@ -160,7 +160,7 @@ namespace Tennis.Objects
 
         // Return 0 or 1
         // Determines the winner of an exchange
-        int Dice()
+        protected int Dice()
         {
             return rand.Next(0, 2);
         }

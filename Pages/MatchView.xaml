@@ -40,7 +40,7 @@
         </Grid>
 
         <!-- Match summary row -->
-        <ListView x:Name="Score" HorizontalAlignment="Left" VerticalAlignment="Top" Width="450" Grid.Row="0">
+        <ListView x:Name="Score" HorizontalAlignment="Left" VerticalAlignment="Top" Width="475" Grid.Row="0">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="1" Width="35">
@@ -100,7 +100,7 @@
 
                     <GridViewColumn Header="PTS" DisplayMemberBinding="{Binding CurrentPoint}" Width="50" />
                     <GridViewColumn Header="SETS" DisplayMemberBinding="{Binding TotalSet}" Width="50" />
-                    <GridViewColumn Header="OPPONENT" DisplayMemberBinding="{Binding Opponent}" Width="200" />
+                    <GridViewColumn Header="OPPONENT" DisplayMemberBinding="{Binding Opponent}" Width="175" />
                 </GridView>
             </ListView.View>
         </ListView>

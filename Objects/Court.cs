@@ -33,23 +33,16 @@ namespace Tennis.Objects
         /// Getters and Setters
         /// </summary>
 
-        public Match? Match { get { return match; } }
+        public Match? Match { get { return match; } set { this.match = value; } }
         public int Id { get { return id; } }
 
         /// <summary>
         /// Methods
         /// </summary>
 
-        public bool IsAvailable(Match checkMatch)
+        public bool IsAvailable()
         {
-            bool isAvailable = this.match == null;
-
-            if (isAvailable)
-            {
-                this.match = checkMatch;
-            }
-
-            return isAvailable;
+            return this.match == null;
         }
 
         public void Release()
