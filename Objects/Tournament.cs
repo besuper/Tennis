@@ -86,20 +86,13 @@ namespace Tennis.Objects
 
             List<Player> players = Player.GetAllPlayers();
 
-            // Check: Players count
-            //if (players.Count != 256)
-            //{
-            //    throw new Exception("Can't load players " + players.Count + " instead of 256");
-            //}
-
-            DAO<Schedule> scheduleDAO = AbstractDAOFactory.Factory.GetScheduleDAO();
-
             foreach (ScheduleType type in types)
             {
                 Schedule temp = new Schedule(this, type, new List<Player>(players));
 
                 scheduleList.Add(temp);
-                scheduleDAO.Create(temp);
+
+                Schedule.CreateSchedule(temp);
             }
         }
 
@@ -144,6 +137,7 @@ namespace Tennis.Objects
 
             Random random = new Random();
             int i = random.Next(refereeList.Count);
+
             for (; i < refereeList.Count; i++)
             {
                 temp = refereeList[i];
@@ -163,9 +157,9 @@ namespace Tennis.Objects
             Court? court = null;
             Court? temp = null;
 
-
             Random random = new Random();
             int i = random.Next(courtList.Count);
+
             for (; i < courtList.Count; i++)
             {
                 temp = courtList[i];

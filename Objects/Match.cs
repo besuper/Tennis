@@ -105,8 +105,6 @@ namespace Tennis.Objects
         /// </summary>
         public void Play()
         {
-            DAO<Set> setDAO = AbstractDAOFactory.Factory.GetSetDAO();
-
             Set temp;
 
             matchSets = schedule.NbWinningSets();
@@ -119,11 +117,12 @@ namespace Tennis.Objects
                 this.AddDuration(minutes: 15);
 
                 //Create a set for the game
-                setDAO.Create(temp);
+                Set.CreateSet(temp);
+
                 temp.Play();
 
                 //Add a winner
-                setDAO.Update(temp);
+                Set.UpdateSet(temp);
 
                 int SetsPlayerA = ScoreOpponentA();
                 int SetsPlayerB = ScoreOpponentB();
@@ -229,6 +228,20 @@ namespace Tennis.Objects
         /// <summary>
         /// DAO Methods
         /// </summary>
+
+        public static void CreateMatch(Match match)
+        {
+            MatchDAO matchDAO = (MatchDAO)AbstractDAOFactory.Factory.GetMatchDAO();
+
+            matchDAO.Create(match);
+        }
+
+        public static void AddOpponent(Match match, Opponent opponent)
+        {
+            MatchDAO matchDAO = (MatchDAO)AbstractDAOFactory.Factory.GetMatchDAO();
+
+            matchDAO.AddOpponent(match, opponent);
+        }
 
         public static List<Match> GetAllMatchesFromSchedule(Schedule schedule)
         {

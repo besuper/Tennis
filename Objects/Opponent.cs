@@ -40,6 +40,18 @@ namespace Tennis.Objects
             return string.Join(", ", players);
         }
 
+        /// <summary>
+        /// DAO Methods
+        /// </summary>
+
+        public static void CreateOpponent(Opponent opponent)
+        {
+            OpponentDAO opponentDAO = (OpponentDAO)AbstractDAOFactory.Factory.GetOpponentDAO();
+
+            opponentDAO.Create(opponent);
+            opponentDAO.AddPlayer(opponent);
+        }
+
         public static List<Opponent> GetOpponnentFromMatch(Match match)
         {
             OpponentDAO opponentDAO = (OpponentDAO) AbstractDAOFactory.GetFactory().GetOpponentDAO();

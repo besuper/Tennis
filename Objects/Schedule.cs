@@ -189,22 +189,17 @@ namespace Tennis.Objects
             match.Court = foundCourt;
 
             // Create match into database
-            MatchDAO matchDAO = (MatchDAO)AbstractDAOFactory.Factory.GetMatchDAO();
-            matchDAO.Create(match);
+            Match.CreateMatch(match);
 
             // Insert Oppopnents and Players in database
-            OpponentDAO opponentDAO = (OpponentDAO)AbstractDAOFactory.Factory.GetOpponentDAO();
-
             foreach (Opponent o in match.Opponents)
             {
-                opponentDAO.Create(o);
-                opponentDAO.AddPlayer(o);
-
+                Opponent.CreateOpponent(o);
             }
 
             foreach (var opponent in match.Opponents)
             {
-                matchDAO.AddOpponent(match, opponent);
+                Match.AddOpponent(match, opponent);
             }
 
             match.Play();
@@ -381,6 +376,17 @@ namespace Tennis.Objects
             this.matches = Match.GetAllMatchesFromSchedule(this);
 
             scheduleWinner = this.matches.Last().GetWinner();
+        }
+
+        /// <summary>
+        /// DAO Methods
+        /// </summary>
+
+        public static void CreateSchedule(Schedule schedule)
+        {
+            DAO<Schedule> scheduleDAO = AbstractDAOFactory.Factory.GetScheduleDAO();
+
+            scheduleDAO.Create(schedule);
         }
 
         public static List<Schedule> GetAllScheduleFromTournament(Tournament tournament)

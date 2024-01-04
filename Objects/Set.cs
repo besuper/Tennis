@@ -171,6 +171,20 @@ namespace Tennis.Objects
         /// DAO Methods
         /// </summary>
 
+        public static void CreateSet(Set set)
+        {
+            DAO<Set> setDAO = AbstractDAOFactory.Factory.GetSetDAO();
+
+            setDAO.Create(set);
+        }
+
+        public static void UpdateSet(Set set)
+        {
+            DAO<Set> setDAO = AbstractDAOFactory.Factory.GetSetDAO();
+
+            setDAO.Update(set);
+        }
+
         public static List<Set> GetAllSetsFromMatch(Match match)
         {
             SetDAO setDAO = (SetDAO)AbstractDAOFactory.Factory.GetSetDAO();
