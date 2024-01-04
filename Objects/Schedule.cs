@@ -139,17 +139,6 @@ namespace Tennis.Objects
                 matchIndex += tasks.Count;
             }
 
-            // TODO: Remove this debug
-            /*Debug.WriteLine($"Matches finished {matches.Count}");
-
-            foreach (Match match in matches)
-            {
-                if(!match.IsFinished || !match.IsPlayed)
-                {
-                    throw new Exception("Match not finished or not started!!!");
-                }
-            }*/
-
             if (winners.Count == 1)
             {
                 scheduleWinner = winners[0];
@@ -170,11 +159,13 @@ namespace Tennis.Objects
             while (foundReferee == null)
             {
                 foundReferee = tournament.GetAvailableReferee();
-                Thread.Sleep(20);
+                // Thread.Sleep(20);
             }
 
             foundReferee.Match = match;
             match.Referee = foundReferee;
+
+            match.NotifyPropertyChanged("Referee");
 
             // Find a court
             Court? foundCourt = null;
@@ -182,11 +173,13 @@ namespace Tennis.Objects
             while (foundCourt == null)
             {
                 foundCourt = tournament.GetAvailableCourt();
-                Thread.Sleep(20);
+                // Thread.Sleep(20);
             }
 
             foundCourt.Match = match;
             match.Court = foundCourt;
+
+            match.NotifyPropertyChanged("Court");
 
             // Create match into database
             Match.CreateMatch(match);
@@ -203,8 +196,6 @@ namespace Tennis.Objects
             }
 
             match.Play();
-
-            NotifyPropertyChanged("NewMatch");
 
             if (!match.IsFinished)
             {
@@ -239,7 +230,7 @@ namespace Tennis.Objects
                 tempMatch.Round = actualRound;
                 tempMatch.Date = tournament.CurrentDate;
 
-                tournament.AddNewMatch();
+                tournament.UpdateCurrentDate();
 
                 matches.Add(tempMatch);
             }

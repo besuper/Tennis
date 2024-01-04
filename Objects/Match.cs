@@ -2,13 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Tennis.DAO;
 using Tennis.Factory;
 
 namespace Tennis.Objects
 {
-    public class Match
+    public class Match : INotifyPropertyChanged
     {
         /// <summary>
         /// Attributes
@@ -94,11 +96,16 @@ namespace Tennis.Objects
         /// </summary>
         /// 
         public Set ActualSet { get { return sets[sets.Count - 1]; } set { } }
-        public int SetsOpponentA { get { return ScoreOpponentA(); } }
-        public int SetsOpponentB { get { return ScoreOpponentB(); } }
         public bool IsFinished { get { return isFinished; } }
         public List<Set> Sets { get { return sets; } }
         public Opponent? Winner { get { return GetWinner(); } }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         /// <summary>
         /// Methods
@@ -155,6 +162,9 @@ namespace Tennis.Objects
             isFinished = true;
 
             UpdateSumary();
+
+            NotifyPropertyChanged("Winner");
+            NotifyPropertyChanged("IsFinished");
         }
 
         public Opponent? GetWinner()

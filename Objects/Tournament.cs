@@ -183,7 +183,7 @@ namespace Tennis.Objects
             currentDate = new DateTime(tempDate.Year, tempDate.Month, tempDate.Day, 10, 00, 00);
         }
 
-        public void AddNewMatch()
+        public void UpdateCurrentDate()
         {
             if (currentDate.Hour >= 16)
             {

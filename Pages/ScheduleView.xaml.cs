@@ -5,8 +5,8 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Automation;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using Tennis.Objects;
 
@@ -92,32 +92,21 @@ namespace Tennis.Pages
         {
             Schedule? schedule = sender as Schedule;
 
-            if (schedule == null)
+            if (schedule == null || App.Current == null)
             {
                 return;
             }
 
-            if (e.PropertyName == "NewMatches")
+            App.Current.Dispatcher.Invoke(() =>
             {
-                // Add new matches in the correct listview
-                foreach (Match match in schedule.Matches)
+                if (e.PropertyName == "NewMatches")
                 {
-                    App.Current.Dispatcher.Invoke((Action)delegate
+                    // Add new matches in the correct listview
+                    foreach (Match match in schedule.Matches)
                     {
                         schedulers[schedule.Type].Add(match);
-                    });
+                    }
                 }
-            }
-
-            if (App.Current == null)
-            {
-                return;
-            }
-
-            // Always refresh list when update received from schedule
-            App.Current.Dispatcher.Invoke((Action)delegate
-            {
-                listViews[schedule.Type].Items.Refresh();
             });
         }
 
@@ -208,6 +197,12 @@ namespace Tennis.Pages
             {
                 recapView = new RecapTournamentView(tournament);
                 recapView.Show();
+
+                // Refresh all listviews when the tournament is finished
+                foreach (var item in listViews)
+                {
+                    item.Value.Items.Refresh();
+                }
             });
         }
 
