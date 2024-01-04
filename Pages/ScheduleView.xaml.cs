@@ -183,7 +183,7 @@ namespace Tennis.Pages
             tournament.StopTournament();
 
             // Close recap view if opened
-            if(recapView != null)
+            if (recapView != null)
             {
                 recapView.IsSystemClosing = true;
                 recapView.Close();
@@ -197,6 +197,13 @@ namespace Tennis.Pages
         // Fired when tournament is finished
         private void OnTournamentFinished()
         {
+
+            // Check if tournament is finished to avoid showing unnecessary RecapTournamentView
+            if (!tournament.IsFinished())
+            {
+                return;
+            }
+
             App.Current.Dispatcher.Invoke((Action)delegate
             {
                 recapView = new RecapTournamentView(tournament);
@@ -215,7 +222,25 @@ namespace Tennis.Pages
                 // Create tournament in a separate thread
                 await Task.Run(() =>
                 {
+
+#if DEBUG
                     tournament.Create();
+
+#else
+                    try
+                    {
+                        tournament.Create();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Erreur", button: MessageBoxButton.OK, icon: MessageBoxImage.Error);
+                        App.Current.Dispatcher.Invoke((Action)delegate
+                        {
+                            this.Close();
+                        });
+                    }
+#endif
+
                 });
 
                 // Remove waiting text
@@ -250,7 +275,7 @@ namespace Tennis.Pages
                 // Delete loading schedule label
                 object loadingLabel = this.tabControl.FindName($"Loading{type}");
 
-                if(loadingLabel != null)
+                if (loadingLabel != null)
                 {
                     Label l = (Label)loadingLabel;
                     Grid g = (Grid)l.Parent;

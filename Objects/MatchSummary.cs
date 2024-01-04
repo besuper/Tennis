@@ -43,7 +43,7 @@ namespace Tennis.Objects
             {
                 TieBreakScore = "";
 
-                if (set >= sets.Count) return new string[] { "", "" };
+                if (set >= sets.Count) return new string[] { "", "", "Normal"};
 
                 if (this.position == 0)
                 {

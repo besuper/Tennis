@@ -40,6 +40,16 @@ namespace Tennis.Objects
             this.refereeList = Referee.GetAll();
             this.courtList = Court.GetAll();
 
+            if (courtList.Count == 0)
+            {
+                throw new Exception("Can't load courts");
+            }
+
+            if (refereeList.Count == 0)
+            {
+                throw new Exception("Can't load referees");
+            }
+
             SkipNewDay();
         }
 
@@ -77,10 +87,10 @@ namespace Tennis.Objects
             List<Player> players = Player.GetAllPlayers();
 
             // Check: Players count
-            if (players.Count != 256)
-            {
-                throw new Exception("Can't load players " + players.Count);
-            }
+            //if (players.Count != 256)
+            //{
+            //    throw new Exception("Can't load players " + players.Count + " instead of 256");
+            //}
 
             DAO<Schedule> scheduleDAO = AbstractDAOFactory.Factory.GetScheduleDAO();
 

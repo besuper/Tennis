@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Tennis.Objects;
@@ -39,7 +40,24 @@ namespace Tennis
                 // Start database loading in a new Task
                 await Task.Run(() =>
                 {
+#if DEBUG
                     scheduleView.LoadFromDatabase();
+
+#else
+                    try
+                    {
+                        scheduleView.LoadFromDatabase();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Erreur", button: MessageBoxButton.OK, icon: MessageBoxImage.Error);
+                        App.Current.Dispatcher.Invoke((Action)delegate
+                        {
+                            this.Close();
+                        });
+                    }
+#endif
+
                 });
 
                 this.Close();

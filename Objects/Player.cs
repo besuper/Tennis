@@ -11,6 +11,8 @@ namespace Tennis.Objects
         private readonly int rank;
         private readonly GenderType gender;
 
+        public GenderType Gender { get { return gender; } }
+
         public Player(int id, string firstname, string lastname, string nationality, int rank, int gender) : base(firstname, lastname, nationality)
         {
             this.id = id;

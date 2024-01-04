@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace Tennis.Pages
 {
@@ -22,8 +23,23 @@ namespace Tennis.Pages
                 return;
             }
 
+#if DEBUG
             ScheduleView scheduleView = new ScheduleView(tournamentName);
             scheduleView.Show();
+#else
+            try
+            {
+                ScheduleView scheduleView = new ScheduleView(tournamentName);
+                scheduleView.Show();
+
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+#endif
+
 
             this.Close();
             this.Owner.Close(); // Close the main window

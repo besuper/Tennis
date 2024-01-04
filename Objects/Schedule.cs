@@ -286,17 +286,17 @@ namespace Tennis.Objects
             {
                 case ScheduleType.GentlemenSingle:
                 case ScheduleType.GentlemenDouble:
-                    players = players.GetRange(0, 128);
+                    players = players.FindAll(m => m.Gender == GenderType.Man);
                     break;
                 case ScheduleType.LadiesSingle:
                 case ScheduleType.LadiesDouble:
-                    players = players.GetRange(127, 128);
+                    players = players.FindAll(w => w.Gender == GenderType.Woman);
                     break;
             }
 
             if (players.Count < (countGroups * countPlayerPerGroup))
             {
-                throw new Exception("Not enough players");
+                throw new Exception("Not enough players for " + type);
             }
 
             Opponent temp;
@@ -306,8 +306,8 @@ namespace Tennis.Objects
 
             if (type == ScheduleType.MixedDouble)
             {
-                List<Player> mens = players.GetRange(0, 128);
-                List<Player> womens = players.GetRange(127, 128);
+                List<Player> mens = players.FindAll(m => m.Gender == GenderType.Man);
+                List<Player> womens = players.FindAll(w => w.Gender == GenderType.Woman);
 
                 Console.WriteLine(countGroups);
 

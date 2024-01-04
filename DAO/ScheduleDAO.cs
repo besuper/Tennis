@@ -56,7 +56,7 @@ namespace Tennis.DAO
 
                         if (_scheduleType == null)
                         {
-                            throw new Exception("Can't find gender");
+                            throw new Exception("Can't find schedule type");
                         }
 
                         Schedule schedule = new Schedule(reader.GetInt32("id_schedule"), (ScheduleType)_scheduleType, tournament);
