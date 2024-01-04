@@ -202,7 +202,11 @@ namespace Tennis.Objects
                 throw new Exception("Match not finished after play()");
             }
 
-            winners.Add(match.GetWinner()!);
+            // Make sure winners is not in concurrent modification (Multiple Tasks adding a winner at the same time)
+            lock(winners)
+            {
+                winners.Add(match.GetWinner()!);
+            }
         }
 
         private List<Match> CreateMatches(List<Opponent> opponents)
