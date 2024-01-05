@@ -226,7 +226,6 @@ namespace Tennis.Objects
                 summ.NotifyPropertyChanged("Item");
                 summ.NotifyPropertyChanged("CurrentPoint");
                 summ.NotifyPropertyChanged("TotalSet");
-                summ.NotifyPropertyChanged("TieBreakScore");
             }
         }
 

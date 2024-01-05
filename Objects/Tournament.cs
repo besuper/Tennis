@@ -126,7 +126,7 @@ namespace Tennis.Objects
                         }
                     }
 
-                    Debug.WriteLine($"End of thread {this.Name}_{type.ToString()}");
+                    Debug.WriteLine($"End of thread {this.Name}_{type.Type}");
                 }));
 
                 t.Name = $"{this.Name}_{type}";

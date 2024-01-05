@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using Tennis.DAO;
 using Tennis.Factory;
 
@@ -62,7 +63,7 @@ namespace Tennis.Objects
         /// <summary>
         /// WPF Getters
         /// </summary>
-        public Game ActualGame { get { return games[games.Count - 1]; } }
+        public Game? ActualGame { get { return games.LastOrDefault(); } }
         public int ScoreOp1 { get { return scoreOp1; } set { } }
         public int ScoreOp2 { get { return scoreOp2; } set { } }
 
@@ -73,8 +74,8 @@ namespace Tennis.Objects
         {
             int GameScoreA = 0;
 
-            lock(games)
-            {
+            //lock(games)
+            //{
                 foreach (Game game in games)
                 {
                     if (game.Winner != null && game.Winner == match.Opponents[0])
@@ -82,7 +83,7 @@ namespace Tennis.Objects
                         GameScoreA++;
                     }
                 }
-            }
+            //}
 
             return GameScoreA;
         }
@@ -91,8 +92,8 @@ namespace Tennis.Objects
         {
             int GameScoreB = 0;
 
-            lock(games)
-            {
+            //lock(games)
+            //{
                 foreach (Game game in games)
                 {
                     if (game.Winner != null && game.Winner == match.Opponents[1])
@@ -100,7 +101,7 @@ namespace Tennis.Objects
                         GameScoreB++;
                     }
                 }
-            }
+            //}
 
             return GameScoreB;
         }
@@ -113,10 +114,10 @@ namespace Tennis.Objects
             {
                 temp = new Game(this);
 
-                lock (games)
-                {
+                //lock (games)
+                //{
                     games.Add(temp);
-                }
+                //}
 
                 temp.Play();
 
@@ -153,10 +154,10 @@ namespace Tennis.Objects
                         TieBreak stb = new TieBreak(this, max: 10);
                         stb.Play();
 
-                        lock(this.games)
-                        {
+                        //lock(this.games)
+                        //{
                             this.games.Add(stb);
-                        }
+                        //}
 
                         winner = stb.Winner;
                         break;
@@ -168,10 +169,10 @@ namespace Tennis.Objects
                         TieBreak stb = new TieBreak(this, max: 7);
                         stb.Play();
 
-                        lock (this.games)
-                        {
+                        //lock (this.games)
+                        //{
                             this.games.Add(stb);
-                        }
+                        //}
 
                         winner = stb.Winner;
 

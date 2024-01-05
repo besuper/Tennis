@@ -62,7 +62,7 @@ namespace Tennis.Objects
         {
             winner = null;
 
-            // Debugger.log($"\n===========[Nouveau jeu {set.GameScorePlayerA()} - {set.GameScorePlayerB()}]===========");
+            // Debug.WriteLine($"\n===========[Nouveau jeu {set.GameScorePlayerA()} - {set.GameScorePlayerB()}]===========");
 
             // Jouer une partie (un jeu)
             while (winner == null)
@@ -73,7 +73,7 @@ namespace Tennis.Objects
 
                 set.Match.UpdateSumary();
 
-                //Thread.Sleep(5);
+                // Thread.Sleep(10);
             }
         }
 

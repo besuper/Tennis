@@ -46,9 +46,9 @@
                     <GridViewColumn Header="1" Width="35">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="14" FontWeight="{Binding Item[0][2], Mode=OneWay}">
-                                    <Run Text="{Binding Item[0][0], Mode=OneWay}" />
-                                    <Run Text="{Binding Item[0][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
+                                <TextBlock FontSize="14" FontWeight="{Binding Item[0].Item3, Mode=OneWay}">
+                                    <Run Text="{Binding Item[0].Item1, Mode=OneWay}" />
+                                    <Run Text="{Binding Item[0].Item2, Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
                                 </TextBlock>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -57,9 +57,9 @@
                     <GridViewColumn Header="2" Width="35">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="14" FontWeight="{Binding Item[1][2], Mode=OneWay}">
-                                    <Run Text="{Binding Item[1][0], Mode=OneWay}" />
-                                    <Run Text="{Binding Item[1][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
+                                <TextBlock FontSize="14" FontWeight="{Binding Item[1].Item3, Mode=OneWay}">
+                                    <Run Text="{Binding Item[1].Item1, Mode=OneWay}" />
+                                    <Run Text="{Binding Item[1].Item2, Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
                                 </TextBlock>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -68,9 +68,9 @@
                     <GridViewColumn Header="3" Width="35">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="14" FontWeight="{Binding Item[2][2], Mode=OneWay}">
-                                    <Run Text="{Binding Item[2][0], Mode=OneWay}" />
-                                    <Run Text="{Binding Item[2][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
+                                <TextBlock FontSize="14" FontWeight="{Binding Item[2].Item3, Mode=OneWay}">
+                                    <Run Text="{Binding Item[2].Item1, Mode=OneWay}" />
+                                    <Run Text="{Binding Item[2].Item2, Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
                                 </TextBlock>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -79,9 +79,9 @@
                     <GridViewColumn Header="4" Width="35">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="14" FontWeight="{Binding Item[3][2], Mode=OneWay}">
-                                    <Run Text="{Binding Item[3][0], Mode=OneWay}" />
-                                    <Run Text="{Binding Item[3][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
+                                <TextBlock FontSize="14" FontWeight="{Binding Item[3].Item3, Mode=OneWay}">
+                                    <Run Text="{Binding Item[3].Item1, Mode=OneWay}" />
+                                    <Run Text="{Binding Item[3].Item2, Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
                                 </TextBlock>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -90,15 +90,15 @@
                     <GridViewColumn Header="5" Width="35">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="14" FontWeight="{Binding Item[4][2], Mode=OneWay}">
-                                    <Run Text="{Binding Item[4][0], Mode=OneWay}" />
-                                    <Run Text="{Binding Item[4][1], Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
+                                <TextBlock FontSize="14" FontWeight="{Binding Item[4].Item3, Mode=OneWay}">
+                                    <Run Text="{Binding Item[4].Item1, Mode=OneWay}" />
+                                    <Run Text="{Binding Item[4].Item2, Mode=OneWay}" FontSize="8" BaselineAlignment="Superscript" />
                                 </TextBlock>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="PTS" DisplayMemberBinding="{Binding CurrentPoint}" Width="50" />
+                    <GridViewColumn Header="PTS" DisplayMemberBinding="{Binding CurrentPoint, Mode=OneWay}" Width="50" />
                     <GridViewColumn Header="SETS" DisplayMemberBinding="{Binding TotalSet}" Width="50" />
                     <GridViewColumn Header="OPPONENT" DisplayMemberBinding="{Binding Opponent}" Width="175" />
                 </GridView>
