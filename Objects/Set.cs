@@ -73,11 +73,14 @@ namespace Tennis.Objects
         {
             int GameScoreA = 0;
 
-            foreach (Game game in games)
+            lock(games)
             {
-                if (game.Winner != null && game.Winner == match.Opponents[0])
+                foreach (Game game in games)
                 {
-                    GameScoreA++;
+                    if (game.Winner != null && game.Winner == match.Opponents[0])
+                    {
+                        GameScoreA++;
+                    }
                 }
             }
 
@@ -88,11 +91,14 @@ namespace Tennis.Objects
         {
             int GameScoreB = 0;
 
-            foreach (Game game in games)
+            lock(games)
             {
-                if (game.Winner != null && game.Winner == match.Opponents[1])
+                foreach (Game game in games)
                 {
-                    GameScoreB++;
+                    if (game.Winner != null && game.Winner == match.Opponents[1])
+                    {
+                        GameScoreB++;
+                    }
                 }
             }
 
@@ -107,7 +113,10 @@ namespace Tennis.Objects
             {
                 temp = new Game(this);
 
-                games.Add(temp);
+                lock (games)
+                {
+                    games.Add(temp);
+                }
 
                 temp.Play();
 
@@ -141,10 +150,13 @@ namespace Tennis.Objects
                     {
                         // super tie-break
 
-                        TieBreak stb = new TieBreak(this, max : 10);
+                        TieBreak stb = new TieBreak(this, max: 10);
                         stb.Play();
 
-                        this.games.Add(stb);
+                        lock(this.games)
+                        {
+                            this.games.Add(stb);
+                        }
 
                         winner = stb.Winner;
                         break;
@@ -153,10 +165,13 @@ namespace Tennis.Objects
                     {
                         // tie-break
 
-                        TieBreak stb = new TieBreak(this, max : 7);
+                        TieBreak stb = new TieBreak(this, max: 7);
                         stb.Play();
 
-                        this.games.Add(stb);
+                        lock (this.games)
+                        {
+                            this.games.Add(stb);
+                        }
 
                         winner = stb.Winner;
 

@@ -45,37 +45,51 @@ namespace Tennis.Objects
 
                 if (set >= sets.Count) return new string[] { "", "", "Normal"};
 
-                if (this.position == 0)
+                Set currentSet = sets[set];
+                Game actualGame = currentSet.ActualGame;
+
+                lock(actualGame)
                 {
-                    if (sets[set].ActualGame is TieBreak)
+                    int scoreA = currentSet.GameScorePlayerA();
+                    int scoreB = currentSet.GameScorePlayerB();
+
+                    if (this.position == 0)
                     {
-                        TieBreakScore = $"{sets[set].ActualGame.CurrentScoreOp1}";
+                        if (actualGame is TieBreak)
+                        {
+                            TieBreakScore = $"{actualGame.CurrentScoreOp1}";
+                        }
+
+                        return new string[3] { $"{scoreA}", TieBreakScore, scoreB < scoreA ? "Bold" : "Normal" };
                     }
 
-                    return new string[3] { $"{sets[set].GameScorePlayerA()}", TieBreakScore, sets[set].GameScorePlayerB() < sets[set].GameScorePlayerA() ? "Bold" : "Normal" };
-                }
+                    if (actualGame is TieBreak)
+                    {
+                        TieBreakScore = $"{actualGame.CurrentScoreOp2}";
+                    }
 
-                if (sets[set].ActualGame is TieBreak)
-                {
-                    TieBreakScore = $"{sets[set].ActualGame.CurrentScoreOp2}";
+                    return new string[3] { $"{scoreB}", TieBreakScore, scoreB > scoreA ? "Bold" : "Normal" };
                 }
-
-                return new string[3] { $"{sets[set].GameScorePlayerB()}", TieBreakScore , sets[set].GameScorePlayerB() > sets[set].GameScorePlayerA() ? "Bold" : "Normal" };
             }
         }
 
         public void Update()
         {
-            if (this.position == 0)
+            Game actualGame = match.ActualSet.ActualGame;
+
+            lock(actualGame)
             {
-                currentPoint = $"{match.ActualSet.ActualGame.CurrentScoreOp1}";
-                totalSet = $"{match.ScoreOpponentA()}";
-            }
-            else
-            {
-                currentPoint = $"{match.ActualSet.ActualGame.CurrentScoreOp2}";
-                totalSet = $"{match.ScoreOpponentB()}";
-            }
+                if (this.position == 0)
+                {
+                    currentPoint = $"{match.ActualSet.ActualGame.CurrentScoreOp1}";
+                    totalSet = $"{match.ScoreOpponentA()}";
+                }
+                else
+                {
+                    currentPoint = $"{match.ActualSet.ActualGame.CurrentScoreOp2}";
+                    totalSet = $"{match.ScoreOpponentB()}";
+                }
+            } 
         }
     }
 }

@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using Tennis.DAO;
 using Tennis.Factory;
@@ -124,8 +125,11 @@ namespace Tennis.Objects
                             Tournament.Delete(this);
                         }
                     }
+
+                    Debug.WriteLine($"End of thread {this.Name}_{type.ToString()}");
                 }));
 
+                t.Name = $"{this.Name}_{type}";
                 t.Start();
             }
         }
