@@ -262,5 +262,12 @@ namespace Tennis.Objects
 
             return matchDAO.GetAllMatchesFromSchedule(schedule);
         }
+
+        internal static DateTime GetLastDateFromLastTournament()
+        {
+            MatchDAO matchDAO = (MatchDAO)AbstractDAOFactory.Factory.GetMatchDAO();
+
+            return matchDAO.GetLastDateFromLastTournament();
+        }
     }
 }

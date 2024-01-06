@@ -135,61 +135,68 @@ namespace Tennis.Objects
 
         public Referee? GetAvailableReferee(Match match)
         {
-            Referee? referee = null;
-            Referee? temp = null;
-
-            //Dict is locked because it's a concurrent dict            
-            if (!UnavailableReferees.ContainsKey(match.Date))
+            lock (UnavailableReferees)
             {
-                UnavailableReferees[match.Date] = new List<Referee>();
-            }
 
-            refereeList.Reverse();
+                Referee? referee = null;
+                Referee? temp = null;
 
-            for (int i = 0; i < refereeList.Count; i++)
-            {
-                temp = refereeList[i];
-
-                if (temp.IsAvailable() && !UnavailableReferees[match.Date].Contains(temp))
+                //Dict is locked because it's a concurrent dict            
+                if (!UnavailableReferees.ContainsKey(match.Date))
                 {
-                    referee = temp;
-                    UnavailableReferees[match.Date].Add(temp);
-                    break;
+                    UnavailableReferees[match.Date] = new List<Referee>();
                 }
-            }
 
-            return referee;
+                refereeList.Reverse();
+
+                for (int i = 0; i < refereeList.Count; i++)
+                {
+                    temp = refereeList[i];
+
+                    if (temp.IsAvailable() && !UnavailableReferees[match.Date].Contains(temp))
+                    {
+                        referee = temp;
+                        UnavailableReferees[match.Date].Add(temp);
+                        Debug.WriteLine($"Referee {temp} has been added a match the {match.Date}");
+                        break;
+                    }
+                }
+
+                return referee;
+            }
 
         }
 
 
         public Court? GetAvailableCourt(Match match)
         {
-            Court? court = null;
-            Court? temp = null;
-
-            //Dict is locked because it's a concurrent dict
-            if (!UnavailableCourts.ContainsKey(match.Date))
+            lock (UnavailableCourts)
             {
-                UnavailableCourts[match.Date] = new List<Court>();
-            }
+                Court? court = null;
+                Court? temp = null;
 
-            courtList.Reverse();
-
-            for (int i = 0; i < courtList.Count; i++)
-            {
-                temp = courtList[i];
-
-                if (temp.IsAvailable() && !UnavailableCourts[match.Date].Contains(temp))
+                //Dict is locked because it's a concurrent dict
+                if (!UnavailableCourts.ContainsKey(match.Date))
                 {
-                    court = temp;
-                    UnavailableCourts[match.Date].Add(temp);
-                    break;
+                    UnavailableCourts[match.Date] = new List<Court>();
                 }
+
+                courtList.Reverse();
+
+                for (int i = 0; i < courtList.Count; i++)
+                {
+                    temp = courtList[i];
+
+                    if (temp.IsAvailable() && !UnavailableCourts[match.Date].Contains(temp))
+                    {
+                        court = temp;
+                        UnavailableCourts[match.Date].Add(temp);
+                        break;
+                    }
+                }
+
+                return court;
             }
-
-            return court;
-
         }
 
         public void StopTournament()

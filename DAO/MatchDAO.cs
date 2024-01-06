@@ -97,5 +97,31 @@ namespace Tennis.DAO
 
             return matches;
         }
+
+        internal DateTime GetLastDateFromLastTournament()
+        {
+            DateTime date = DateTime.Now;
+
+            using (SqlCommand cmd = new SqlCommand("SELECT match_date FROM Matches ORDER BY match_date DESC;", DatabaseManager.GetConnection()))
+            {
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    try
+                    {
+                        reader.Read();
+                        date = reader.GetDateTime("match_date");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+
+                    
+                }
+            }
+
+            return date;
+        }
     }
 }
