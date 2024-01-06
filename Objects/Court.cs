@@ -55,6 +55,12 @@ namespace Tennis.Objects
             return this.name;
         }
 
+        public override bool Equals(object? obj)
+        {
+            return obj is Court court &&
+                   name == court.name;
+        }
+
         /// <summary>
         /// DAO Methods
         /// </summary>

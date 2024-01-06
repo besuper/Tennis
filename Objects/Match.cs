@@ -155,8 +155,9 @@ namespace Tennis.Objects
             referee.Release();
             court.Release();
 
-            // Remove unnecessary data
-            Tournament.UnavailableReferees.Remove(Date);
+            //Remove unnecessary data from concurrent dictionary, we don't care about out value but it's required
+            Tournament.UnavailableReferees.Remove(Date, out List<Referee>? tempRef);
+            Tournament.UnavailableCourts.Remove(Date, out List<Court>? tempCourt);
 
             //Update le match pour la duration, pas opti
             MatchDAO matchDAO = (MatchDAO)AbstractDAOFactory.Factory.GetMatchDAO();

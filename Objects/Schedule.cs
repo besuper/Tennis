@@ -163,9 +163,12 @@ namespace Tennis.Objects
 
             // Referee begins to referee (means he is not available)
             match.Referee.Match = match;
+            match.Court.Match = match;
 
             match.NotifyPropertyChanged("Referee");
 
+
+            /*
             // Find a court
             Court? foundCourt = null;
 
@@ -176,7 +179,7 @@ namespace Tennis.Objects
             }
 
             foundCourt.Match = match;
-            match.Court = foundCourt;
+            match.Court = foundCourt;*/
 
             match.NotifyPropertyChanged("Court");
 
@@ -234,20 +237,25 @@ namespace Tennis.Objects
 
                 UpdateCurrentDate();
 
-                // Try to get an available referee
+                // Try to get an available referee and Court
                 Referee? foundReferee = tournament.GetAvailableReferee(tempMatch);
+                Court? foundCourt = tournament.GetAvailableCourt(tempMatch);
 
-                while(foundReferee == null)
+
+                while (foundReferee == null || foundCourt == null)
                 {
-                    // If there is no referee available for this date, report the match
+                    // If there is no referee available or no court available for this date, report the match
                     tempMatch.Date = currentDate;
                     UpdateCurrentDate();
 
                     foundReferee = tournament.GetAvailableReferee(tempMatch);
+                    foundCourt = tournament.GetAvailableCourt(tempMatch);
+
                 }
 
-                // The referee is planned
+                // The referee and court are planned
                 tempMatch.Referee = foundReferee;
+                tempMatch.Court = foundCourt;
 
                 matches.Add(tempMatch);
             }

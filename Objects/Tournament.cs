@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -23,7 +24,9 @@ namespace Tennis.Objects
 
         private bool CancellationPending = false;
 
-        public static Dictionary<DateTime, List<Referee>> UnavailableReferees = new Dictionary<DateTime, List<Referee>>();
+        public static ConcurrentDictionary<DateTime, List<Referee>> UnavailableReferees = new ConcurrentDictionary<DateTime, List<Referee>>();
+        public static ConcurrentDictionary<DateTime, List<Court>> UnavailableCourts = new ConcurrentDictionary<DateTime, List<Court>>();
+
 
         /// <summary>
         /// Constructor from create new tournament
@@ -40,14 +43,14 @@ namespace Tennis.Objects
             this.refereeList = Referee.GetAll();
             this.courtList = Court.GetAll();
 
-            if (courtList.Count == 0)
+            if (courtList.Count < 5)
             {
-                throw new Exception("Can't load courts");
+                throw new Exception("Not enough courts");
             }
 
-            if (refereeList.Count == 0)
+            if (refereeList.Count < 5)
             {
-                throw new Exception("Can't load referees");
+                throw new Exception("Not enough referees");
             }
         }
 
@@ -135,52 +138,58 @@ namespace Tennis.Objects
             Referee? referee = null;
             Referee? temp = null;
 
-            lock (UnavailableReferees)
+            //Dict is locked because it's a concurrent dict            
+            if (!UnavailableReferees.ContainsKey(match.Date))
             {
-                if (!UnavailableReferees.ContainsKey(match.Date))
-                {
-                    UnavailableReferees[match.Date] = new List<Referee>();
-                }
-
-                refereeList.Reverse();
-
-                for (int i = 0; i < refereeList.Count; i++)
-                {
-                    temp = refereeList[i];
-
-                    if (temp.IsAvailable() && !UnavailableReferees[match.Date].Contains(temp))
-                    {
-                        referee = temp;
-                        UnavailableReferees[match.Date].Add(temp);
-                        break;
-                    }
-                }
-
-                return referee;
+                UnavailableReferees[match.Date] = new List<Referee>();
             }
-        }
 
-        public Court? GetAvailableCourt()
-        {
-            Court? court = null;
-            Court? temp = null;
+            refereeList.Reverse();
 
-            Random random = new Random();
-            int i = random.Next(courtList.Count);
-
-            for (; i < courtList.Count; i++)
+            for (int i = 0; i < refereeList.Count; i++)
             {
-                temp = courtList[i];
+                temp = refereeList[i];
 
-                if (temp.IsAvailable())
+                if (temp.IsAvailable() && !UnavailableReferees[match.Date].Contains(temp))
                 {
-                    court = temp;
+                    referee = temp;
+                    UnavailableReferees[match.Date].Add(temp);
                     break;
                 }
             }
 
+            return referee;
+
+        }
+
+
+        public Court? GetAvailableCourt(Match match)
+        {
+            Court? court = null;
+            Court? temp = null;
+
+            //Dict is locked because it's a concurrent dict
+            if (!UnavailableCourts.ContainsKey(match.Date))
+            {
+                UnavailableCourts[match.Date] = new List<Court>();
+            }
+
+            courtList.Reverse();
+
+            for (int i = 0; i < courtList.Count; i++)
+            {
+                temp = courtList[i];
+
+                if (temp.IsAvailable() && !UnavailableCourts[match.Date].Contains(temp))
+                {
+                    court = temp;
+                    UnavailableCourts[match.Date].Add(temp);
+                    break;
+                }
+            }
 
             return court;
+
         }
 
         public void StopTournament()
