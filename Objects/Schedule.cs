@@ -51,7 +51,8 @@ namespace Tennis.Objects
             //currentDate = Match.GetLastDateFromLastTournament();
 
             //TEST
-            DateTime lastMatchDay = Match.GetLastDateFromLastTournament().AddDays(1);
+            //DateTime lastMatchDay = Match.GetLastDateFromLastTournament().AddDays(1);
+            DateTime lastMatchDay = DateTime.Now;
             matchDay = new DateTime(lastMatchDay.Year, lastMatchDay.Month, lastMatchDay.Day, 10, 00, 00);
             //TEST
 
@@ -167,7 +168,7 @@ namespace Tennis.Objects
                 return;
             }
 
-            // Referee begins to referee (means he is not available)
+            // Referee begins to referee (means he is not available anymore)
             match.Referee.Match = match;
             match.Court.Match = match;
 
@@ -225,10 +226,7 @@ namespace Tennis.Objects
 
                 tempMatch = new Match(this, tempGroupBattle);
                 tempMatch.Round = actualRound;
-                tempMatch.Date = matchDay;
-
-                UpdateMatchDay();
-                //UpdateCurrentDate();
+                tempMatch.Date = UpdateMatchDay();
 
                 // Try to get an available referee and Court
                 Referee? foundReferee = null;
@@ -236,7 +234,6 @@ namespace Tennis.Objects
 
                 do
                 {
-
                     if(foundReferee == null)
                     {
                         foundReferee = tournament.GetAvailableReferee(tempMatch);
@@ -250,14 +247,9 @@ namespace Tennis.Objects
                     // If there is no referee available or no court available for this date, report the match
                     if(foundReferee == null || foundCourt == null)
                     {
-                        //Ici il est possible que il n'y ait ni arbitre ni court disponible pour cette date donc skip des années
-                        tempMatch.Date = matchDay;
-                        UpdateMatchDay();
-                        //UpdateCurrentDate();
+                        tempMatch.Date = UpdateMatchDay();
                     }
-                    
                 } while (foundReferee == null || foundCourt == null);
-
 
                 // The referee and court are planned
                 tempMatch.Referee = foundReferee;
@@ -317,31 +309,26 @@ namespace Tennis.Objects
 
             if (type == ScheduleType.MixedDouble)
             {
-                List<Player> mens = players.FindAll(m => m.Gender == GenderType.Man);
-                List<Player> womens = players.FindAll(w => w.Gender == GenderType.Woman);
-
-                Console.WriteLine(countGroups);
+                List<Player> men = players.FindAll(m => m.Gender == GenderType.Man);
+                List<Player> women = players.FindAll(w => w.Gender == GenderType.Woman);
 
                 for (int i = 0; i < countGroups; i++)
                 {
                     temp = new Opponent();
-                    //opponentDAO.Create(temp);
 
                     //Select a man
-                    currentIndex = rand.Next(mens.Count);
-                    currentPlayer = mens[currentIndex];
-                    //opponentDAO.AddPlayer(temp, currentPlayer);
+                    currentIndex = rand.Next(men.Count);
+                    currentPlayer = men[currentIndex];
 
                     temp.AddPlayer(currentPlayer);
-                    mens.Remove(currentPlayer);
+                    men.Remove(currentPlayer);
 
                     //Select a woman
-                    currentIndex = rand.Next(womens.Count);
-                    currentPlayer = womens[currentIndex];
-                    //opponentDAO.AddPlayer(temp, currentPlayer);
+                    currentIndex = rand.Next(women.Count);
+                    currentPlayer = women[currentIndex];
 
                     temp.AddPlayer(currentPlayer);
-                    womens.Remove(currentPlayer);
+                    women.Remove(currentPlayer);
 
                     opponents.Add(temp);
                 }
@@ -349,20 +336,14 @@ namespace Tennis.Objects
                 return opponents;
             }
 
-            // Debug.WriteLine(type);
-            // Debug.WriteLine(players.Count);
-
             for (int i = 0; i < countGroups; i++)
             {
                 temp = new Opponent();
-                //opponentDAO.Create(temp);
-
 
                 for (int j = 0; j < countPlayerPerGroup; j++)
                 {
                     currentIndex = rand.Next(players.Count);
                     currentPlayer = players[currentIndex];
-                    //opponentDAO.AddPlayer(temp, currentPlayer);
 
                     temp.AddPlayer(currentPlayer);
                     players.Remove(currentPlayer);
@@ -371,55 +352,33 @@ namespace Tennis.Objects
                 opponents.Add(temp);
             }
 
-            Debug.WriteLine(opponents.Count);
+            // Debug.WriteLine(opponents.Count);
 
             return opponents;
         }
 
-        /*
-        private void SkipNewDay()
+        public DateTime UpdateMatchDay()
         {
-            DateTime tempDate = currentDate;
-            tempDate = tempDate.AddDays(1);
+            currentMatchHours++;
 
-            currentDate = new DateTime(tempDate.Year, tempDate.Month, tempDate.Day, 10, 00, 00);
-        }
-        */
+            if (currentMatchHours >= 2)
+            {
+                matchDay = matchDay.AddHours(2);
+                //The first match was at 10 am, next match is at 12 pm next 14, next 16 and after that we skip a day
 
-        public void UpdateMatchDay()
-        {
-            matchDay = matchDay.AddHours(2);
-            //The first match was at 10 am, next match is at 12 pm next 14, next 16 and after that we skip a day
+                currentMatchHours = 0;
+            }
 
             if (matchDay.Hour > 16)
             {
                 DateTime previousMatchDay = matchDay.AddDays(1);
                 matchDay = new DateTime(previousMatchDay.Year, previousMatchDay.Month, previousMatchDay.Day, 10, 00, 00);
-            }
-
-        }
-
-        /*
-        public void UpdateCurrentDate()
-        {
-            if (currentDate.Hour >= 16)
-            {
-                SkipNewDay();
-                return;
-            }
-
-            if (currentMatchHours >= 2)
-            {
-                currentDate = currentDate.AddHours(2);
 
                 currentMatchHours = 0;
             }
-            else
-            {
-                currentMatchHours++;
-            }
+
+            return matchDay;
         }
-        */
 
         public Opponent? GetWinner()
         {

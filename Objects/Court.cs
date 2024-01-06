@@ -40,8 +40,13 @@ namespace Tennis.Objects
         /// Methods
         /// </summary>
 
-        public bool IsAvailable()
+        public bool IsAvailable(Match match)
         {
+            if (this.match != null)
+            {
+                return this.match.Date != match.Date;
+            }
+
             return this.match == null;
         }
 

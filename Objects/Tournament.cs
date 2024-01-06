@@ -3,6 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using Tennis.DAO;
 using Tennis.Factory;
@@ -137,7 +138,6 @@ namespace Tennis.Objects
         {
             lock (UnavailableReferees)
             {
-
                 Referee? referee = null;
                 Referee? temp = null;
 
@@ -147,17 +147,17 @@ namespace Tennis.Objects
                     UnavailableReferees[match.Date] = new List<Referee>();
                 }
 
-                refereeList.Reverse();
+                Random rand = new Random();
+                refereeList = refereeList.OrderBy(r => rand.Next(-1, 2)).ToList();
 
                 for (int i = 0; i < refereeList.Count; i++)
                 {
                     temp = refereeList[i];
 
-                    if (temp.IsAvailable() && !UnavailableReferees[match.Date].Contains(temp))
+                    if (temp.IsAvailable(match) && !UnavailableReferees[match.Date].Contains(temp))
                     {
                         referee = temp;
                         UnavailableReferees[match.Date].Add(temp);
-                        Debug.WriteLine($"Referee {temp} has been added a match the {match.Date}");
                         break;
                     }
                 }
@@ -181,13 +181,14 @@ namespace Tennis.Objects
                     UnavailableCourts[match.Date] = new List<Court>();
                 }
 
-                courtList.Reverse();
+                Random rand = new Random();
+                courtList = courtList.OrderBy(r => rand.Next(-1, 2)).ToList();
 
                 for (int i = 0; i < courtList.Count; i++)
                 {
                     temp = courtList[i];
 
-                    if (temp.IsAvailable() && !UnavailableCourts[match.Date].Contains(temp))
+                    if (temp.IsAvailable(match) && !UnavailableCourts[match.Date].Contains(temp))
                     {
                         court = temp;
                         UnavailableCourts[match.Date].Add(temp);
