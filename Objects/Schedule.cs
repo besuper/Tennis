@@ -391,7 +391,7 @@ namespace Tennis.Objects
             matchDay = matchDay.AddHours(2);
             //The first match was at 10 am, next match is at 12 pm next 14, next 16 and after that we skip a day
 
-            if (matchDay.Hour >= 16)
+            if (matchDay.Hour > 16)
             {
                 DateTime previousMatchDay = matchDay.AddDays(1);
                 matchDay = new DateTime(previousMatchDay.Year, previousMatchDay.Month, previousMatchDay.Day, 10, 00, 00);

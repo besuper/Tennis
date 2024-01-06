@@ -22,7 +22,7 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Duration}" Header="Time"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date}" Header="Date"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date, StringFormat='{}{0:dd.MM.yy HH:mm:ss}'}" Header="Date"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner" Width="120"/>
                             </GridView>
                         </ListView.View>
@@ -51,7 +51,7 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Duration}" Header="Time"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date}" Header="Date"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date, StringFormat='{}{0:dd.MM.yy HH:mm:ss}'}" Header="Date"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
                             </GridView>
                         </ListView.View>
@@ -80,7 +80,7 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Duration}" Header="Time"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date}" Header="Date"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date, StringFormat='{}{0:dd.MM.yy HH:mm:ss}'}" Header="Date"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
                             </GridView>
                         </ListView.View>
@@ -109,7 +109,7 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Duration}" Header="Time"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date}" Header="Date"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date, StringFormat='{}{0:dd.MM.yy HH:mm:ss}'}" Header="Date"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
                             </GridView>
                         </ListView.View>
@@ -138,7 +138,7 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Duration}" Header="Time"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date}" Header="Date"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date, StringFormat='{}{0:dd.MM.yy HH:mm:ss}'}" Header="Date"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
                             </GridView>
                         </ListView.View>

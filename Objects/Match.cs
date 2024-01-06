@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using Tennis.DAO;
 using Tennis.Factory;
 
@@ -236,6 +237,7 @@ namespace Tennis.Objects
         private void AddDuration(int minutes)
         {
             this.duration = this.duration.Add(new TimeSpan(0, minutes, 0));
+            NotifyPropertyChanged("Duration");
         }
 
         /// <summary>
