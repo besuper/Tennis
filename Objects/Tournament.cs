@@ -21,10 +21,9 @@ namespace Tennis.Objects
         private List<Referee> refereeList = new List<Referee>();
         private List<Schedule> scheduleList = new List<Schedule>();
 
-        private DateTime currentDate = DateTime.Now;
-        private int currentMatchHours = 0;
-
         private bool CancellationPending = false;
+
+        public static Dictionary<DateTime, List<Referee>> UnavailableReferees = new Dictionary<DateTime, List<Referee>>();
 
         /// <summary>
         /// Constructor from create new tournament
@@ -50,8 +49,6 @@ namespace Tennis.Objects
             {
                 throw new Exception("Can't load referees");
             }
-
-            SkipNewDay();
         }
 
         /// <summary>
@@ -69,7 +66,6 @@ namespace Tennis.Objects
         /// Getters and Setters
         /// </summary>
         /// 
-        public DateTime CurrentDate { get { return currentDate; } }
         public List<Schedule> ScheduleList { get { return scheduleList; } }
         public string Name { get { return name; } }
         public int Id { get { return id; } set { this.id = value; } }
@@ -134,26 +130,34 @@ namespace Tennis.Objects
             }
         }
 
-        public Referee? GetAvailableReferee()
+        public Referee? GetAvailableReferee(Match match)
         {
             Referee? referee = null;
             Referee? temp = null;
 
-            Random random = new Random();
-            int i = random.Next(refereeList.Count);
-
-            for (; i < refereeList.Count; i++)
+            lock (UnavailableReferees)
             {
-                temp = refereeList[i];
-
-                if (temp.IsAvailable())
+                if (!UnavailableReferees.ContainsKey(match.Date))
                 {
-                    referee = temp;
-                    break;
+                    UnavailableReferees[match.Date] = new List<Referee>();
                 }
-            }
 
-            return referee;
+                refereeList.Reverse();
+
+                for (int i = 0; i < refereeList.Count; i++)
+                {
+                    temp = refereeList[i];
+
+                    if (temp.IsAvailable() && !UnavailableReferees[match.Date].Contains(temp))
+                    {
+                        referee = temp;
+                        UnavailableReferees[match.Date].Add(temp);
+                        break;
+                    }
+                }
+
+                return referee;
+            }
         }
 
         public Court? GetAvailableCourt()
@@ -177,34 +181,6 @@ namespace Tennis.Objects
 
 
             return court;
-        }
-
-        private void SkipNewDay()
-        {
-            DateTime tempDate = currentDate;
-            tempDate = tempDate.AddDays(1);
-
-            currentDate = new DateTime(tempDate.Year, tempDate.Month, tempDate.Day, 10, 00, 00);
-        }
-
-        public void UpdateCurrentDate()
-        {
-            if (currentDate.Hour >= 16)
-            {
-                SkipNewDay();
-                return;
-            }
-
-            if (currentMatchHours >= 2)
-            {
-                currentDate = currentDate.AddHours(2);
-
-                currentMatchHours = 0;
-            }
-            else
-            {
-                currentMatchHours++;
-            }
         }
 
         public void StopTournament()

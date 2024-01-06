@@ -155,6 +155,9 @@ namespace Tennis.Objects
             referee.Release();
             court.Release();
 
+            // Remove unnecessary data
+            Tournament.UnavailableReferees.Remove(Date);
+
             //Update le match pour la duration, pas opti
             MatchDAO matchDAO = (MatchDAO)AbstractDAOFactory.Factory.GetMatchDAO();
             matchDAO.Update(this);

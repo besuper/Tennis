@@ -30,6 +30,13 @@ namespace Tennis.Objects
             match = null;
         }
 
+        public override bool Equals(object? obj)
+        {
+            return obj is Referee referee &&
+                   Firstname == referee.Firstname &&
+                   Lastname == referee.Lastname;
+        }
+
         public static Referee GetById(int id)
         {
             DAO<Referee> refereeDAO = AbstractDAOFactory.GetFactory().GetRefereeDAO();
@@ -43,6 +50,5 @@ namespace Tennis.Objects
 
             return refereeDAO.FindAll();
         }
-
     }
 }
