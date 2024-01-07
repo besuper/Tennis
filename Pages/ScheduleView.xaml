@@ -8,7 +8,7 @@
         Title="ScheduleView" Height="650" Width="1100" Closing="OnClosing" Activated="OnActivated">
     <Grid Name="pageGrid">
         <Label Panel.ZIndex="5" FontSize="36" Name="loading" Content="Création du tournoi..." HorizontalAlignment="Center" VerticalAlignment="Center" />
-        
+
         <TabControl Name="tabControl">
             <TabItem Header="Simple Homme">
                 <Grid Background="#FFE5E5E5">
@@ -29,6 +29,8 @@
 
                         <ListView.Resources>
                             <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="Cursor" Value="Hand" />
+
                                 <Setter Property="ToolTip">
                                     <Setter.Value>
                                         <UniformGrid Columns="1">
@@ -42,7 +44,7 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                            
+
                         </ListView.Resources>
                     </ListView>
                 </Grid>
@@ -66,6 +68,8 @@
 
                         <ListView.Resources>
                             <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="Cursor" Value="Hand" />
+
                                 <Setter Property="ToolTip">
                                     <Setter.Value>
                                         <UniformGrid Columns="1">
@@ -102,6 +106,8 @@
 
                         <ListView.Resources>
                             <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="Cursor" Value="Hand" />
+
                                 <Setter Property="ToolTip">
                                     <Setter.Value>
                                         <UniformGrid Columns="1">
@@ -138,6 +144,8 @@
 
                         <ListView.Resources>
                             <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="Cursor" Value="Hand" />
+
                                 <Setter Property="ToolTip">
                                     <Setter.Value>
                                         <UniformGrid Columns="1">
@@ -174,6 +182,8 @@
 
                         <ListView.Resources>
                             <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="Cursor" Value="Hand" />
+
                                 <Setter Property="ToolTip">
                                     <Setter.Value>
                                         <UniformGrid Columns="1">
@@ -192,6 +202,5 @@
                 </Grid>
             </TabItem>
         </TabControl>
-
     </Grid>
 </Window>
