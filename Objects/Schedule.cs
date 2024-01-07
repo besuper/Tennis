@@ -47,8 +47,8 @@ namespace Tennis.Objects
 
             this.winners = MakeGroups();
 
-
-            DateTime lastMatchDay = Match.GetLastDateFromLastTournament().AddDays(1);
+            DateTime lastMatchDay = Match.GetLastDateFromLastTournament() ?? DateTime.Now;
+            lastMatchDay = lastMatchDay.AddDays(1);
             matchDay = new DateTime(lastMatchDay.Year, lastMatchDay.Month, lastMatchDay.Day, 10, 00, 00);
 
         }

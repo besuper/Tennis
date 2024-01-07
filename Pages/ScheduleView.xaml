@@ -22,19 +22,27 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Duration}" Header="Time"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date, StringFormat='{}{0:dd.MM.yy HH:mm:ss}'}" Header="Date"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date, StringFormat='{}{0:dd/MM/yy HH:mm:ss}'}" Header="Date"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner" Width="120"/>
                             </GridView>
                         </ListView.View>
 
                         <ListView.Resources>
                             <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="ToolTip">
+                                    <Setter.Value>
+                                        <UniformGrid Columns="1">
+                                            <Label Content="Double cliquez pour voir les détails"></Label>
+                                        </UniformGrid>
+                                    </Setter.Value>
+                                </Setter>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=IsFinished}" Value="true">
                                         <Setter Property="Background" Value="LightGreen" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
+                            
                         </ListView.Resources>
                     </ListView>
                 </Grid>
@@ -51,13 +59,20 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Duration}" Header="Time"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date, StringFormat='{}{0:dd.MM.yy HH:mm:ss}'}" Header="Date"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date, StringFormat='{}{0:dd/MM/yy HH:mm:ss}'}" Header="Date"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
                             </GridView>
                         </ListView.View>
 
                         <ListView.Resources>
                             <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="ToolTip">
+                                    <Setter.Value>
+                                        <UniformGrid Columns="1">
+                                            <Label Content="Double cliquez pour voir les détails"></Label>
+                                        </UniformGrid>
+                                    </Setter.Value>
+                                </Setter>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=IsFinished}" Value="true">
                                         <Setter Property="Background" Value="LightGreen" />
@@ -80,13 +95,20 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Duration}" Header="Time"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date, StringFormat='{}{0:dd.MM.yy HH:mm:ss}'}" Header="Date"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date, StringFormat='{}{0:dd/MM/yy HH:mm:ss}'}" Header="Date"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
                             </GridView>
                         </ListView.View>
 
                         <ListView.Resources>
                             <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="ToolTip">
+                                    <Setter.Value>
+                                        <UniformGrid Columns="1">
+                                            <Label Content="Double cliquez pour voir les détails"></Label>
+                                        </UniformGrid>
+                                    </Setter.Value>
+                                </Setter>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=IsFinished}" Value="true">
                                         <Setter Property="Background" Value="LightGreen" />
@@ -109,13 +131,20 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Duration}" Header="Time"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date, StringFormat='{}{0:dd.MM.yy HH:mm:ss}'}" Header="Date"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date, StringFormat='{}{0:dd/MM/yy HH:mm:ss}'}" Header="Date"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
                             </GridView>
                         </ListView.View>
 
                         <ListView.Resources>
                             <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="ToolTip">
+                                    <Setter.Value>
+                                        <UniformGrid Columns="1">
+                                            <Label Content="Double cliquez pour voir les détails"></Label>
+                                        </UniformGrid>
+                                    </Setter.Value>
+                                </Setter>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=IsFinished}" Value="true">
                                         <Setter Property="Background" Value="LightGreen" />
@@ -138,13 +167,20 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Referee}" Header="Referee"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Court}" Header="Court"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Duration}" Header="Time"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date, StringFormat='{}{0:dd.MM.yy HH:mm:ss}'}" Header="Date"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date, StringFormat='{}{0:dd/MM/yy HH:mm:ss}'}" Header="Date"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Winner}" Header="Winner"/>
                             </GridView>
                         </ListView.View>
 
                         <ListView.Resources>
                             <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="ToolTip">
+                                    <Setter.Value>
+                                        <UniformGrid Columns="1">
+                                            <Label Content="Double cliquez pour voir les détails"></Label>
+                                        </UniformGrid>
+                                    </Setter.Value>
+                                </Setter>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=IsFinished}" Value="true">
                                         <Setter Property="Background" Value="LightGreen" />

@@ -98,15 +98,15 @@ namespace Tennis.DAO
             return matches;
         }
 
-        public DateTime GetLastDateFromLastTournament()
+        public DateTime? GetLastDateFromLastTournament()
         {
-            DateTime date = DateTime.Now;
+            DateTime? date = null;
 
             using (SqlCommand cmd = new SqlCommand("SELECT max(match_date) FROM Matches", DatabaseManager.GetConnection()))
             {
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    if (reader.Read())
+                    if (reader.Read() && !reader.IsDBNull(0))
                     {
                         date = reader.GetDateTime(0);
                     }
