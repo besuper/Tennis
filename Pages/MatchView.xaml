@@ -26,10 +26,14 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" Content="{Binding Path=Referee, Mode=OneWay}" ContentStringFormat="Arbitré par : {0}"/>
+            <Label Grid.Row="0" Content="{Binding Path=Referee.Fullname, Mode=OneWay}" ContentStringFormat="Arbitré par : {0}"/>
             <Label Grid.Row="1" Content="{Binding Court, Mode=OneWay}" ContentStringFormat="Dans la court : {0}"/>
+            <Label Grid.Row="3" Content="{Binding Court.Information, Mode=OneWay}" ContentStringFormat="Information sur la court : {0}"/>
+
         </Grid>
 
         <!-- Image row -->

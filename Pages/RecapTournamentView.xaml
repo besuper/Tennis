@@ -36,7 +36,26 @@
                                 <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
 
-                            <Label Grid.Column="0" Content="{Binding Winner}"></Label>
+                            <ItemsControl Grid.Column="0" ItemsSource="{Binding Winner.Players, Mode=OneWay}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*" />
+                                                <ColumnDefinition Width="1*" />
+                                                <ColumnDefinition Width="1*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label Grid.Column="0" Content="{Binding Fullname, Mode=OneWay}" />
+                                            <Label Grid.Column="1" Content="{Binding Rank, Mode=OneWay}" />
+                                            <Label Grid.Column="2" Content="{Binding Nationality, Mode=OneWay}"/>
+
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
                             <ListView x:Name="Score" Grid.Column="1" ItemsSource="{Binding LastMatchSummary}">
                                 <ListView.View>
                                     <GridView>

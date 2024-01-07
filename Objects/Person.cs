@@ -10,6 +10,9 @@ namespace Tennis.Objects
 
         public string Firstname { get { return firstname; } }
         public string Lastname { get { return lastname; } }
+        public string Nationality { get { return nationality; } }
+
+        public string Fullname { get { return $"{firstname} {lastname}"; } }
 
         public Person(string firstname, string lastname, string nationality)
         {

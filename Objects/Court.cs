@@ -35,6 +35,8 @@ namespace Tennis.Objects
 
         public Match? Match { get { return match; } set { this.match = value; } }
         public int Id { get { return id; } }
+        public string Information { get { return $"{nbSpectators} spectateurs et " + (covered ? "est" : "n'est pas") + " couvert"; } }
+
 
         /// <summary>
         /// Methods

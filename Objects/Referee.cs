@@ -15,6 +15,8 @@ namespace Tennis.Objects
         public Match? Match { get { return match; } set { this.match = value; } }
         public int Id { get { return id; } }
 
+        public string Fullname { get { return $"{Firstname}  {Lastname}  ({Nationality})"; } }
+
         public Referee(int id, string firstname, string lastname, string nationality) : base(firstname, lastname, nationality)
         {
             this.id = id;

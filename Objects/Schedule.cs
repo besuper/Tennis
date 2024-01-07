@@ -32,7 +32,6 @@ namespace Tennis.Objects
 
         private bool CancellationPending = false;
 
-        private DateTime currentDate;
         private int currentMatchHours = 0;
 
         private DateTime matchDay;
@@ -48,15 +47,10 @@ namespace Tennis.Objects
 
             this.winners = MakeGroups();
 
-            //currentDate = Match.GetLastDateFromLastTournament();
 
-            //TEST
-            //DateTime lastMatchDay = Match.GetLastDateFromLastTournament().AddDays(1);
-            DateTime lastMatchDay = DateTime.Now;
+            DateTime lastMatchDay = Match.GetLastDateFromLastTournament().AddDays(1);
             matchDay = new DateTime(lastMatchDay.Year, lastMatchDay.Month, lastMatchDay.Day, 10, 00, 00);
-            //TEST
 
-            //SkipNewDay();
         }
 
         public Schedule(int id, ScheduleType type, Tournament tournament)
