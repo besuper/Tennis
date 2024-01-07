@@ -53,7 +53,7 @@ namespace Tennis.DAO
             {
                 cmd.Parameters.AddWithValue("@id", match.Id);
 
-                using(SqlDataReader reader = cmd.ExecuteReader())
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
@@ -62,7 +62,7 @@ namespace Tennis.DAO
                             match
                         ));
                     }
-                }   
+                }
             }
             return sets;
 

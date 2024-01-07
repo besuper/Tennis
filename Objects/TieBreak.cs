@@ -1,6 +1,5 @@
 
 using System;
-using System.Diagnostics;
 
 namespace Tennis.Objects
 {
@@ -22,7 +21,6 @@ namespace Tennis.Objects
         {
             int rnd;
 
-            
             winner = null;
 
             do

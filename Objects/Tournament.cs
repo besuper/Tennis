@@ -167,7 +167,6 @@ namespace Tennis.Objects
 
         }
 
-
         public Court? GetAvailableCourt(Match match)
         {
             lock (UnavailableCourts)

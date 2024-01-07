@@ -51,29 +51,26 @@ namespace Tennis.Objects
                     return Tuple.Create("", "", "Normal");
                 }
 
-                //lock (actualGame)
-                //{
-                    int scoreA = currentSet.GameScorePlayerA();
-                    int scoreB = currentSet.GameScorePlayerB();
-                    string tieBreakScore = "";
+                int scoreA = currentSet.GameScorePlayerA();
+                int scoreB = currentSet.GameScorePlayerB();
+                string tieBreakScore = "";
 
-                    if (this.position == 0)
-                    {
-                        if (actualGame is TieBreak)
-                        {
-                            tieBreakScore = $"{actualGame.CurrentScoreOp1}";
-                        }
-
-                        return Tuple.Create($"{scoreA}", tieBreakScore, scoreB < scoreA ? "Bold" : "Normal");
-                    }
-
+                if (this.position == 0)
+                {
                     if (actualGame is TieBreak)
                     {
-                        tieBreakScore = $"{actualGame.CurrentScoreOp2}";
+                        tieBreakScore = $"{actualGame.CurrentScoreOp1}";
                     }
 
-                    return Tuple.Create($"{scoreB}", tieBreakScore, scoreB > scoreA ? "Bold" : "Normal");
-                //}
+                    return Tuple.Create($"{scoreA}", tieBreakScore, scoreB < scoreA ? "Bold" : "Normal");
+                }
+
+                if (actualGame is TieBreak)
+                {
+                    tieBreakScore = $"{actualGame.CurrentScoreOp2}";
+                }
+
+                return Tuple.Create($"{scoreB}", tieBreakScore, scoreB > scoreA ? "Bold" : "Normal");
             }
         }
 
@@ -83,19 +80,16 @@ namespace Tennis.Objects
 
             if (actualGame == null) { return; }
 
-            //lock (actualGame)
-            //{
-                if (this.position == 0)
-                {
-                    currentPoint = $"{actualGame.CurrentScoreOp1}";
-                    totalSet = $"{match.ScoreOpponentA()}";
-                }
-                else
-                {
-                    currentPoint = $"{actualGame.CurrentScoreOp2}";
-                    totalSet = $"{match.ScoreOpponentB()}";
-                }
-            //}
+            if (this.position == 0)
+            {
+                currentPoint = $"{actualGame.CurrentScoreOp1}";
+                totalSet = $"{match.ScoreOpponentA()}";
+            }
+            else
+            {
+                currentPoint = $"{actualGame.CurrentScoreOp2}";
+                totalSet = $"{match.ScoreOpponentB()}";
+            }
         }
     }
 }

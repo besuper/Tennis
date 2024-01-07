@@ -3,9 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
 using Tennis.DAO;
 using Tennis.Factory;
 
@@ -157,8 +155,8 @@ namespace Tennis.Objects
             court.Release();
 
             //Remove unnecessary data from concurrent dictionary, we don't care about out value but it's required
-            Tournament.UnavailableReferees.Remove(Date, out List<Referee>? tempRef);
-            Tournament.UnavailableCourts.Remove(Date, out List<Court>? tempCourt);
+            Tournament.UnavailableReferees.Remove(Date, out _);
+            Tournament.UnavailableCourts.Remove(Date, out _);
 
             //Update le match pour la duration, pas opti
             MatchDAO matchDAO = (MatchDAO)AbstractDAOFactory.Factory.GetMatchDAO();

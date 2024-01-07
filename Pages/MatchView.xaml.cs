@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Input;
+﻿using System.Windows;
 using Tennis.Objects;
 
 namespace Tennis.Pages

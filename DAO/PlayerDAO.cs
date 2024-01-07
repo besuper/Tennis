@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Windows.Documents;
 using Tennis.Objects;
 
 namespace Tennis.DAO

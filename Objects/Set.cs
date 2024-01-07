@@ -76,13 +76,13 @@ namespace Tennis.Objects
 
             //lock(games)
             //{
-                foreach (Game game in games)
+            foreach (Game game in games)
+            {
+                if (game.Winner != null && game.Winner == match.Opponents[0])
                 {
-                    if (game.Winner != null && game.Winner == match.Opponents[0])
-                    {
-                        GameScoreA++;
-                    }
+                    GameScoreA++;
                 }
+            }
             //}
 
             return GameScoreA;
@@ -94,13 +94,13 @@ namespace Tennis.Objects
 
             //lock(games)
             //{
-                foreach (Game game in games)
+            foreach (Game game in games)
+            {
+                if (game.Winner != null && game.Winner == match.Opponents[1])
                 {
-                    if (game.Winner != null && game.Winner == match.Opponents[1])
-                    {
-                        GameScoreB++;
-                    }
+                    GameScoreB++;
                 }
+            }
             //}
 
             return GameScoreB;
@@ -116,12 +116,10 @@ namespace Tennis.Objects
 
                 //lock (games)
                 //{
-                    games.Add(temp);
+                games.Add(temp);
                 //}
 
                 temp.Play();
-
-                //Game.CreateGame(temp);
 
                 int GamePointA = GameScorePlayerA();
                 int GamePointB = GameScorePlayerB();
@@ -156,7 +154,7 @@ namespace Tennis.Objects
 
                         //lock(this.games)
                         //{
-                            this.games.Add(stb);
+                        this.games.Add(stb);
                         //}
 
                         winner = stb.Winner;
@@ -171,7 +169,7 @@ namespace Tennis.Objects
 
                         //lock (this.games)
                         //{
-                            this.games.Add(stb);
+                        this.games.Add(stb);
                         //}
 
                         winner = stb.Winner;

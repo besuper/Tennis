@@ -32,7 +32,6 @@ namespace Tennis.Objects
         public int Id { get { return this.id; } }
         public int Rank { get { return this.rank; } }
 
-
         public static List<Player> GetAllPlayers()
         {
             PlayerDAO playerDAO = (PlayerDAO)AbstractDAOFactory.GetFactory().GetPlayerDAO();

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
 using Tennis.DAO;
 using Tennis.Factory;
 
@@ -172,14 +170,14 @@ namespace Tennis.Objects
 
         public static void CreateGames(List<Game> games)
         {
-            GameDAO gameDAO = (GameDAO) AbstractDAOFactory.Factory.GetGameDAO();
+            GameDAO gameDAO = (GameDAO)AbstractDAOFactory.Factory.GetGameDAO();
 
             gameDAO.CreateGames(games);
         }
 
         public static List<Game> GetAllGamesFromSet(Set set)
         {
-            GameDAO gameDAO = (GameDAO) AbstractDAOFactory.Factory.GetGameDAO();
+            GameDAO gameDAO = (GameDAO)AbstractDAOFactory.Factory.GetGameDAO();
             return gameDAO.GetGamesFromSet(set);
         }
 

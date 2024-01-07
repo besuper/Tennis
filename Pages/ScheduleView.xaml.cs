@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using Tennis.Objects;
 
@@ -69,7 +67,7 @@ namespace Tennis.Pages
                 {
                     schedule.LoadMatches();
 
-                    App.Current.Dispatcher.Invoke((Action)delegate
+                    App.Current.Dispatcher.Invoke(() =>
                     {
                         SetupListView(schedule.Type, schedule.Matches);
                     });
@@ -80,7 +78,7 @@ namespace Tennis.Pages
 
             Task.WaitAll(tasks.ToArray());
 
-            App.Current.Dispatcher.Invoke((Action)delegate
+            App.Current.Dispatcher.Invoke(() =>
             {
                 recapView = new RecapTournamentView(tournament);
                 recapView.Show();
@@ -193,7 +191,7 @@ namespace Tennis.Pages
                 return;
             }
 
-            App.Current.Dispatcher.Invoke((Action)delegate
+            App.Current.Dispatcher.Invoke(() =>
             {
                 recapView = new RecapTournamentView(tournament);
                 recapView.Show();
@@ -229,7 +227,7 @@ namespace Tennis.Pages
                     catch (Exception e)
                     {
                         MessageBox.Show(e.Message, "Erreur", button: MessageBoxButton.OK, icon: MessageBoxImage.Error);
-                        App.Current.Dispatcher.Invoke((Action)delegate
+                        App.Current.Dispatcher.Invoke(() =>
                         {
                             this.Close();
                         });

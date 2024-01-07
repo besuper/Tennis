@@ -125,24 +125,5 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-
-        <!--<Grid Grid.Row="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-            </Grid.RowDefinitions>
-
-            <Label Grid.Row="0" Content="Vainqueur GENTLEMEN SINGLE"></Label>
-
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-
-                <Label Grid.Column="0" Content="Jean Reno"></Label>
-                <Label Grid.Column="1" Content="MATCH SUMMARY"></Label>
-            </Grid>
-        </Grid>-->
     </Grid>
 </Window>

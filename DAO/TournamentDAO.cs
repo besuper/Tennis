@@ -50,12 +50,12 @@ namespace Tennis.DAO
 
             using (SqlCommand cmd = new SqlCommand("SELECT t.id_tournament, t.name FROM Tournaments t JOIN Schedules s ON s.id_tournament = t.id_tournament JOIN Matches m ON m.id_schedule = s.id_schedule WHERE s.schedule_type = 0 GROUP BY t.id_tournament, t.name HAVING COUNT(m.id_match) = 127", DatabaseManager.GetConnection()))
             {
-                using(SqlDataReader reader = cmd.ExecuteReader())
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         Tournament tournament = new Tournament(
-                            reader.GetInt32("id_tournament"), 
+                            reader.GetInt32("id_tournament"),
                             reader.GetString("name")
                         );
 

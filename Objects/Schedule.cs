@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
 using Tennis.DAO;
 using Tennis.Factory;
@@ -50,7 +49,6 @@ namespace Tennis.Objects
             DateTime lastMatchDay = Match.GetLastDateFromLastTournament() ?? DateTime.Now;
             lastMatchDay = lastMatchDay.AddDays(1);
             matchDay = new DateTime(lastMatchDay.Year, lastMatchDay.Month, lastMatchDay.Day, 10, 00, 00);
-
         }
 
         public Schedule(int id, ScheduleType type, Tournament tournament)
@@ -58,8 +56,6 @@ namespace Tennis.Objects
             this.id = id;
             this.type = type;
             this.tournament = tournament;
-            // matches = Match.GetAllMatchesFromSchedule(this);
-
         }
 
         /// <summary>
@@ -118,7 +114,7 @@ namespace Tennis.Objects
             NotifyPropertyChanged("NewMatches");
 
             winners.Clear();
-            
+
             // Play everything matches of the same date at the same time
             DateTime dateRef = matches[0].Date;
             int matchIndex = 0;
@@ -191,7 +187,7 @@ namespace Tennis.Objects
             }
 
             // Make sure winners is not in concurrent modification (Multiple Tasks adding a winner at the same time)
-            lock(winners)
+            lock (winners)
             {
                 winners.Add(match.GetWinner()!);
             }
@@ -228,7 +224,7 @@ namespace Tennis.Objects
 
                 do
                 {
-                    if(foundReferee == null)
+                    if (foundReferee == null)
                     {
                         foundReferee = tournament.GetAvailableReferee(tempMatch);
                     }
@@ -239,7 +235,7 @@ namespace Tennis.Objects
                     }
 
                     // If there is no referee available or no court available for this date, report the match
-                    if(foundReferee == null || foundCourt == null)
+                    if (foundReferee == null || foundCourt == null)
                     {
                         tempMatch.Date = UpdateMatchDay();
                     }

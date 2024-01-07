@@ -50,12 +50,6 @@ namespace Tennis.DAO
                     cmd.Parameters.AddWithValue($"@score_a{position}", $"{game.CurrentScoreOp1}");
                     cmd.Parameters.AddWithValue($"@score_b{position}", $"{game.CurrentScoreOp2}");
                     cmd.Parameters.AddWithValue($"@isTieBreak{position}", game is TieBreak);
-
-
-                    if (game is TieBreak)
-                    {
-                        Console.WriteLine("C UN TIBRAKE");
-                    }
                 }
 
                 cmd.Parameters.AddWithValue($"@id_set", objs[0].Set.Id);
